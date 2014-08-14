@@ -16,5 +16,11 @@ namespace StooqProxyTest
             Assert.NotEmpty(HttpHelper.GetWeb(StooqWebConsts.Address));
         }
 
+        [Fact]
+        public void StooqWebsitePolishStocksWorks()
+        {
+            Assert.NotEmpty(HttpHelper.GetWebQueried(StooqWebConsts.Address, StooqWebConsts.PolishStocksListQueryPostfix));
+        }
+
     }
 }

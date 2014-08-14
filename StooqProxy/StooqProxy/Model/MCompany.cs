@@ -7,5 +7,12 @@ namespace StooqProxy.Model
 {
     public class MCompany
     {
+        double PriceLast { get; set; }
+        DateTime PriceDate { get; set; }
+        double PriceBid { get; set; }
+        double PriceAsk { get; set; }
+        double Volume { get; set; }
+        double Turnover { get; set; }
+        int OpenInt { get; set; }
     }
 }
