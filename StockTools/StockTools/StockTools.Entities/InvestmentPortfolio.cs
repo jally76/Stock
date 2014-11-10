@@ -28,7 +28,7 @@ namespace StockTools.Entities
         /// <summary>
         /// Sets charge function which is necessary for profit calculation
         /// </summary>
-        public void SetChargeFunc { set { throw new NotImplementedException(); } }
+        public Func<double,double> SetChargeFunc { set { throw new NotImplementedException(); } }
 
         public class Item
         {

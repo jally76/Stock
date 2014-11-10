@@ -42,6 +42,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookkeepingServiceTest.cs" />
+    <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,8 +57,12 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Files\transactions.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

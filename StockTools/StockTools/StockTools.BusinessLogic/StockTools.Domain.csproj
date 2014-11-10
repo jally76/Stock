@@ -40,11 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IBookkeepingService.cs" />
+    <Compile Include="Concrete\BookkeepingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Concrete\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\StockTools.Entities\StockTools.Entities.csproj">
       <Project>{3421bd74-e99c-409d-b5e7-5292a7c87db6}</Project>

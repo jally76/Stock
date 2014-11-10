@@ -79,3 +79,6 @@ StockTools/StockTools/StockTools.Test/obj/Debug/StockTools.Test.csproj.FileListA
 StockTools/StockTools/StockTools.Test/obj/Debug/StockTools.Test.csprojResolveAssemblyReference.cache
 StockTools/StockTools/StockTools.Test/obj/Debug/StockTools.Test.dll
 StockTools/StockTools/StockTools.Test/obj/Debug/StockTools.Test.pdb
+StockTools/StockTools/StockTools.Test/bin/Debug/Files/transactions.csv
+StockTools/StockTools/TestResults/StockTools.TE.Tests.mdf
+StockTools/StockTools/TestResults/StockTools.TE.Tests_log.ldf
