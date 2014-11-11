@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Domain", "StockTools.BusinessLogic\StockTools.Domain.csproj", "{050680D9-928A-4FF0-9C8F-0E3EDD8C5FAC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Domain", "StockTools.Domain\StockTools.Domain.csproj", "{050680D9-928A-4FF0-9C8F-0E3EDD8C5FAC}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Test", "StockTools.Test\StockTools.Test.csproj", "{2A721F80-BEC7-44BA-BB1A-E58FE68C5E93}"
 EndProject

@@ -82,3 +82,15 @@ StockTools/StockTools/StockTools.Test/obj/Debug/StockTools.Test.pdb
 StockTools/StockTools/StockTools.Test/bin/Debug/Files/transactions.csv
 StockTools/StockTools/TestResults/StockTools.TE.Tests.mdf
 StockTools/StockTools/TestResults/StockTools.TE.Tests_log.ldf
+StockTools/StockTools/StockTools.Domain/bin/Debug/StockTools.BusinessLogic.dll
+StockTools/StockTools/StockTools.Domain/bin/Debug/StockTools.BusinessLogic.pdb
+StockTools/StockTools/StockTools.Domain/bin/Debug/StockTools.Entities.dll
+StockTools/StockTools/StockTools.Domain/bin/Debug/StockTools.Entities.pdb
+StockTools/StockTools/StockTools.Domain/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+StockTools/StockTools/StockTools.Domain/obj/Debug/StockTools.BusinessLogic.dll
+StockTools/StockTools/StockTools.Domain/obj/Debug/StockTools.BusinessLogic.pdb
+StockTools/StockTools/StockTools.Domain/obj/Debug/StockTools.Domain.csproj.FileListAbsolute.txt
+StockTools/StockTools/StockTools.Domain/obj/Debug/StockTools.Domain.csprojResolveAssemblyReference.cache
+StockTools/StockTools/StockTools.Domain/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
+StockTools/StockTools/StockTools.Domain/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
+StockTools/StockTools/StockTools.Domain/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs

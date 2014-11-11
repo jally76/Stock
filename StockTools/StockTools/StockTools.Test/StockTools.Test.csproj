@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StockTools.BusinessLogic\StockTools.Domain.csproj">
+    <ProjectReference Include="..\StockTools.Domain\StockTools.Domain.csproj">
       <Project>{050680d9-928a-4ff0-9c8f-0e3edd8c5fac}</Project>
       <Name>StockTools.Domain</Name>
     </ProjectReference>
