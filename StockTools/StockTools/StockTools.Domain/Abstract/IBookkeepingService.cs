@@ -1,10 +1,7 @@
-﻿using StockTools.Entities;
-using System;
+﻿using StockTools.BusinessLogic.Concrete;
+using StockTools.Entities;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockTools.Domain.Abstract
 {

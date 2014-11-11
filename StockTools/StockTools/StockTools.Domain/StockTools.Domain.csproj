@@ -40,7 +40,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IBookkeepingService.cs" />
+    <Compile Include="Abstract\IInvestmentPortfolio.cs" />
+    <Compile Include="Abstract\IPriceService.cs" />
     <Compile Include="Concrete\BookkeepingService.cs" />
+    <Compile Include="Concrete\InvestmentPortfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

@@ -39,7 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="InvestmentPortfolio.cs" />
+    <Compile Include="InvestmentPortfolioItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Taxation.cs" />
     <Compile Include="Transaction.cs" />
