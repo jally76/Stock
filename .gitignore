@@ -94,3 +94,15 @@ StockTools/StockTools/StockTools.Domain/obj/Debug/StockTools.Domain.csprojResolv
 StockTools/StockTools/StockTools.Domain/obj/Debug/TemporaryGeneratedFile_036C0B5B-1481-4323-8D20-8F5ADCB23D92.cs
 StockTools/StockTools/StockTools.Domain/obj/Debug/TemporaryGeneratedFile_5937a670-0e60-4077-877b-f7221da3dda1.cs
 StockTools/StockTools/StockTools.Domain/obj/Debug/TemporaryGeneratedFile_E7A71F73-0F8D-4B9B-B56E-8E70B10BC5D3.cs
+StockTools/StockTools/packages/Moq.4.2.1409.1722/lib/net35/Moq.dll
+StockTools/StockTools/packages/Moq.4.2.1409.1722/lib/net35/Moq.xml
+StockTools/StockTools/packages/Moq.4.2.1409.1722/lib/net40/Moq.dll
+StockTools/StockTools/packages/Moq.4.2.1409.1722/lib/net40/Moq.xml
+StockTools/StockTools/packages/Moq.4.2.1409.1722/lib/sl4/Moq.Silverlight.dll
+StockTools/StockTools/packages/Moq.4.2.1409.1722/lib/sl4/Moq.Silverlight.xml
+StockTools/StockTools/packages/Moq.4.2.1409.1722/Moq.4.2.1409.1722.nupkg
+StockTools/StockTools/packages/NBuilder.3.0.1.1/lib/FizzWare.NBuilder.dll
+StockTools/StockTools/packages/NBuilder.3.0.1.1/NBuilder.3.0.1.1.nupkg
+StockTools/StockTools/StockTools.Test/bin/Debug/FizzWare.NBuilder.dll
+StockTools/StockTools/StockTools.Test/bin/Debug/Moq.dll
+StockTools/StockTools/StockTools.Test/bin/Debug/Moq.xml

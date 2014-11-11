@@ -8,7 +8,7 @@ using Xunit;
 
 namespace StockTools.Test
 {
-    public class BookkeepingServiceTest
+    public class MbankBookkeepingServiceTest
     {
         //List<Transaction> ReadTransactionHistory(MemoryStream stream);
 
@@ -17,7 +17,7 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            IBookkeepingService _bookkeepingService = new BookkeepingService();
+            IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
             var path = Environment.CurrentDirectory + "\\Files\\transactions.csv";
             var file = File.ReadAllBytes(path);
             MemoryStream stream = new MemoryStream(file);

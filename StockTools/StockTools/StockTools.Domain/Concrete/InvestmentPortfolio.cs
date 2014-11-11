@@ -1,4 +1,5 @@
 ﻿using StockTools.BusinessLogic.Abstract;
+using StockTools.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,37 @@ namespace StockTools.BusinessLogic.Concrete
 {
     public class InvestmentPortfolio : IInvestmentPortfolio
     {
+        #region Initialization
+
+        public InvestmentPortfolio(IPriceService priceService)
+        {
+            _priceService = priceService;
+        }
+
+        #endregion
+
+        #region Properties
+
+        private IPriceService _priceService;
+
+        public IPriceService PriceService
+        {
+            get { return _priceService; }
+            set { _priceService = value; }
+        }
+
+        private List<InvestmentPortfolioItem> _items;
+
+        public List<InvestmentPortfolioItem> Items
+        {
+            get { return _items; }
+            set { _items = value; }
+        }
+
+        #endregion
+
+        #region Methods
+
         public double GetValue()
         {
             throw new NotImplementedException();
@@ -43,5 +75,12 @@ namespace StockTools.BusinessLogic.Concrete
         {
             throw new NotImplementedException();
         }
+
+        public void LoadTransactions(List<Transaction> transactionList)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

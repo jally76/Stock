@@ -9,7 +9,7 @@ using System.Text;
 
 namespace StockTools.Domain.Concrete
 {
-    public class BookkeepingService : IBookkeepingService
+    public class MbankBookkeepingService : IBookkeepingService
     {
         public List<Transaction> ReadTransactionHistory(MemoryStream stream)
         {
@@ -42,11 +42,6 @@ namespace StockTools.Domain.Concrete
             } while (true);
 
             return result;
-        }
-
-        public InvestmentPortfolio BuildInvestmentPortfolio(List<Transaction> transactions)
-        {
-            throw new NotImplementedException();
         }
     }
 }

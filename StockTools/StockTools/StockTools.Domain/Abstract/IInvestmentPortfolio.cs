@@ -10,6 +10,16 @@ namespace StockTools.BusinessLogic.Abstract
     public interface IInvestmentPortfolio
     {
         /// <summary>
+        /// Handle to price service
+        /// </summary>
+        IPriceService PriceService { get; set; }
+
+        /// <summary>
+        /// List of items in the portfolio
+        /// </summary>
+        List<InvestmentPortfolioItem> Items { get; set; }
+
+        /// <summary>
         /// Sum of current prices of all shares in the portfolio
         /// </summary>
         double GetValue();
@@ -43,5 +53,11 @@ namespace StockTools.BusinessLogic.Abstract
         /// Sets value of capital gain tax (during the time because we assume that it can change)
         /// </summary>
         void SetTaxation(List<Taxation> taxationList);
+
+        /// <summary>
+        /// Loads transactions into the portfolio
+        /// </summary>
+        /// <param name="transactionList"></param>
+        void LoadTransactions(List<Transaction> transactionList);
     }
 }

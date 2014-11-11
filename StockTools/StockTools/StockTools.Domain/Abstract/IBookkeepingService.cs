@@ -13,12 +13,5 @@ namespace StockTools.Domain.Abstract
         /// <param name="stream"></param>
         /// <returns></returns>
         List<Transaction> ReadTransactionHistory(MemoryStream stream);
-
-        /// <summary>
-        /// Builds investment portfolio from full transaction list
-        /// </summary>
-        /// <param name="transactions"></param>
-        /// <returns></returns>
-        InvestmentPortfolio BuildInvestmentPortfolio(List<Transaction> transactions);
     }
 }
