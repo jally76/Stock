@@ -10,7 +10,9 @@ namespace StockTools.Entities
     {
         public DateTime DateAndTime { get; set; }
         public string CompanyName { get; set; }
-        public string TransactionType { get; set; }
+        public string TransactionName { get; set; }
+        public enum TransactionTypes { Buy, Sell }
+        public TransactionTypes TransactionType { get; set; }
         public int Amount { get; set; }
         public double Price { get; set; }
         public double TotalValue { get; set; }

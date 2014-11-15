@@ -1,27 +1,42 @@
-﻿using StockTools.Domain.Abstract;
-using StockTools.Domain.Concrete;
+﻿using Moq;
+using StockTools.BusinessLogic.Abstract;
+using StockTools.BusinessLogic.Concrete;
 using StockTools.Entities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using Xunit;
 
 namespace StockTools.Test
 {
-    public class MbankBookkeepingServiceTest
+    public class InvestmentPortfolioTest
     {
+        private double ChargeFunc(double price)
+        {
+            if (price <= 769)
+            {
+                return 3.0;
+            }
+            else
+            {
+                return price * (0.39 / 100.0);
+            }
+        }
+
         [Fact]
-        public void MbankBookkeepingService_ReadTransactionHistory()
+        public void InvestmentPortfolio_GetRealisedNetProfit()
         {
             #region Arrange
 
-            IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
-            var path = Environment.CurrentDirectory + "\\Files\\transactions.csv";
-            var file = File.ReadAllBytes(path);
-            MemoryStream stream = new MemoryStream(file);
+            Mock<IPriceService> mock = new Mock<IPriceService>();
+            mock.Setup(x => x.GetCompanyPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetCompanyPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            mock.Setup(x => x.GetCompanyPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetCompanyPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            var expectedResult = new List<Transaction>(4);
-            expectedResult.Add(new Transaction()
+            IInvestmentPortfolio _investmentPortfolio = new InvestmentPortfolio(mock.Object);
+
+            var transactions = new List<Transaction>(4);
+            transactions.Add(new Transaction()
             {
                 DateAndTime = new DateTime(2014, 7, 9, 9, 29, 10),
                 CompanyName = "MBANK",
@@ -31,7 +46,7 @@ namespace StockTools.Test
                 Price = 485.05,
                 TotalValue = 485.05
             });
-            expectedResult.Add(new Transaction()
+            transactions.Add(new Transaction()
             {
                 DateAndTime = new DateTime(2014, 7, 7, 14, 5, 0),
                 CompanyName = "MILLENNIUM",
@@ -41,7 +56,7 @@ namespace StockTools.Test
                 Price = 8.05,
                 TotalValue = 805.0
             });
-            expectedResult.Add(new Transaction()
+            transactions.Add(new Transaction()
             {
                 DateAndTime = new DateTime(2014, 7, 7, 9, 20, 0),
                 CompanyName = "CORMAY",
@@ -51,7 +66,7 @@ namespace StockTools.Test
                 Price = 5.47,
                 TotalValue = 547.0
             });
-            expectedResult.Add(new Transaction()
+            transactions.Add(new Transaction()
             {
                 DateAndTime = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
@@ -62,21 +77,22 @@ namespace StockTools.Test
                 TotalValue = 500.0
             });
 
+            _investmentPortfolio.Transactions = transactions;
+
+            Func<double, double> chargeFunc = ChargeFunc;
+            _investmentPortfolio.ChargeFunction = chargeFunc;
+
             #endregion
 
             #region Act
 
-            var result = _bookkeepingService.ReadTransactionHistory(stream);
+            double result = _investmentPortfolio.GetRealisedGrossProfit();
 
             #endregion
 
             #region Assert
 
-            Assert.NotEmpty(result);
-            for (int i = 0; i < result.Count; i++)
-            {
-                Assert.True(Helper.ArePropertiesEqual(result[i], expectedResult[i]));
-            }
+            Assert.Equal(Math.Round(result, 2), Math.Round(-20.95, 2));
 
             #endregion
         }

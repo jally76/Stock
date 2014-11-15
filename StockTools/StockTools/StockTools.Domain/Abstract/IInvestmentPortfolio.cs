@@ -20,6 +20,16 @@ namespace StockTools.BusinessLogic.Abstract
         List<InvestmentPortfolioItem> Items { get; set; }
 
         /// <summary>
+        /// List of transactions
+        /// </summary>
+        List<Transaction> Transactions { get; set; }
+
+        /// <summary>
+        /// Sets charge function which is necessary for profit calculation
+        /// </summary>
+        Func<double, double> ChargeFunction { get; set; }
+
+        /// <summary>
         /// Sum of current prices of all shares in the portfolio
         /// </summary>
         double GetValue();
@@ -45,19 +55,8 @@ namespace StockTools.BusinessLogic.Abstract
         double GetRealisedNetProfit();
 
         /// <summary>
-        /// Sets charge function which is necessary for profit calculation
-        /// </summary>
-        void SetChargeFunc(Func<double, double> chargeFunction);
-
-        /// <summary>
         /// Sets value of capital gain tax (during the time because we assume that it can change)
         /// </summary>
         void SetTaxation(List<Taxation> taxationList);
-
-        /// <summary>
-        /// Loads transactions into the portfolio
-        /// </summary>
-        /// <param name="transactionList"></param>
-        void LoadTransactions(List<Transaction> transactionList);
     }
 }

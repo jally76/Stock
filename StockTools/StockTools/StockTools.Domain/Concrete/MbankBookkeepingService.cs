@@ -13,7 +13,7 @@ namespace StockTools.Domain.Concrete
     {
         public List<Transaction> ReadTransactionHistory(MemoryStream stream)
         {
-            StreamReader reader = new StreamReader(stream,Encoding.Unicode);
+            StreamReader reader = new StreamReader(stream, Encoding.Unicode);
             var result = new List<Transaction>();
             string line;
 
@@ -25,7 +25,16 @@ namespace StockTools.Domain.Concrete
                     break;
                 }
                 var split = line.Split(';');
-                split[4] = split[4].Replace('.',',');
+                split[4] = split[4].Replace('.', ',');
+                Transaction.TransactionTypes? transactionType = null;
+                if (split[2] == "KUPNO")
+                {
+                    transactionType = Transaction.TransactionTypes.Buy;
+                }
+                else if (split[2] == "SPRZEDAŻ")
+                {
+                    transactionType = Transaction.TransactionTypes.Sell;
+                }
                 result.Add(new Transaction()
                 {
                     DateAndTime = DateTime.ParseExact(
@@ -33,7 +42,8 @@ namespace StockTools.Domain.Concrete
                         "yyyy-MM-dd-HH.mm.ss",
                         CultureInfo.InvariantCulture),
                     CompanyName = split[1],
-                    TransactionType = split[2],
+                    TransactionName = split[2],
+                    TransactionType = transactionType.Value,
                     Amount = Convert.ToInt32(split[3]),
                     Price = Convert.ToDouble(split[4]),
                     TotalValue = Convert.ToDouble(split[5])
