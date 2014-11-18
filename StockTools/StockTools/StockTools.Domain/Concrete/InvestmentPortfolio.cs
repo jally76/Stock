@@ -135,6 +135,7 @@ namespace StockTools.BusinessLogic.Concrete
                 {
                     earnedMoney += item.TotalValue;
                 }
+                System.Diagnostics.Debug.WriteLine(string.Format("Earned money: {0}", earnedMoney));
             }
 
             #endregion

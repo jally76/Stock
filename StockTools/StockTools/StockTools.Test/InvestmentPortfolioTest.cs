@@ -1,9 +1,12 @@
 ﻿using Moq;
 using StockTools.BusinessLogic.Abstract;
 using StockTools.BusinessLogic.Concrete;
+using StockTools.Domain.Abstract;
+using StockTools.Domain.Concrete;
 using StockTools.Entities;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using Xunit;
 
 namespace StockTools.Test
@@ -93,6 +96,45 @@ namespace StockTools.Test
             #region Assert
 
             Assert.Equal(Math.Round(result, 2), Math.Round(-20.95, 2));
+
+            #endregion
+        }
+
+        [Fact]
+        public void InvestmentPortfolio_GetRealisedNetProfit_Using_File()
+        {
+            #region Arrange
+
+            Mock<IPriceService> mock = new Mock<IPriceService>();
+            mock.Setup(x => x.GetCompanyPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetCompanyPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            mock.Setup(x => x.GetCompanyPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetCompanyPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+            IInvestmentPortfolio _investmentPortfolio = new InvestmentPortfolio(mock.Object);
+
+            IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
+            var path = Environment.CurrentDirectory + "\\Files\\transactions2.csv";
+            var file = File.ReadAllBytes(path);
+            MemoryStream stream = new MemoryStream(file);
+
+            var transactions = _bookkeepingService.ReadTransactionHistory(stream);
+           
+            Func<double, double> chargeFunc = ChargeFunc;
+            _investmentPortfolio.ChargeFunction = chargeFunc;
+
+            #endregion
+
+            #region Act
+
+            _investmentPortfolio.Transactions = transactions;
+            double result = _investmentPortfolio.GetRealisedGrossProfit();
+
+            #endregion
+
+            #region Assert
+
+            Assert.Equal(Math.Round(result, 2), Math.Round(88.0, 2));
 
             #endregion
         }
