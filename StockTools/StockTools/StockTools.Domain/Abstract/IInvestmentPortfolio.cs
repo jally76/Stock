@@ -58,5 +58,18 @@ namespace StockTools.BusinessLogic.Abstract
         /// Sets value of capital gain tax (during the time because we assume that it can change)
         /// </summary>
         void SetTaxation(List<Taxation> taxationList);
+
+        /// <summary>
+        /// Gets list of transactions which can be paired (buy, sell)
+        /// </summary>
+        /// <returns></returns>
+        List<Transaction> GetPairedTransactions();
+
+        /// <summary>
+        /// Gets pair of transaction (finds later transactions, so an argument has to be the first one)
+        /// </summary>
+        /// <param name="transaction"></param>
+        /// <returns></returns>
+        Transaction GetTransactionPair(Transaction transaction);
     }
 }

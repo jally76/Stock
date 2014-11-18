@@ -153,9 +153,16 @@ namespace StockTools.BusinessLogic.Concrete
             throw new NotImplementedException();
         }
 
+        public List<Transaction> GetPairedTransactions()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Transaction GetTransactionPair(Transaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
         #endregion
-
-
-
     }
 }
