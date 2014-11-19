@@ -160,7 +160,16 @@ namespace StockTools.BusinessLogic.Concrete
 
         public Transaction GetTransactionPair(Transaction transaction)
         {
-            throw new NotImplementedException();
+            var index = Transactions.IndexOf(transaction);
+            for (int i = index - 1; i >= 0; i--)
+            {
+                var item = Transactions[i];
+                if (item.CompanyName == transaction.CompanyName && item.TransactionType == Transaction.TransactionTypes.Sell)
+                {
+                    return item;
+                }
+            }
+            return null;
         }
 
         #endregion
