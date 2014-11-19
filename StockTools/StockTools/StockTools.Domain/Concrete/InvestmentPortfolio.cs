@@ -155,7 +155,33 @@ namespace StockTools.BusinessLogic.Concrete
 
         public List<Transaction> GetPairedTransactions()
         {
-            throw new NotImplementedException();
+            if (Transactions.Count == 0)
+            {
+                return new List<Transaction>();
+            }
+
+            var paired = new List<int>();
+            for (int i = Transactions.Count - 1; i >= 0; i--)
+            {
+                if (paired.Any(x => x == i))
+                {
+                    continue;
+                }
+                var pair = GetTransactionPair(Transactions[i]);
+                if (pair != null)
+                {
+                    paired.Add(Transactions.IndexOf(Transactions[i]));
+                    paired.Add(Transactions.IndexOf(pair));
+                }
+            }
+
+            var result = new List<Transaction>(paired.Count);
+            for (int i = paired.Count - 1; i >= 0; i--)
+            {
+                result.Add(Transactions[paired[i]]);
+            }
+
+            return result;
         }
 
         public Transaction GetTransactionPair(Transaction transaction)
