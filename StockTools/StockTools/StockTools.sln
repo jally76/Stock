@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Test", "StockToo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Entities", "StockTools.Entities\StockTools.Entities.csproj", "{3421BD74-E99C-409D-B5E7-5292A7C87DB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.WebUI", "StockTools.WebUI\StockTools.WebUI.csproj", "{AB26DE46-14B5-47E4-90B9-03332D5F851C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{3421BD74-E99C-409D-B5E7-5292A7C87DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3421BD74-E99C-409D-B5E7-5292A7C87DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3421BD74-E99C-409D-B5E7-5292A7C87DB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
