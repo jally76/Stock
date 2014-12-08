@@ -16,9 +16,21 @@ namespace StockTools.BusinessLogic.Concrete
             var doc = Webget.Load(address);
             var result = new Dictionary<string, string>();
 
-            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//table"))
+            foreach (HtmlNode row in doc.DocumentNode.SelectNodes("//table[@summary=' Archiwum']//tbody//tr"))
             {
-
+                HtmlNodeCollection cells = row.SelectNodes("td");
+                var name = cells[0].InnerText.Trim();
+                //var date = cells[1].InnerText;
+                var href = (from lnks in cells.Descendants()
+                            where lnks.Name == "a" &&
+                                 lnks.Attributes["href"] != null &&
+                                 lnks.InnerText.Trim().Length > 0
+                            select new
+                            {
+                                Url = lnks.Attributes["href"].Value.Trim(),
+                                Text = lnks.InnerText.Trim()
+                            }).SingleOrDefault().Url;
+                result[name] = "http://bossa.pl" + href;
             }
 
             return result;
