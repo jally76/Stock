@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Entities", "Stoc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.WebUI", "StockTools.WebUI\StockTools.WebUI.csproj", "{AB26DE46-14B5-47E4-90B9-03332D5F851C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.WPFUI", "StockTools.WPFUI\StockTools.WPFUI.csproj", "{7E147781-20B9-4099-9A06-28F500901ABD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E147781-20B9-4099-9A06-28F500901ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E147781-20B9-4099-9A06-28F500901ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E147781-20B9-4099-9A06-28F500901ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E147781-20B9-4099-9A06-28F500901ABD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
