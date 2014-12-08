@@ -34,11 +34,10 @@ namespace StockTools.BusinessLogic.Concrete
             Dictionary<string, byte[]> result = new Dictionary<string, byte[]>();
             foreach (var key in addresses.Keys)
             {
-                WebRequest request = FtpWebRequest.Create(addresses[key]);
-                using (WebResponse response = request.GetResponse())
+                WebClient wc = new WebClient();
+                using (MemoryStream stream = new MemoryStream(wc.DownloadData(addresses[key])))
                 {
-                    MemoryStream responseStream = response.GetResponseStream() as MemoryStream;
-                    result[key] = responseStream.ToArray();
+                    result[key] = stream.ToArray();
                 }
             }
             return result;

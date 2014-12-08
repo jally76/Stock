@@ -8,7 +8,7 @@
     @using (Html.BeginForm(MVC.Home.ActionNames.DownloadBOSSAIntraday, MVC.Home.Name, FormMethod.Post))
     {
         <h3>Select destination</h3>
-        <input type="file" name="intradayFile" webkitdirectory multiple/>
+        @*<input type="file" name="intradayFile" webkitdirectory multiple/>*@
         <input type="submit" name="Download" value="Download" />
     }
 </div>
