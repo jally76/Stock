@@ -44,7 +44,8 @@
     <Compile Include="Abstract\IIntradayDataParser.cs" />
     <Compile Include="Abstract\IInvestmentPortfolio.cs" />
     <Compile Include="Abstract\IPriceService.cs" />
-    <Compile Include="Concrete\BOSSAInreadayDataDownloader.cs" />
+    <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
+    <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />
     <Compile Include="Concrete\InvestmentPortfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -38,6 +38,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,6 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BOSSAIntradayDataDownloaderTest.cs" />
     <Compile Include="InvestmentPortfolioTest.cs" />
     <Compile Include="MbankBookkeepingServiceTest.cs" />
     <Compile Include="Helper.cs" />

@@ -11,6 +11,7 @@ namespace StockTools.BusinessLogic.Abstract
         string Address { get; set; }
         IIntradayDataParser Parser { get; set; }
 
-        void Download(string path);
+        void DownloadToFile(string path);
+        Dictionary<string, byte[]> DownloadToMemory();
     }
 }
