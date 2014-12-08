@@ -5,10 +5,10 @@
 <h1>Stock tools</h1>
 <div id="intraday">
     <h2>Intraday downloader</h2>
-    @using (Html.BeginForm(MVC.Home.ActionNames.Index, MVC.Home.Name, FormMethod.Post))
+    @using (Html.BeginForm(MVC.Home.ActionNames.DownloadBOSSAIntraday, MVC.Home.Name, FormMethod.Post))
     {
         <h3>Select destination</h3>
         <input type="file" name="intradayFile" webkitdirectory multiple/>
-        <input type="button" name="Download" value="Download" />
+        <input type="submit" name="Download" value="Download" />
     }
 </div>

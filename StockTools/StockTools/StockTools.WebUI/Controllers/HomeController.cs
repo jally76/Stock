@@ -21,7 +21,8 @@ namespace StockTools.WebUI.Controllers
             return View();
         }
 
-        public FileResult DownloadBOSSAIntraday()
+        [HttpPost]
+        public virtual ActionResult DownloadBOSSAIntraday()
         {
             var outputStream = new MemoryStream();
             _intradayDataDownloader.Address = "http://bossa.pl/index.jsp?layout=intraday&page=1&news_cat_id=875&dirpath=/mstock/daily/";
@@ -39,7 +40,7 @@ namespace StockTools.WebUI.Controllers
 
             outputStream.Position = 0;
             return File(outputStream, "application/zip", "BOSSAIntraday.zip");
-        }
 
+        }
     }
 }

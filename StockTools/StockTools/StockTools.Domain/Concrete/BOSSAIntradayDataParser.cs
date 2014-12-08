@@ -1,4 +1,5 @@
-﻿using StockTools.BusinessLogic.Abstract;
+﻿using HtmlAgilityPack;
+using StockTools.BusinessLogic.Abstract;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,16 @@ namespace StockTools.BusinessLogic.Concrete
     {
         public Dictionary<string, string> GetFileAddresses(string address)
         {
-            throw new NotImplementedException();
+            var Webget = new HtmlWeb();
+            var doc = Webget.Load(address);
+            var result = new Dictionary<string, string>();
+
+            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//table"))
+            {
+
+            }
+
+            return result;
         }
     }
 }

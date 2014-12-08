@@ -74,12 +74,14 @@ namespace StockTools.WebUI.Controllers
         public class ActionNamesClass
         {
             public readonly string Index = "Index";
+            public readonly string DownloadBOSSAIntraday = "DownloadBOSSAIntraday";
         }
 
         [GeneratedCode("T4MVC", "2.0"), DebuggerNonUserCode]
         public class ActionNameConstants
         {
             public const string Index = "Index";
+            public const string DownloadBOSSAIntraday = "DownloadBOSSAIntraday";
         }
 
 
@@ -112,6 +114,17 @@ namespace StockTools.WebUI.Controllers
         {
             var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.Index);
             IndexOverride(callInfo);
+            return callInfo;
+        }
+
+        [NonAction]
+        partial void DownloadBOSSAIntradayOverride(T4MVC_System_Web_Mvc_ActionResult callInfo);
+
+        [NonAction]
+        public override System.Web.Mvc.ActionResult DownloadBOSSAIntraday()
+        {
+            var callInfo = new T4MVC_System_Web_Mvc_ActionResult(Area, Name, ActionNames.DownloadBOSSAIntraday);
+            DownloadBOSSAIntradayOverride(callInfo);
             return callInfo;
         }
 
