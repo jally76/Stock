@@ -12,6 +12,7 @@ namespace StockTools.BusinessLogic.Abstract
         IIntradayDataParser Parser { get; set; }
 
         void DownloadToFile(string path);
+        void DownloadToFileParallel(string path);
         Dictionary<string, byte[]> DownloadToMemory();
     }
 }
