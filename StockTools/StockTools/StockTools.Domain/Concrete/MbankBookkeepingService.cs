@@ -11,10 +11,10 @@ namespace StockTools.Domain.Concrete
 {
     public class MbankBookkeepingService : IBookkeepingService
     {
-        public List<Transaction> ReadTransactionHistory(MemoryStream stream)
+        public List<MBankTransaction> ReadTransactionHistory(MemoryStream stream)
         {
             StreamReader reader = new StreamReader(stream, Encoding.Unicode);
-            var result = new List<Transaction>();
+            var result = new List<MBankTransaction>();
             string line;
 
             do
@@ -26,18 +26,18 @@ namespace StockTools.Domain.Concrete
                 }
                 var split = line.Split(';');
                 split[4] = split[4].Replace('.', ',');
-                Transaction.TransactionTypes? transactionType = null;
+                MBankTransaction.TransactionTypes? transactionType = null;
                 if (split[2] == "KUPNO")
                 {
-                    transactionType = Transaction.TransactionTypes.Buy;
+                    transactionType = MBankTransaction.TransactionTypes.Buy;
                 }
                 else if (split[2] == "SPRZEDAŻ")
                 {
-                    transactionType = Transaction.TransactionTypes.Sell;
+                    transactionType = MBankTransaction.TransactionTypes.Sell;
                 }
-                result.Add(new Transaction()
+                result.Add(new MBankTransaction()
                 {
-                    DateAndTime = DateTime.ParseExact(
+                    Time = DateTime.ParseExact(
                         split[0],
                         "yyyy-MM-dd-HH.mm.ss",
                         CultureInfo.InvariantCulture),

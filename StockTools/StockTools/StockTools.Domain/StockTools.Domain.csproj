@@ -45,12 +45,14 @@
     <Compile Include="Abstract\IIntradayDataDownloader.cs" />
     <Compile Include="Abstract\IBookkeepingService.cs" />
     <Compile Include="Abstract\IIntradayDataParser.cs" />
-    <Compile Include="Abstract\IInvestmentPortfolio.cs" />
-    <Compile Include="Abstract\IPriceService.cs" />
+    <Compile Include="Abstract\IPortfolio.cs" />
+    <Compile Include="Abstract\IPriceProvider.cs" />
+    <Compile Include="Abstract\IStrategy.cs" />
+    <Compile Include="Abstract\ITestRunner.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />
-    <Compile Include="Concrete\InvestmentPortfolio.cs" />
+    <Compile Include="Concrete\BasicPortfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace StockTools.BusinessLogic.Concrete
 {
-    public class InvestmentPortfolio : IInvestmentPortfolio
+    public class BasicPortfolio : IPortfolio
     {
         #region Initialization
 
-        public InvestmentPortfolio(IPriceService priceService)
+        public BasicPortfolio(IPriceProvider priceService)
         {
             _priceService = priceService;
         }
@@ -22,9 +22,9 @@ namespace StockTools.BusinessLogic.Concrete
 
         #region Properties
 
-        private IPriceService _priceService;
+        private IPriceProvider _priceService;
 
-        public IPriceService PriceService
+        public IPriceProvider PriceService
         {
             get { return _priceService; }
             set { _priceService = value; }
@@ -38,9 +38,9 @@ namespace StockTools.BusinessLogic.Concrete
             set { _items = value; }
         }
 
-        private List<Transaction> _transactions;
+        private List<MBankTransaction> _transactions;
 
-        public List<Transaction> Transactions
+        public List<MBankTransaction> Transactions
         {
             get { return _transactions; }
             set { _transactions = value; }
@@ -92,11 +92,11 @@ namespace StockTools.BusinessLogic.Concrete
 
             Dictionary<string, int> amount = new Dictionary<string, int>();
 
-            var orderedTransactions = Transactions.OrderBy(x => x.DateAndTime).ToList();
+            var orderedTransactions = Transactions.OrderBy(x => x.Time).ToList();
 
             foreach (var transaction in orderedTransactions)
             {
-                if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
+                if (transaction.TransactionType == MBankTransaction.TransactionTypes.Buy)
                 {
                     if (amount.ContainsKey(transaction.CompanyName))
                     {
@@ -107,7 +107,7 @@ namespace StockTools.BusinessLogic.Concrete
                         amount[transaction.CompanyName] = transaction.Amount;
                     }
                 }
-                else if (transaction.TransactionType == Transaction.TransactionTypes.Sell)
+                else if (transaction.TransactionType == MBankTransaction.TransactionTypes.Sell)
                 {
                     amount[transaction.CompanyName] -= transaction.Amount;
                 }
@@ -119,7 +119,7 @@ namespace StockTools.BusinessLogic.Concrete
 
             #region Calculating charges
 
-            var orderedTransactionsOfSoldCompanies = orderedTransactions.Where(x => soldCompanies.Any(y => y.Key == x.CompanyName)).OrderBy(x => x.DateAndTime).ToList();
+            var orderedTransactionsOfSoldCompanies = orderedTransactions.Where(x => soldCompanies.Any(y => y.Key == x.CompanyName)).OrderBy(x => x.Time).ToList();
 
             double charges = 0.0;
             double earnedMoney = 0.0;
@@ -127,11 +127,11 @@ namespace StockTools.BusinessLogic.Concrete
             foreach (var item in orderedTransactionsOfSoldCompanies)
             {
                 charges += ChargeFunction(item.TotalValue);
-                if (item.TransactionType == Transaction.TransactionTypes.Buy)
+                if (item.TransactionType == MBankTransaction.TransactionTypes.Buy)
                 {
                     earnedMoney -= item.TotalValue;
                 }
-                else if (item.TransactionType == Transaction.TransactionTypes.Sell)
+                else if (item.TransactionType == MBankTransaction.TransactionTypes.Sell)
                 {
                     earnedMoney += item.TotalValue;
                 }
@@ -153,11 +153,11 @@ namespace StockTools.BusinessLogic.Concrete
             throw new NotImplementedException();
         }
 
-        public List<Transaction> GetPairedTransactions()
+        public List<MBankTransaction> GetPairedTransactions()
         {
             if (Transactions.Count == 0)
             {
-                return new List<Transaction>();
+                return new List<MBankTransaction>();
             }
 
             var paired = new List<int>();
@@ -175,7 +175,7 @@ namespace StockTools.BusinessLogic.Concrete
                 }
             }
 
-            var result = new List<Transaction>(paired.Count);
+            var result = new List<MBankTransaction>(paired.Count);
             for (int i = paired.Count - 1; i >= 0; i--)
             {
                 result.Add(Transactions[paired[i]]);
@@ -184,13 +184,13 @@ namespace StockTools.BusinessLogic.Concrete
             return result;
         }
 
-        public Transaction GetTransactionPair(Transaction transaction)
+        public MBankTransaction GetTransactionPair(MBankTransaction transaction)
         {
             var index = Transactions.IndexOf(transaction);
             for (int i = index - 1; i >= 0; i--)
             {
                 var item = Transactions[i];
-                if (item.CompanyName == transaction.CompanyName && item.TransactionType == Transaction.TransactionTypes.Sell)
+                if (item.CompanyName == transaction.CompanyName && item.TransactionType == MBankTransaction.TransactionTypes.Sell)
                 {
                     return item;
                 }

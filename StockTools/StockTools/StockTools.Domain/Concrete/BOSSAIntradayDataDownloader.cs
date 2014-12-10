@@ -46,24 +46,11 @@ namespace StockTools.BusinessLogic.Concrete
 
         public void Download(string key)
         {
-            //if (queue.Any())
-            //{
-            //    var key = queue.Dequeue();
-                using (WebClient webClient = new WebClient())
-                {
-                    //webClient.DownloadStringCompleted += OnGetDownloadedStringCompleted;
-                    //webClient.DownloadStringAsync(new Uri(nextItem));
-                    //webClient.DownloadFileCompleted += webClient_DownloadFileCompleted;
-                    //return;
-                    webClient.DownloadFile(addresses[key], string.Format("{0}\\{1}", path, key));
-                }
-            //}
+            using (WebClient webClient = new WebClient())
+            {
+                webClient.DownloadFile(addresses[key], string.Format("{0}\\{1}", path, key));
+            }
         }
-
-        //void webClient_DownloadFileCompleted(object sender, System.ComponentModel.AsyncCompletedEventArgs e)
-        //{
-        //    Download();
-        //}
 
         public Dictionary<string, byte[]> DownloadToMemory()
         {

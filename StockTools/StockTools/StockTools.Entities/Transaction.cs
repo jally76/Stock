@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +9,14 @@ namespace StockTools.Entities
 {
     public class Transaction
     {
-        public DateTime DateAndTime { get; set; }
-        public string CompanyName { get; set; }
-        public string TransactionName { get; set; }
         public enum TransactionTypes { Buy, Sell }
+
         public TransactionTypes TransactionType { get; set; }
+        public string CompanyName { get; set; }
+        public DateTime Time { get; set; }
         public int Amount { get; set; }
         public double Price { get; set; }
-        public double TotalValue { get; set; }
+        
+        public double Value { get { return Amount * Price; } }
     }
 }

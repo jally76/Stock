@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace StockTools.BusinessLogic.Abstract
 {
-    public interface IInvestmentPortfolio
+    public interface IPortfolio
     {
         /// <summary>
         /// Handle to price service
         /// </summary>
-        IPriceService PriceService { get; set; }
+        IPriceProvider PriceService { get; set; }
 
         /// <summary>
         /// List of items in the portfolio
@@ -22,7 +22,7 @@ namespace StockTools.BusinessLogic.Abstract
         /// <summary>
         /// List of transactions
         /// </summary>
-        List<Transaction> Transactions { get; set; }
+        List<MBankTransaction> Transactions { get; set; }
 
         /// <summary>
         /// Sets charge function which is necessary for profit calculation
@@ -63,13 +63,13 @@ namespace StockTools.BusinessLogic.Abstract
         /// Gets list of transactions which can be paired (buy, sell)
         /// </summary>
         /// <returns></returns>
-        List<Transaction> GetPairedTransactions();
+        List<MBankTransaction> GetPairedTransactions();
 
         /// <summary>
         /// Gets pair of transaction (finds later transactions, so an argument has to be the first one)
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        Transaction GetTransactionPair(Transaction transaction);
+        MBankTransaction GetTransactionPair(MBankTransaction transaction);
     }
 }

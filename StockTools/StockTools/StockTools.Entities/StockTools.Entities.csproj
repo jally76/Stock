@@ -42,6 +42,7 @@
     <Compile Include="InvestmentPortfolioItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Taxation.cs" />
+    <Compile Include="MBankTransaction.cs" />
     <Compile Include="Transaction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

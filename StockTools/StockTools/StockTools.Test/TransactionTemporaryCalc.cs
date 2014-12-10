@@ -38,13 +38,13 @@ namespace StockTools.Test
             var file = File.ReadAllBytes(path);
             MemoryStream stream = new MemoryStream(file);
 
-            Mock<IPriceService> mock = new Mock<IPriceService>();
-            mock.Setup(x => x.GetCompanyPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetCompanyPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetCompanyPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetCompanyPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IInvestmentPortfolio _investmentPortfolio = new InvestmentPortfolio(mock.Object);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object);
 
             #endregion
 
