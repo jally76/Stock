@@ -13,9 +13,10 @@ namespace StockTools.BusinessLogic.Concrete
     {
         #region Initialization
 
-        public BasicPortfolio(IPriceProvider priceService)
+        public BasicPortfolio(IPriceProvider priceService, Func<double, double> chargeFunction)
         {
             _priceService = priceService;
+            _chargeFunction = chargeFunction;
         }
 
         #endregion
@@ -38,12 +39,16 @@ namespace StockTools.BusinessLogic.Concrete
             set { _items = value; }
         }
 
-        private List<MBankTransaction> _transactions;
+        private List<Transaction> _transactions;
 
-        public List<MBankTransaction> Transactions
+        public List<Transaction> Transactions
         {
             get { return _transactions; }
-            set { _transactions = value; }
+            set
+            {
+                //TODO Modify items and cash or throw exception if there's no cash
+                _transactions = value;
+            }
         }
 
         Func<double, double> _chargeFunction;
@@ -54,14 +59,30 @@ namespace StockTools.BusinessLogic.Concrete
             set { _chargeFunction = value; }
         }
 
+        double _cash;
+
+        public double Cash
+        {
+            get { return _cash; }
+            set { _cash = value; }
+        }
+
+        List<Taxation> _taxationList;
+
+        public List<Taxation> TaxationList
+        {
+            get { return _taxationList; }
+            set { _taxationList = value; }
+        }
+
+        public double Value
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
 
         #region Methods
-
-        public double GetValue()
-        {
-            throw new NotImplementedException();
-        }
 
         public double GetGrossProfit()
         {
@@ -96,7 +117,7 @@ namespace StockTools.BusinessLogic.Concrete
 
             foreach (var transaction in orderedTransactions)
             {
-                if (transaction.TransactionType == MBankTransaction.TransactionTypes.Buy)
+                if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
                 {
                     if (amount.ContainsKey(transaction.CompanyName))
                     {
@@ -107,7 +128,7 @@ namespace StockTools.BusinessLogic.Concrete
                         amount[transaction.CompanyName] = transaction.Amount;
                     }
                 }
-                else if (transaction.TransactionType == MBankTransaction.TransactionTypes.Sell)
+                else if (transaction.TransactionType == Transaction.TransactionTypes.Sell)
                 {
                     amount[transaction.CompanyName] -= transaction.Amount;
                 }
@@ -126,14 +147,14 @@ namespace StockTools.BusinessLogic.Concrete
 
             foreach (var item in orderedTransactionsOfSoldCompanies)
             {
-                charges += ChargeFunction(item.TotalValue);
-                if (item.TransactionType == MBankTransaction.TransactionTypes.Buy)
+                charges += ChargeFunction(item.Value);
+                if (item.TransactionType == Transaction.TransactionTypes.Buy)
                 {
-                    earnedMoney -= item.TotalValue;
+                    earnedMoney -= item.Value;
                 }
-                else if (item.TransactionType == MBankTransaction.TransactionTypes.Sell)
+                else if (item.TransactionType == Transaction.TransactionTypes.Sell)
                 {
-                    earnedMoney += item.TotalValue;
+                    earnedMoney += item.Value;
                 }
                 System.Diagnostics.Debug.WriteLine(string.Format("Earned money: {0}", earnedMoney));
             }
@@ -148,16 +169,11 @@ namespace StockTools.BusinessLogic.Concrete
             throw new NotImplementedException();
         }
 
-        public void SetTaxation(List<Entities.Taxation> taxationList)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<MBankTransaction> GetPairedTransactions()
+        public List<Transaction> GetPairedTransactions()
         {
             if (Transactions.Count == 0)
             {
-                return new List<MBankTransaction>();
+                return new List<Transaction>();
             }
 
             var paired = new List<int>();
@@ -175,7 +191,7 @@ namespace StockTools.BusinessLogic.Concrete
                 }
             }
 
-            var result = new List<MBankTransaction>(paired.Count);
+            var result = new List<Transaction>(paired.Count);
             for (int i = paired.Count - 1; i >= 0; i--)
             {
                 result.Add(Transactions[paired[i]]);
@@ -184,13 +200,13 @@ namespace StockTools.BusinessLogic.Concrete
             return result;
         }
 
-        public MBankTransaction GetTransactionPair(MBankTransaction transaction)
+        public Transaction GetTransactionPair(Transaction transaction)
         {
             var index = Transactions.IndexOf(transaction);
             for (int i = index - 1; i >= 0; i--)
             {
                 var item = Transactions[i];
-                if (item.CompanyName == transaction.CompanyName && item.TransactionType == MBankTransaction.TransactionTypes.Sell)
+                if (item.CompanyName == transaction.CompanyName && item.TransactionType == Transaction.TransactionTypes.Sell)
                 {
                     return item;
                 }
@@ -199,5 +215,11 @@ namespace StockTools.BusinessLogic.Concrete
         }
 
         #endregion
+
+
+
+
+
+        
     }
 }

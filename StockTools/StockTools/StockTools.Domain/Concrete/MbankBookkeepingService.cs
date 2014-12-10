@@ -11,10 +11,10 @@ namespace StockTools.Domain.Concrete
 {
     public class MbankBookkeepingService : IBookkeepingService
     {
-        public List<MBankTransaction> ReadTransactionHistory(MemoryStream stream)
+        public List<Transaction> ReadTransactionHistory(MemoryStream stream)
         {
             StreamReader reader = new StreamReader(stream, Encoding.Unicode);
-            var result = new List<MBankTransaction>();
+            var result = new List<Transaction>();
             string line;
 
             do
@@ -26,27 +26,27 @@ namespace StockTools.Domain.Concrete
                 }
                 var split = line.Split(';');
                 split[4] = split[4].Replace('.', ',');
-                MBankTransaction.TransactionTypes? transactionType = null;
+                Transaction.TransactionTypes? transactionType = null;
                 if (split[2] == "KUPNO")
                 {
-                    transactionType = MBankTransaction.TransactionTypes.Buy;
+                    transactionType = Transaction.TransactionTypes.Buy;
                 }
                 else if (split[2] == "SPRZEDAŻ")
                 {
-                    transactionType = MBankTransaction.TransactionTypes.Sell;
+                    transactionType = Transaction.TransactionTypes.Sell;
                 }
-                result.Add(new MBankTransaction()
+                result.Add(new Transaction()
                 {
                     Time = DateTime.ParseExact(
                         split[0],
                         "yyyy-MM-dd-HH.mm.ss",
                         CultureInfo.InvariantCulture),
                     CompanyName = split[1],
-                    TransactionName = split[2],
+                    //TransactionName = split[2],
                     TransactionType = transactionType.Value,
                     Amount = Convert.ToInt32(split[3]),
                     Price = Convert.ToDouble(split[4]),
-                    TotalValue = Convert.ToDouble(split[5])
+                    //TotalValue = Convert.ToDouble(split[5])
                 });
 
             } while (true);

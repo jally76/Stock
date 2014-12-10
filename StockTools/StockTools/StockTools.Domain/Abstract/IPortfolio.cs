@@ -10,6 +10,11 @@ namespace StockTools.BusinessLogic.Abstract
     public interface IPortfolio
     {
         /// <summary>
+        /// Cash which is not invested
+        /// </summary>
+        double Cash { get; set; }
+
+        /// <summary>
         /// Handle to price service
         /// </summary>
         IPriceProvider PriceService { get; set; }
@@ -22,7 +27,7 @@ namespace StockTools.BusinessLogic.Abstract
         /// <summary>
         /// List of transactions
         /// </summary>
-        List<MBankTransaction> Transactions { get; set; }
+        List<Transaction> Transactions { get; set; }
 
         /// <summary>
         /// Sets charge function which is necessary for profit calculation
@@ -32,7 +37,7 @@ namespace StockTools.BusinessLogic.Abstract
         /// <summary>
         /// Sum of current prices of all shares in the portfolio
         /// </summary>
-        double GetValue();
+        double Value { get; }
 
         /// <summary>
         /// Gross profit of the portfolio
@@ -57,19 +62,20 @@ namespace StockTools.BusinessLogic.Abstract
         /// <summary>
         /// Sets value of capital gain tax (during the time because we assume that it can change)
         /// </summary>
-        void SetTaxation(List<Taxation> taxationList);
+        //void SetTaxation(List<Taxation> taxationList);
+        List<Taxation> TaxationList { get; set; }
 
         /// <summary>
         /// Gets list of transactions which can be paired (buy, sell)
         /// </summary>
         /// <returns></returns>
-        List<MBankTransaction> GetPairedTransactions();
+        List<Transaction> GetPairedTransactions();
 
         /// <summary>
         /// Gets pair of transaction (finds later transactions, so an argument has to be the first one)
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        MBankTransaction GetTransactionPair(MBankTransaction transaction);
+        Transaction GetTransactionPair(Transaction transaction);
     }
 }

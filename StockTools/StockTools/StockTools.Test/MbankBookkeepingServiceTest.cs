@@ -20,46 +20,46 @@ namespace StockTools.Test
             var file = File.ReadAllBytes(path);
             MemoryStream stream = new MemoryStream(file);
 
-            var expectedResult = new List<MBankTransaction>(4);
-            expectedResult.Add(new MBankTransaction()
+            var expectedResult = new List<Transaction>(4);
+            expectedResult.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 9, 9, 29, 10),
                 CompanyName = "MBANK",
-                TransactionName = "SPRZEDAŻ",
-                TransactionType = MBankTransaction.TransactionTypes.Sell,
+                //TransactionName = "SPRZEDAŻ",
+                TransactionType = Transaction.TransactionTypes.Sell,
                 Amount = 1,
                 Price = 485.05,
-                TotalValue = 485.05
+                //TotalValue = 485.05
             });
-            expectedResult.Add(new MBankTransaction()
+            expectedResult.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 14, 5, 0),
                 CompanyName = "MILLENNIUM",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 8.05,
-                TotalValue = 805.0
+                //TotalValue = 805.0
             });
-            expectedResult.Add(new MBankTransaction()
+            expectedResult.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 9, 20, 0),
                 CompanyName = "CORMAY",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 5.47,
-                TotalValue = 547.0
+                //TotalValue = 547.0
             });
-            expectedResult.Add(new MBankTransaction()
+            expectedResult.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 1,
                 Price = 500.0,
-                TotalValue = 500.0
+                //TotalValue = 500.0
             });
 
             #endregion

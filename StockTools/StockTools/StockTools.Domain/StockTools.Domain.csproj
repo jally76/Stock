@@ -49,6 +49,7 @@
     <Compile Include="Abstract\IPriceProvider.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\ITestRunner.cs" />
+    <Compile Include="Concrete\BasicTestRunner.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />

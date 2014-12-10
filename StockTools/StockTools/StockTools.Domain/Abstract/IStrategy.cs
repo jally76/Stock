@@ -9,6 +9,6 @@ namespace StockTools.BusinessLogic.Abstract
 {
     public interface IStrategy
     {
-        List<Transaction> GenerateTransactions();
+        List<Transaction> GenerateTransactions(IPriceProvider priceProvider, IPortfolio portfolio);
     }
 }

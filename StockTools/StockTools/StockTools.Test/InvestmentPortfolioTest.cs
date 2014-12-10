@@ -37,54 +37,51 @@ namespace StockTools.Test
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
-            var transactions = new List<MBankTransaction>(4);
-            transactions.Add(new MBankTransaction()
+            var transactions = new List<Transaction>(4);
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 9, 9, 29, 10),
                 CompanyName = "MBANK",
-                TransactionName = "SPRZEDAŻ",
-                TransactionType = MBankTransaction.TransactionTypes.Sell,
+                //TransactionName = "SPRZEDAŻ",
+                TransactionType = Transaction.TransactionTypes.Sell,
                 Amount = 1,
                 Price = 485.05,
-                TotalValue = 485.05
+                //TotalValue = 485.05
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 14, 5, 0),
                 CompanyName = "MILLENNIUM",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 8.05,
-                TotalValue = 805.0
+                //TotalValue = 805.0
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 9, 20, 0),
                 CompanyName = "CORMAY",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 5.47,
-                TotalValue = 547.0
+                //TotalValue = 547.0
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 1,
                 Price = 500.0,
-                TotalValue = 500.0
+                //TotalValue = 500.0
             });
 
             _investmentPortfolio.Transactions = transactions;
-
-            Func<double, double> chargeFunc = ChargeFunc;
-            _investmentPortfolio.ChargeFunction = chargeFunc;
 
             #endregion
 
@@ -112,7 +109,7 @@ namespace StockTools.Test
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
             IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
             var path = Environment.CurrentDirectory + "\\Files\\transactions2.csv";
@@ -120,9 +117,6 @@ namespace StockTools.Test
             MemoryStream stream = new MemoryStream(file);
 
             var transactions = _bookkeepingService.ReadTransactionHistory(stream);
-
-            Func<double, double> chargeFunc = ChargeFunc;
-            _investmentPortfolio.ChargeFunction = chargeFunc;
 
             #endregion
 
@@ -151,54 +145,53 @@ namespace StockTools.Test
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
-            var transactions = new List<MBankTransaction>(4);
-            transactions.Add(new MBankTransaction()
+            var transactions = new List<Transaction>(4);
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 9, 9, 29, 10),
                 CompanyName = "MBANK",
-                TransactionName = "SPRZEDAŻ",
-                TransactionType = MBankTransaction.TransactionTypes.Sell,
+                //TransactionName = "SPRZEDAŻ",
+                TransactionType = Transaction.TransactionTypes.Sell,
                 Amount = 1,
                 Price = 485.05,
-                TotalValue = 485.05
+                //TotalValue = 485.05
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 14, 5, 0),
                 CompanyName = "MILLENNIUM",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 8.05,
-                TotalValue = 805.0
+                //TotalValue = 805.0
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 9, 20, 0),
                 CompanyName = "CORMAY",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 5.47,
-                TotalValue = 547.0
+                //TotalValue = 547.0
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 1,
                 Price = 500.0,
-                TotalValue = 500.0
+                //TotalValue = 500.0
             });
 
             _investmentPortfolio.Transactions = transactions;
 
-            Func<double, double> chargeFunc = ChargeFunc;
-            _investmentPortfolio.ChargeFunction = chargeFunc;
+            
 
             #endregion
 
@@ -227,54 +220,51 @@ namespace StockTools.Test
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
-            var transactions = new List<MBankTransaction>(4);
-            transactions.Add(new MBankTransaction()
+            var transactions = new List<Transaction>(4);
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 9, 9, 29, 10),
                 CompanyName = "MBANK",
-                TransactionName = "SPRZEDAŻ",
-                TransactionType = MBankTransaction.TransactionTypes.Sell,
+                //TransactionName = "SPRZEDAŻ",
+                TransactionType = Transaction.TransactionTypes.Sell,
                 Amount = 1,
                 Price = 485.05,
-                TotalValue = 485.05
+                //TotalValue = 485.05
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 14, 5, 0),
                 CompanyName = "MILLENNIUM",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 8.05,
-                TotalValue = 805.0
+                //TotalValue = 805.0
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 9, 20, 0),
                 CompanyName = "CORMAY",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 100,
                 Price = 5.47,
-                TotalValue = 547.0
+                //TotalValue = 547.0
             });
-            transactions.Add(new MBankTransaction()
+            transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
-                TransactionName = "KUPNO",
-                TransactionType = MBankTransaction.TransactionTypes.Buy,
+                //TransactionName = "KUPNO",
+                TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 1,
                 Price = 500.0,
-                TotalValue = 500.0
+                //TotalValue = 500.0
             });
 
             _investmentPortfolio.Transactions = transactions;
-
-            Func<double, double> chargeFunc = ChargeFunc;
-            _investmentPortfolio.ChargeFunction = chargeFunc;
 
             #endregion
 

@@ -12,6 +12,6 @@ namespace StockTools.Domain.Abstract
         /// </summary>
         /// <param name="stream"></param>
         /// <returns></returns>
-        List<MBankTransaction> ReadTransactionHistory(MemoryStream stream);
+        List<Transaction> ReadTransactionHistory(MemoryStream stream);
     }
 }

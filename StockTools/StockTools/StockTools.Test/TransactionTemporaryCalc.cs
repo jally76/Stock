@@ -44,7 +44,7 @@ namespace StockTools.Test
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
             #endregion
 
@@ -53,7 +53,6 @@ namespace StockTools.Test
 
             var transactions = _bookkeepingService.ReadTransactionHistory(stream);
             _investmentPortfolio.Transactions = transactions;
-            _investmentPortfolio.ChargeFunction = ChargeFunc;
             var result = _investmentPortfolio.GetRealisedGrossProfit();
 
             #endregion

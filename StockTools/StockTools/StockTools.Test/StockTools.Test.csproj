@@ -67,6 +67,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_cgl.prn" />
+    <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_fut.prn" />
+    <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_obl.prn" />
+    <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_war.prn" />
     <None Include="Files\transactions.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -78,9 +82,7 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Files\BOSSA\Intraday\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
