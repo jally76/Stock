@@ -16,6 +16,7 @@ namespace StockTools.BusinessLogic.Concrete
             {
                 var transactions = strategy.GenerateTransactions(priceProvider, portfolio);
                 portfolio.Transactions.AddRange(transactions);
+                now = now.AddMinutes(5);
             } while (now >= endDate);
             return portfolio.Value + portfolio.Cash;
         }

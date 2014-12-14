@@ -109,57 +109,97 @@ namespace StockTools.BusinessLogic.Concrete
 
             #endregion
 
-            #region Finding companies which have been sold
-
-            Dictionary<string, int> amount = new Dictionary<string, int>();
-
             var orderedTransactions = Transactions.OrderBy(x => x.Time).ToList();
+            Dictionary<string, Queue<Transaction>> companyTransaction = new Dictionary<string, Queue<Transaction>>();
 
-            foreach (var transaction in orderedTransactions)
+            for (int i = 0; i < orderedTransactions.Count; i++)
             {
-                if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
+                var transaction = orderedTransactions[i];
+
+                if (companyTransaction.ContainsKey(transaction.CompanyName))
                 {
-                    if (amount.ContainsKey(transaction.CompanyName))
-                    {
-                        amount[transaction.CompanyName] += transaction.Amount;
-                    }
-                    else
-                    {
-                        amount[transaction.CompanyName] = transaction.Amount;
-                    }
+                    companyTransaction[transaction.CompanyName].Enqueue(transaction);
                 }
-                else if (transaction.TransactionType == Transaction.TransactionTypes.Sell)
+                else
                 {
-                    amount[transaction.CompanyName] -= transaction.Amount;
+                    companyTransaction[transaction.CompanyName] = new Queue<Transaction>();
+                    companyTransaction[transaction.CompanyName].Enqueue(transaction);
                 }
             }
-
-            var soldCompanies = amount.Where(x => x.Value == 0).ToList();
-
-            #endregion
-
-            #region Calculating charges
-
-            var orderedTransactionsOfSoldCompanies = orderedTransactions.Where(x => soldCompanies.Any(y => y.Key == x.CompanyName)).OrderBy(x => x.Time).ToList();
 
             double charges = 0.0;
             double earnedMoney = 0.0;
 
-            foreach (var item in orderedTransactionsOfSoldCompanies)
+            foreach (var key in companyTransaction.Keys)
             {
-                charges += ChargeFunction(item.Value);
-                if (item.TransactionType == Transaction.TransactionTypes.Buy)
-                {
-                    earnedMoney -= item.Value;
-                }
-                else if (item.TransactionType == Transaction.TransactionTypes.Sell)
-                {
-                    earnedMoney += item.Value;
-                }
-                System.Diagnostics.Debug.WriteLine(string.Format("Earned money: {0}", earnedMoney));
-            }
+                var buyAmount = companyTransaction[key]
+                    .Where(x => x.TransactionType == Transaction.TransactionTypes.Buy)
+                    .Sum(x => x.Amount);
+                var sellAmount = companyTransaction[key]
+                    .Where(x => x.TransactionType == Transaction.TransactionTypes.Sell)
+                    .Sum(x => x.Amount);
 
-            #endregion
+                if (buyAmount == sellAmount)
+                {
+                    while (companyTransaction[key].Count > 0)
+                    {
+                        var transaction = companyTransaction[key].Dequeue();
+                        if (transaction.TransactionType == Transaction.TransactionTypes.Sell)
+                        {
+                            earnedMoney += transaction.Value;
+                            charges += ChargeFunction(transaction.Value);
+                        }
+                        if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
+                        {
+                            earnedMoney -= transaction.Value;
+                            charges += ChargeFunction(transaction.Value);
+                        }
+                    }
+                }
+
+                if (buyAmount > sellAmount)
+                {
+                    if (sellAmount == 0)
+                        continue;
+                    DateTime lastSellTime = companyTransaction[key]
+                        .Where(x => x.TransactionType == Transaction.TransactionTypes.Sell)
+                        .OrderByDescending(x => x.Time)
+                        .ToList()[0].Time;
+                    var buyAmountBeforeLastSell = companyTransaction[key]
+                        .Where(x => x.TransactionType == Transaction.TransactionTypes.Buy)
+                        .Where(x => x.Time <= lastSellTime)
+                        .Sum(x => x.Amount);
+                    var averageBuyPrice = companyTransaction[key]
+                        .Where(x => x.TransactionType == Transaction.TransactionTypes.Buy)
+                        .Where(x => x.Time <= lastSellTime)
+                        .Sum(x => x.Value) / buyAmountBeforeLastSell;
+                    var sellLimit = sellAmount;
+
+                    while (sellLimit > 0)
+                    {
+                        var transaction = companyTransaction[key].Dequeue();
+                        if (transaction.TransactionType == Transaction.TransactionTypes.Sell)
+                        {
+                            sellLimit -= transaction.Amount;
+                            charges += ChargeFunction(transaction.Value);
+                            earnedMoney += transaction.Value - averageBuyPrice * transaction.Amount;
+                        }
+                        else if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
+                        {
+                            charges += ChargeFunction(transaction.Value);
+                        }
+                        if (companyTransaction[key].Count == 0)
+                        {
+                            break;
+                        }
+                    }
+                }
+
+                if (buyAmount < sellAmount)
+                {
+                    throw new Exception("Error in the transaction list, there are more sold papers than bought!");
+                }
+            }
 
             return earnedMoney - charges;
         }
@@ -220,6 +260,6 @@ namespace StockTools.BusinessLogic.Concrete
 
 
 
-        
+
     }
 }
