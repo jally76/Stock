@@ -1,7 +1,12 @@
-﻿using StockTools.BusinessLogic.Abstract;
+﻿using Microsoft.Win32;
+using Moq;
+using StockTools.BusinessLogic.Abstract;
 using StockTools.BusinessLogic.Concrete;
+using StockTools.Domain.Abstract;
+using StockTools.Domain.Concrete;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,6 +30,19 @@ namespace StockTools.WPFUI
         IIntradayDataDownloader _intradayDataDownloader = new BOSSAIntradayDataDownloader();
         IIntradayDataParser _intradayDataParser = new BOSSAIntradayDataParser();
 
+
+        public double ChargeFunc(double price)
+        {
+            if (price <= 769)
+            {
+                return 3.0;
+            }
+            else
+            {
+                return price * (0.39 / 100.0);
+            }
+        }
+
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +56,45 @@ namespace StockTools.WPFUI
             _intradayDataDownloader.Address = @"http://bossa.pl/index.jsp?layout=intraday&page=1&news_cat_id=875&dirpath=/mstock/daily/";
             _intradayDataDownloader.Parser = _intradayDataParser;
             _intradayDataDownloader.DownloadToFileParallel(dialog.SelectedPath);
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            //// Create OpenFileDialog 
+            //Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+
+            //// Display OpenFileDialog by calling ShowDialog method 
+            //Nullable<bool> result = dlg.ShowDialog();
+
+            //// Get the selected file name and display in a TextBox 
+            //if (result == true)
+            //{
+            //    // Open document 
+            //    string filename = dlg.FileName;
+
+            //}
+
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                //txtEditor.Text = File.ReadAllText();
+                //var file = File.Open(openFileDialog.FileName, FileMode.Open);
+
+                Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+                mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+                mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+                mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+                mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+                IPortfolio portfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+                IBookkeepingService bookkeepingService = new MbankBookkeepingService();
+                var file = File.ReadAllBytes(openFileDialog.FileName);
+                MemoryStream stream = new MemoryStream(file);
+                var transactions = bookkeepingService.ReadTransactionHistory(stream);
+                portfolio.Transactions = transactions;
+                profit.Content = portfolio.GetRealisedGrossProfit().ToString();
+            }
+
         }
     }
 }

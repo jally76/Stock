@@ -3,7 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="MainWindow" Height="350" Width="525">
     <Grid>
-        <Button Content="Download" HorizontalAlignment="Left" Margin="225,102,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click_1"/>
+        <Button Content="Download intraday data" HorizontalAlignment="Left" Margin="41,54,0,0" VerticalAlignment="Top" Width="144" Click="Button_Click_1" Height="25"/>
+        <Button Content="Upload transactions" HorizontalAlignment="Left" Margin="279,57,0,0" VerticalAlignment="Top" Width="144" Height="22" Click="Button_Click_2"/>
+        <Label Content="You earned:" HorizontalAlignment="Left" Margin="279,84,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="profit" Content="0.0" HorizontalAlignment="Left" Margin="352,84,0,0" VerticalAlignment="Top" Width="71"/>
 
     </Grid>
 </Window>
