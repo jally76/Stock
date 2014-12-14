@@ -94,7 +94,7 @@ namespace StockTools.BusinessLogic.Concrete
             throw new NotImplementedException();
         }
 
-        public double GetRealisedGrossProfit()
+        private double GetRealisedGrossProfitByDate(DateTime? date)
         {
             #region Prerequisite check
 
@@ -102,6 +102,7 @@ namespace StockTools.BusinessLogic.Concrete
             {
                 throw new Exception("Transactions has not been set");
             }
+
             if (ChargeFunction == null)
             {
                 throw new Exception("Charge function has not been set");
@@ -109,7 +110,12 @@ namespace StockTools.BusinessLogic.Concrete
 
             #endregion
 
-            var orderedTransactions = Transactions.OrderBy(x => x.Time).ToList();
+            if (!date.HasValue)
+            {
+                date = DateTime.Now;
+            }
+
+            var orderedTransactions = Transactions.Where(x => x.Time <= date).OrderBy(x => x.Time).ToList();
             Dictionary<string, Queue<Transaction>> companyTransaction = new Dictionary<string, Queue<Transaction>>();
 
             for (int i = 0; i < orderedTransactions.Count; i++)
@@ -204,6 +210,16 @@ namespace StockTools.BusinessLogic.Concrete
             return earnedMoney - charges;
         }
 
+        public double GetRealisedGrossProfit(DateTime? date)
+        {
+            return GetRealisedGrossProfitByDate(date);
+        }
+
+        public double GetRealisedGrossProfit()
+        {
+            return GetRealisedGrossProfitByDate(DateTime.Now);
+        }
+
         public double GetRealisedNetProfit()
         {
             throw new NotImplementedException();
@@ -255,6 +271,12 @@ namespace StockTools.BusinessLogic.Concrete
         }
 
         #endregion
+
+
+
+
+
+
 
 
 

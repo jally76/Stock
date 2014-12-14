@@ -253,6 +253,43 @@ namespace StockTools.Test
         }
 
         [Fact]
+        public void InvestmentPortfolio_GetRealisedGrossProfit_UsingDate_And_UsingFile()
+        {
+            #region Arrange
+
+            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+
+            IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
+            var path = Environment.CurrentDirectory + "\\Files\\transactions3.csv";
+            var file = File.ReadAllBytes(path);
+            MemoryStream stream = new MemoryStream(file);
+
+            var transactions = _bookkeepingService.ReadTransactionHistory(stream);
+            _investmentPortfolio.Transactions = transactions;
+
+            #endregion
+
+            #region Act
+
+            var date = new DateTime(2014,7,9).AddHours(9).AddMinutes(29).AddSeconds(10);
+            double result = _investmentPortfolio.GetRealisedGrossProfit(date);
+
+            #endregion
+
+            #region Assert
+
+            Assert.Equal(Math.Round(-20.95, 4), Math.Round(result, 4));
+
+            #endregion
+        }
+
+        [Fact]
         public void InvestmentPortfolio_GetRealisedNetProfit_Using_File()
         {
             #region Arrange

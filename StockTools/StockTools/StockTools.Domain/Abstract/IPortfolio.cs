@@ -55,6 +55,11 @@ namespace StockTools.BusinessLogic.Abstract
         double GetRealisedGrossProfit();
 
         /// <summary>
+        /// Gross realised profit of the portfolio (only sold shares) until specified date
+        /// </summary>
+        double GetRealisedGrossProfit(DateTime? date);
+
+        /// <summary>
         /// Net realised profit of the portfolio (only sold shares)
         /// </summary>
         double GetRealisedNetProfit();
