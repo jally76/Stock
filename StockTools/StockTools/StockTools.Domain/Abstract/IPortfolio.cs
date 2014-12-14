@@ -82,5 +82,11 @@ namespace StockTools.BusinessLogic.Abstract
         /// <param name="transaction"></param>
         /// <returns></returns>
         Transaction GetTransactionPair(Transaction transaction);
+
+        /// <summary>
+        /// Gets dictionary of profit by date
+        /// </summary>
+        /// <returns></returns>
+        Dictionary<DateTime, double> GetRealisedGrossProfitTable();
     }
 }

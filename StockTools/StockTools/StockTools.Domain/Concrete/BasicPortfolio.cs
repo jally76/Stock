@@ -272,16 +272,17 @@ namespace StockTools.BusinessLogic.Concrete
 
         #endregion
 
+        public Dictionary<DateTime, double> GetRealisedGrossProfitTable()
+        {
+            var firstTransactionDate = Transactions.OrderBy(x => x.Time).ToList()[0].Time;
+            var result = new Dictionary<DateTime, double>();
 
+            for (DateTime date = firstTransactionDate; date < DateTime.Now; date.AddMinutes(1))
+            {
+                result[date] = GetRealisedGrossProfitByDate(date);
+            }
 
-
-
-
-
-
-
-
-
-
+            return result;
+        }
     }
 }

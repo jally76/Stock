@@ -95,6 +95,8 @@ namespace StockTools.WPFUI
                 profit.Content = portfolio.GetRealisedGrossProfit().ToString();
             }
 
+            //TODO Create profit time-plot
+            //http://blog.bartdemeyer.be/2013/03/creating-graphs-in-wpf-using-oxyplot/
         }
     }
 }
