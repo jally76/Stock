@@ -13,9 +13,9 @@ namespace StockTools.BusinessLogic.Concrete
     {
         #region Initialization
 
-        public BasicPortfolio(IPriceProvider priceService, Func<double, double> chargeFunction)
+        public BasicPortfolio(ICurrentPriceProvider currentPriceProvider, Func<double, double> chargeFunction)
         {
-            _priceService = priceService;
+            _currentPriceProvider = currentPriceProvider;
             _chargeFunction = chargeFunction;
         }
 
@@ -23,12 +23,12 @@ namespace StockTools.BusinessLogic.Concrete
 
         #region Properties
 
-        private IPriceProvider _priceService;
+        private ICurrentPriceProvider _currentPriceProvider;
 
-        public IPriceProvider PriceService
+        public ICurrentPriceProvider PriceService
         {
-            get { return _priceService; }
-            set { _priceService = value; }
+            get { return _currentPriceProvider; }
+            set { _currentPriceProvider = value; }
         }
 
         private List<InvestmentPortfolioItem> _items;
@@ -270,8 +270,6 @@ namespace StockTools.BusinessLogic.Concrete
             return null;
         }
 
-        #endregion
-
         public Dictionary<DateTime, double> GetRealisedGrossProfitTable()
         {
             var firstTransactionDate = Transactions.OrderBy(x => x.Time).ToList()[0].Time;
@@ -284,5 +282,7 @@ namespace StockTools.BusinessLogic.Concrete
 
             return result;
         }
+
+        #endregion
     }
 }

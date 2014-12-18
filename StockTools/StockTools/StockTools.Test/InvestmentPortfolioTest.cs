@@ -31,11 +31,11 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
             mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
             IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
@@ -95,11 +95,11 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
             mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
             IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
@@ -257,11 +257,11 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
             mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
             IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
@@ -294,11 +294,11 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
             mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
             IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
@@ -330,11 +330,11 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
             mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
             IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 
@@ -405,11 +405,11 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<IPriceProvider> mock = new Mock<IPriceProvider>();
+            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
             mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
             mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
             IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
 

@@ -42,19 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IArchivePriceProvider.cs" />
     <Compile Include="Abstract\IIntradayDataDownloader.cs" />
     <Compile Include="Abstract\IBookkeepingService.cs" />
     <Compile Include="Abstract\IIntradayDataParser.cs" />
     <Compile Include="Abstract\IPortfolio.cs" />
-    <Compile Include="Abstract\IPriceProvider.cs" />
+    <Compile Include="Abstract\ICurrentPriceProvider.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\ITestRunner.cs" />
     <Compile Include="Concrete\BasicTestRunner.cs" />
+    <Compile Include="Concrete\BOSSAArchivePriceProvider.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
     <Compile Include="Concrete\BOSSAIntradayFilePriceProvider.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />
     <Compile Include="Concrete\BasicPortfolio.cs" />
+    <Compile Include="Concrete\Strategies\TestStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +69,7 @@
       <Name>StockTools.Entities</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

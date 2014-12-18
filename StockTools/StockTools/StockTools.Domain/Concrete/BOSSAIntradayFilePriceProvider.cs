@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StockTools.BusinessLogic.Concrete
 {
-    public class BOSSAIntradayFilePriceProvider : IPriceProvider
+    public class BOSSAIntradayFilePriceProvider : ICurrentPriceProvider
     {
         string Path { get; set; }
         List<string> companies;

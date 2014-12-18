@@ -6,14 +6,9 @@ using System.Threading.Tasks;
 
 namespace StockTools.BusinessLogic.Abstract
 {
-    public interface IPriceProvider
+    public interface ICurrentPriceProvider
     {
-        void LoadPrices(string path);
-        void LoadPrices(Uri url);
-
         double GetPriceByShortName(string shortName);
         double GetPriceByFullName(string shortName);
-        double GetPriceByShortNameAndDateTime(string shortName, DateTime dateTime);
-        double GetPriceByFullNameAndDateTime(string shortName, DateTime dateTime);
     }
 }

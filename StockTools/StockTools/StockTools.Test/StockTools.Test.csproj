@@ -49,6 +49,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicTestRunnerTest.cs" />
+    <Compile Include="BOSSAArchivePriceProviderTest.cs" />
     <Compile Include="BOSSAIntradayDataDownloaderTest.cs" />
     <Compile Include="InvestmentPortfolioTest.cs" />
     <Compile Include="MbankBookkeepingServiceTest.cs" />
@@ -67,7 +69,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_cgl.prn" />
+    <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_cgl.prn">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_fut.prn" />
     <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_obl.prn" />
     <None Include="Files\BOSSA\Intraday\2014-12-08-tick\a_war.prn" />

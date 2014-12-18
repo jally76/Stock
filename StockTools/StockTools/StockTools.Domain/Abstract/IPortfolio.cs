@@ -17,7 +17,7 @@ namespace StockTools.BusinessLogic.Abstract
         /// <summary>
         /// Handle to price service
         /// </summary>
-        IPriceProvider PriceService { get; set; }
+        ICurrentPriceProvider PriceService { get; set; }
 
         /// <summary>
         /// List of items in the portfolio
