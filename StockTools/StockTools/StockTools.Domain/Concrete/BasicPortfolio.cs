@@ -17,6 +17,7 @@ namespace StockTools.BusinessLogic.Concrete
         {
             _currentPriceProvider = currentPriceProvider;
             _chargeFunction = chargeFunction;
+            _transactions = new List<Transaction>();
         }
 
         #endregion
@@ -44,11 +45,7 @@ namespace StockTools.BusinessLogic.Concrete
         public List<Transaction> Transactions
         {
             get { return _transactions; }
-            set
-            {
-                //TODO Modify items and cash or throw exception if there's no cash
-                _transactions = value;
-            }
+            set { _transactions = value; }
         }
 
         Func<double, double> _chargeFunction;
@@ -83,6 +80,19 @@ namespace StockTools.BusinessLogic.Concrete
         #endregion
 
         #region Methods
+
+        public void AddTransaction(Transaction transaction)
+        {
+            _transactions.Add(transaction);
+            if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
+            {
+                _cash -= transaction.Value;
+            }
+            else
+            {
+                _cash += transaction.Value;
+            }
+        }
 
         public double GetGrossProfit()
         {

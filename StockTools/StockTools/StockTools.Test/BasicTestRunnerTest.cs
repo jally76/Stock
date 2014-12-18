@@ -31,7 +31,10 @@ namespace StockTools.Test
             #region Arrange
 
             ITestRunner runner = new BasicTestRunner();
-            
+
+            var dateFrom = new DateTime(2001, 1, 2, 9, 0, 0);
+            var dateTo = new DateTime(2004, 1, 2, 9, 0, 0);
+
             var path = Environment.CurrentDirectory + "\\Files\\BOSSA\\Intraday\\";
             IArchivePriceProvider priceProvider = new BOSSAArchivePriceProvider(path);
 
@@ -43,34 +46,56 @@ namespace StockTools.Test
             var ordersBuy = new List<Order>();
             ordersBuy.Add(new Order()
             {
-                CompanyName = "MBANK",
-                PriceLimit = 1000
+                CompanyName = "AMICA",
+                PriceLimit = 1000,
+                Amount = 100,
+                OrderType = Order.OrderTypes.Buy
             });
             ordersBuy.Add(new Order()
             {
-                CompanyName = "MILENIUM",
-                PriceLimit = 1000
+                CompanyName = "KGHM",
+                PriceLimit = 1000,
+                Amount = 100,
+                OrderType = Order.OrderTypes.Buy
+            });
+
+            var ordersSell = new List<Order>();
+            ordersSell.Add(new Order()
+            {
+                CompanyName = "AMICA",
+                PriceLimit = 1,
+                Amount = 100,
+                OrderType = Order.OrderTypes.Sell
+            });
+            ordersSell.Add(new Order()
+            {
+                CompanyName = "KGHM",
+                PriceLimit = 1,
+                Amount = 100,
+                OrderType = Order.OrderTypes.Sell
             });
 
             IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, ChargeFunc);
+            portfolio.Cash = 10000;
 
-            orderMock.Setup(x => x.GenerateOrders(priceProvider, portfolio, new DateTime(2001, 1, 3, 9, 0, 0))).Returns(ordersBuy);
-            
+            orderMock.Setup(x => x.GenerateOrders(priceProvider, portfolio, dateFrom)).Returns(ordersBuy);
+            orderMock.Setup(x => x.GenerateOrders(priceProvider, portfolio, dateTo)).Returns(ordersSell);
+
             IStrategy strategy = orderMock.Object;
-            
 
             #endregion
 
             #region Act
 
+            var result = runner.RunStrategy(strategy, portfolio, priceProvider, dateFrom, dateTo);
 
             #endregion
 
             #region Assert
 
 
-            #endregion
 
+            #endregion
         }
     }
 }

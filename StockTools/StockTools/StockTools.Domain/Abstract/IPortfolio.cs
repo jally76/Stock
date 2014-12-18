@@ -88,5 +88,8 @@ namespace StockTools.BusinessLogic.Abstract
         /// </summary>
         /// <returns></returns>
         Dictionary<DateTime, double> GetRealisedGrossProfitTable();
+
+
+        void AddTransaction(Transaction transaction);
     }
 }
