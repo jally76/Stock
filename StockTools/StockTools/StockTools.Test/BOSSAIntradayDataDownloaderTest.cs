@@ -30,6 +30,7 @@ namespace StockTools.Test
             IIntradayDataParser _intradayDataParser = new BOSSAIntradayDataParser();
 
             #endregion
+
             #region Act
 
             var result = _intradayDataParser.GetFileAddresses(address);

@@ -53,6 +53,7 @@
     <Compile Include="BOSSAArchivePriceProviderTest.cs" />
     <Compile Include="BOSSAIntradayDataDownloaderTest.cs" />
     <Compile Include="InvestmentPortfolioTest.cs" />
+    <Compile Include="Portfolio\BasicPortfolioTest.cs" />
     <Compile Include="MbankBookkeepingServiceTest.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

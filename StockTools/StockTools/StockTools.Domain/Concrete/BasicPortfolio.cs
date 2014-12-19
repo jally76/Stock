@@ -18,6 +18,7 @@ namespace StockTools.BusinessLogic.Concrete
             _currentPriceProvider = currentPriceProvider;
             _chargeFunction = chargeFunction;
             _transactions = new List<Transaction>();
+            _items = new List<InvestmentPortfolioItem>();
         }
 
         #endregion
@@ -83,14 +84,41 @@ namespace StockTools.BusinessLogic.Concrete
 
         public void AddTransaction(Transaction transaction)
         {
-            _transactions.Add(transaction);
+            var companyExistsInPortfolio = _items.Any(x => x.CompanyName == transaction.CompanyName);
+            var canBeSold = _items.Where(x => x.CompanyName == transaction.CompanyName).Where(x => x.NumberOfShares >= transaction.Amount).ToList().Count != 0;
+            var canBeAdded = transaction.TransactionType == Transaction.TransactionTypes.Sell ? canBeSold : true;
+
             if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
             {
+                if (companyExistsInPortfolio)
+                {
+                    _items.Where(x => x.CompanyName == transaction.CompanyName).Single().NumberOfShares += transaction.Amount;
+                }
+
                 _cash -= transaction.Value;
             }
             else
             {
-                _cash += transaction.Value;
+                if (canBeSold)
+                {
+                    if (companyExistsInPortfolio)
+                    {
+                        _items.Where(x => x.CompanyName == transaction.CompanyName).Single().NumberOfShares -= transaction.Amount;
+                    }
+
+                    _cash += transaction.Value;
+                }
+            }
+
+            _transactions.Add(transaction);
+
+            if (!companyExistsInPortfolio)
+            {
+                _items.Add(new InvestmentPortfolioItem()
+                {
+                    CompanyName = transaction.CompanyName,
+                    NumberOfShares = transaction.Amount
+                });
             }
         }
 

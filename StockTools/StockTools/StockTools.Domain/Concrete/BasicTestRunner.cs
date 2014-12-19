@@ -20,43 +20,55 @@ namespace StockTools.BusinessLogic.Concrete
                 {
                     foreach (var order in orders)
                     {
-                        //TODO Prepare order - check more prerequisites
                         var currentPrice = priceProvider.GetPriceByFullNameAndDateTime(order.CompanyName, now);
-                        var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice * order.Amount);
-
-                        var isPriceBelowLimit = currentPrice < order.PriceLimit;
-                        var isPriceAboveLimit = currentPrice > order.PriceLimit;
-                        var isEnoughCash = portfolio.Cash > orderValue;
-
-                        var transaction = new Transaction()
+                        if (CheckConditions(portfolio, currentPrice, now, order))
                         {
-                            Amount = order.Amount,
-                            CompanyName = order.CompanyName,
-                            Price = currentPrice,
-                            Time = now,
-                            TransactionType = order.OrderType.ToString() == "Buy" ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
-                        };
-
-                        if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
-                        {
-                            if (isPriceBelowLimit && isEnoughCash)
-                            {
-                                portfolio.AddTransaction(transaction);
-                            }
-                        }
-                        if (transaction.TransactionType == Transaction.TransactionTypes.Sell)
-                        {
-                            if (isPriceAboveLimit)
-                            {
-                                portfolio.AddTransaction(transaction);
-                            }
+                            portfolio.AddTransaction(PrepareTransaction(order, currentPrice, now));
                         }
                     }
                 }
-                //TODO Transform orders into transactions
-                now = now.AddMinutes(15);
+                now = now.AddMinutes(5);
             } while (now <= endDate);
             return portfolio.Cash;
+        }
+
+        private static Transaction PrepareTransaction(Order order, double currentPrice, DateTime now)
+        {
+            return new Transaction()
+            {
+                Amount = order.Amount,
+                CompanyName = order.CompanyName,
+                Price = currentPrice,
+                Time = now,
+                TransactionType = order.OrderType.ToString() == "Buy" ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
+            };
+        }
+
+        private static bool CheckConditions(IPortfolio portfolio, double currentPrice, DateTime now, Order order)
+        {
+            //Check more conditions
+            var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice * order.Amount);
+
+            var isPriceBelowLimit = currentPrice < order.PriceLimit;
+            var isPriceAboveLimit = currentPrice > order.PriceLimit;
+            var isEnoughCash = portfolio.Cash > orderValue;
+
+            if (order.OrderType == Order.OrderTypes.Buy)
+            {
+                if (isPriceBelowLimit && isEnoughCash)
+                {
+                    return true;
+                }
+            }
+            if (order.OrderType == Order.OrderTypes.Sell)
+            {
+                if (isPriceAboveLimit)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public IStrategy FindBestStrategy(List<IStrategy> strategies, IPortfolio portfolio, IArchivePriceProvider priceProvider, DateTime startDate, DateTime endDate)
