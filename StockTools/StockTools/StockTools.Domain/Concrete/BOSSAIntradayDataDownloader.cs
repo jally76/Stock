@@ -1,4 +1,4 @@
-﻿using StockTools.BusinessLogic.Abstract;
+﻿using StockTools.Domain.Abstract;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StockTools.BusinessLogic.Concrete
+namespace StockTools.Domain.Concrete
 {
     public class BOSSAIntradayDataDownloader : IIntradayDataDownloader
     {

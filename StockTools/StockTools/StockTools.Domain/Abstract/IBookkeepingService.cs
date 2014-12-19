@@ -1,4 +1,4 @@
-﻿using StockTools.BusinessLogic.Concrete;
+﻿using StockTools.Domain.Concrete;
 using StockTools.Entities;
 using System.Collections.Generic;
 using System.IO;

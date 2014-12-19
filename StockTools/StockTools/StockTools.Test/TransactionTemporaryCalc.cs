@@ -1,6 +1,4 @@
 ﻿using Moq;
-using StockTools.BusinessLogic.Abstract;
-using StockTools.BusinessLogic.Concrete;
 using StockTools.Domain.Abstract;
 using StockTools.Domain.Concrete;
 using System;

@@ -5,8 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using System.Net.Http;
-using StockTools.BusinessLogic.Abstract;
-using StockTools.BusinessLogic.Concrete;
+using StockTools.Domain.Abstract;
+using StockTools.Domain.Concrete;
 
 namespace StockTools.Test
 {

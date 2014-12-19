@@ -1,4 +1,4 @@
-﻿using StockTools.BusinessLogic.Abstract;
+﻿using StockTools.Domain.Abstract;
 using StockTools.Entities;
 using System;
 using System.Collections.Generic;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace StockTools.BusinessLogic.Concrete
+namespace StockTools.Domain.Concrete
 {
     public class BasicPortfolio : IPortfolio
     {
