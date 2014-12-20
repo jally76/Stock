@@ -23,12 +23,8 @@
                     <Label Content="You earned:" HorizontalAlignment="Left" Margin="6,36,0,0" VerticalAlignment="Top"/>
                     <Label x:Name="profit" Content="0.0" HorizontalAlignment="Left" Margin="79,36,0,0" VerticalAlignment="Top" Width="71"/>
 
-                    <oxy:PlotView Model="{Binding MyModel}" Grid.Column="1" Grid.Row="1"/>
-                    <!--<oxy:PlotView Title="{Binding Title}">
-                        <oxy:PlotView.Series>
-                            <oxy:LineSeries ItemsSource="{Binding Points}"/>
-                        </oxy:PlotView.Series>
-                    </oxy:PlotView>-->
+                    <!--<oxy:PlotView Name="test" Model="{Binding ProfitPlot}" Grid.Column="1" Grid.Row="1"/>-->
+                    <oxy:PlotView Name="test" Model ="{Binding Plot}" Grid.Column="1" Grid.Row="1"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Download">

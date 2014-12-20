@@ -18,6 +18,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace StockTools.WPFUI
 {
@@ -57,22 +59,41 @@ namespace StockTools.WPFUI
             _intradayDataDownloader.DownloadToFileParallel(dialog.SelectedPath);
         }
 
+        private PlotModel PrepareModel(Dictionary<DateTime, double> data)
+        {
+            var Plot = new PlotModel { Title = "Profit" };
+            //this.MyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+
+            #region Axis
+
+            var axisX = new DateTimeAxis()
+                {
+                    Position = AxisPosition.Bottom,
+                    Title = "Date"
+
+                };
+
+            Plot.Axes.Add(axisX);
+
+            #endregion
+
+            #region Series
+
+            var series = new LineSeries { Title = "Realised gross profit", MarkerType = MarkerType.Triangle };
+
+            foreach (var point in data)
+            {
+                series.Points.Add(new DataPoint(DateTimeAxis.ToDouble(point.Key), point.Value));
+            }
+
+            Plot.Series.Add(series);
+            #endregion
+
+            return Plot;
+        }
+
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            //// Create OpenFileDialog 
-            //Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-
-            //// Display OpenFileDialog by calling ShowDialog method 
-            //Nullable<bool> result = dlg.ShowDialog();
-
-            //// Get the selected file name and display in a TextBox 
-            //if (result == true)
-            //{
-            //    // Open document 
-            //    string filename = dlg.FileName;
-
-            //}
-
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
@@ -92,10 +113,11 @@ namespace StockTools.WPFUI
                 var transactions = bookkeepingService.ReadTransactionHistory(stream);
                 portfolio.Transactions = transactions;
                 profit.Content = portfolio.GetRealisedGrossProfit().ToString();
-            }
 
-            //TODO Create profit time-plot
-            //http://blog.bartdemeyer.be/2013/03/creating-graphs-in-wpf-using-oxyplot/
+                var profitByTime = portfolio.GetRealisedGrossProfitTable();
+
+                this.test.Model = PrepareModel(profitByTime);
+            }
         }
     }
 }

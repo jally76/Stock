@@ -313,7 +313,7 @@ namespace StockTools.Domain.Concrete
             var firstTransactionDate = Transactions.OrderBy(x => x.Time).ToList()[0].Time;
             var result = new Dictionary<DateTime, double>();
 
-            for (DateTime date = firstTransactionDate; date < DateTime.Now; date.AddMinutes(1))
+            for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddMinutes(15))
             {
                 result[date] = GetRealisedGrossProfitByDate(date);
             }

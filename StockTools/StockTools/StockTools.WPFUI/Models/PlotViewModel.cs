@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OxyPlot;
 using OxyPlot.Series;
+using OxyPlot.Axes;
 
 namespace StockTools.WPFUI.Models
 {
@@ -12,10 +13,9 @@ namespace StockTools.WPFUI.Models
     {
         public PlotViewModel()
         {
-            this.MyModel = new PlotModel { Title = "Example 1" };
-            this.MyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
+            
         }
 
-        public PlotModel MyModel { get; private set; }
+        public PlotModel Plot { get; private set; }
     }
 }
