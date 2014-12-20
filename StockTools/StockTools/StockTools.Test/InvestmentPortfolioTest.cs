@@ -29,13 +29,14 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            Mock<ICurrentPriceProvider> currentPriceProvider = new Mock<ICurrentPriceProvider>();
+            currentPriceProvider.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            currentPriceProvider.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProvider.Object, archivePriceProviderMock.Object, ChargeFunc);
 
             var transactions = new List<Transaction>(4);
             transactions.Add(new Transaction()
@@ -71,7 +72,11 @@ namespace StockTools.Test
                 Price = 500.0,
             });
 
-            _investmentPortfolio.Transactions = transactions;
+            //_investmentPortfolio.Transactions = transactions;
+            foreach (var transaction in transactions)
+            {
+                _investmentPortfolio.AddTransaction(transaction);
+            }
 
             #endregion
 
@@ -93,13 +98,14 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+            Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
+            currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            
+            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
 
             var transactions = new List<Transaction>(9);
 
@@ -233,7 +239,11 @@ namespace StockTools.Test
                 Price = 499.0,
             });
 
-            _investmentPortfolio.Transactions = transactions;
+            //_investmentPortfolio.Transactions = transactions;
+            foreach (var transaction in transactions)
+            {
+                _investmentPortfolio.AddTransaction(transaction);
+            }
 
             #endregion
 
@@ -255,13 +265,14 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
+            currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
 
             IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
             var path = Environment.CurrentDirectory + "\\Files\\transactions3.csv";
@@ -269,13 +280,17 @@ namespace StockTools.Test
             MemoryStream stream = new MemoryStream(file);
 
             var transactions = _bookkeepingService.ReadTransactionHistory(stream);
-            _investmentPortfolio.Transactions = transactions;
+            //_investmentPortfolio.Transactions = transactions;
+            foreach (var transaction in transactions)
+            {
+                _investmentPortfolio.AddTransaction(transaction);
+            }
 
             #endregion
 
             #region Act
 
-            var date = new DateTime(2014,7,9).AddHours(9).AddMinutes(29).AddSeconds(10);
+            var date = new DateTime(2014, 7, 9).AddHours(9).AddMinutes(29).AddSeconds(10);
             double result = _investmentPortfolio.GetRealisedGrossProfit(date);
 
             #endregion
@@ -292,13 +307,14 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
+            currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
 
             IBookkeepingService _bookkeepingService = new MbankBookkeepingService();
             var path = Environment.CurrentDirectory + "\\Files\\transactions2.csv";
@@ -311,7 +327,11 @@ namespace StockTools.Test
 
             #region Act
 
-            _investmentPortfolio.Transactions = transactions;
+            foreach (var transaction in transactions)
+            {
+                _investmentPortfolio.AddTransaction(transaction);
+            }
+            //_investmentPortfolio.Transactions = transactions;
             double result = _investmentPortfolio.GetRealisedGrossProfit();
 
             #endregion
@@ -328,13 +348,14 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
+            currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
 
             var transactions = new List<Transaction>(4);
             transactions.Add(new Transaction()
@@ -378,9 +399,11 @@ namespace StockTools.Test
                 //TotalValue = 500.0
             });
 
-            _investmentPortfolio.Transactions = transactions;
-
-            
+            //_investmentPortfolio.Transactions = transactions;
+            foreach (var transaction in transactions)
+            {
+                _investmentPortfolio.AddTransaction(transaction);
+            }
 
             #endregion
 
@@ -403,13 +426,14 @@ namespace StockTools.Test
         {
             #region Arrange
 
-            Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-            mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-            mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-            //mock.Setup(x => x.GetPriceByShortNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+            Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
+            currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+            currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
 
             var transactions = new List<Transaction>(4);
             transactions.Add(new Transaction()
@@ -453,7 +477,11 @@ namespace StockTools.Test
                 //TotalValue = 500.0
             });
 
-            _investmentPortfolio.Transactions = transactions;
+            //_investmentPortfolio.Transactions = transactions;
+            foreach (var transaction in transactions)
+            {
+                _investmentPortfolio.AddTransaction(transaction);
+            }
 
             #endregion
 

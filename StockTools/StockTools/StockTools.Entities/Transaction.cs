@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace StockTools.Entities
 {
-    public class Transaction
+    public class Transaction : ICloneable
     {
         public enum TransactionTypes { Buy, Sell }
 
@@ -18,5 +18,10 @@ namespace StockTools.Entities
         public double Price { get; set; }
         
         public double Value { get { return Amount * Price; } }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }

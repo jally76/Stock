@@ -42,6 +42,9 @@ namespace StockTools.Test
             currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
             currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
             Mock<IStrategy> strategyMock = new Mock<IStrategy>();
             var ordersBuy = new List<Order>();
             //31.60 PLN
@@ -79,7 +82,7 @@ namespace StockTools.Test
                 OrderType = Order.OrderTypes.Sell
             });
 
-            IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, ChargeFunc);
+            IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
             portfolio.Cash = 10000;
 
             strategyMock.Setup(x => x.GenerateOrders(priceProvider, portfolio, dateFrom)).Returns(ordersBuy);
@@ -122,6 +125,9 @@ namespace StockTools.Test
             currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
             currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
+            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
             Mock<IStrategy> strategyMock = new Mock<IStrategy>();
             var ordersBuy = new List<Order>();
             //Value at day: 31.60 PLN
@@ -161,7 +167,7 @@ namespace StockTools.Test
                 OrderType = Order.OrderTypes.Sell
             });
 
-            IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, ChargeFunc);
+            IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
             portfolio.Cash = 10000;
 
             strategyMock.Setup(x => x.GenerateOrders(priceProvider, portfolio, dateFrom)).Returns(ordersBuy);

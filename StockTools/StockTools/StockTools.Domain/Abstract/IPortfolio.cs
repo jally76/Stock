@@ -17,7 +17,12 @@ namespace StockTools.Domain.Abstract
         /// <summary>
         /// Handle to price service
         /// </summary>
-        ICurrentPriceProvider PriceService { get; set; }
+        ICurrentPriceProvider CurrentPriceProvider { get; set; }
+
+        /// <summary>
+        /// Handle to price service
+        /// </summary>
+        IArchivePriceProvider ArchivePriceProvider { get; set; }
 
         /// <summary>
         /// List of items in the portfolio
@@ -27,7 +32,7 @@ namespace StockTools.Domain.Abstract
         /// <summary>
         /// List of transactions
         /// </summary>
-        List<Transaction> Transactions { get; set; }
+        List<Transaction> Transactions { get; }
 
         /// <summary>
         /// Sets charge function which is necessary for profit calculation
@@ -84,11 +89,16 @@ namespace StockTools.Domain.Abstract
         Transaction GetTransactionPair(Transaction transaction);
 
         /// <summary>
-        /// Gets dictionary of profit by date
+        /// Gets dictionary of realised profit by date
         /// </summary>
         /// <returns></returns>
         Dictionary<DateTime, double> GetRealisedGrossProfitTable();
 
+        /// <summary>
+        /// Gets dictionary of profit by date
+        /// </summary>
+        /// <returns></returns>
+        Dictionary<DateTime, double> GetGrossProfitTable();
 
         void AddTransaction(Transaction transaction);
     }

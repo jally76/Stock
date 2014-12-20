@@ -97,16 +97,23 @@ namespace StockTools.WPFUI
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                Mock<ICurrentPriceProvider> mock = new Mock<ICurrentPriceProvider>();
-                mock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-                mock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+                Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
+                currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
+                currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
-                IPortfolio portfolio = new BasicPortfolio(mock.Object, ChargeFunc);
+                Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+                archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+
+                IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
                 IBookkeepingService bookkeepingService = new MbankBookkeepingService();
                 var file = File.ReadAllBytes(openFileDialog.FileName);
                 MemoryStream stream = new MemoryStream(file);
                 var transactions = bookkeepingService.ReadTransactionHistory(stream);
-                portfolio.Transactions = transactions;
+                //portfolio.Transactions = transactions;
+                foreach (var transaction in transactions)
+                {
+                    portfolio.AddTransaction(transaction);
+                }
                 profit.Content = portfolio.GetRealisedGrossProfit().ToString();
 
                 var profitByTime = portfolio.GetRealisedGrossProfitTable();

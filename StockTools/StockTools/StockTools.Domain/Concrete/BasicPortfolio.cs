@@ -13,9 +13,10 @@ namespace StockTools.Domain.Concrete
     {
         #region Initialization
 
-        public BasicPortfolio(ICurrentPriceProvider currentPriceProvider, Func<double, double> chargeFunction)
+        public BasicPortfolio(ICurrentPriceProvider currentPriceProvider, IArchivePriceProvider archivePriceProvider, Func<double, double> chargeFunction)
         {
             _currentPriceProvider = currentPriceProvider;
+            _archivePriceProvider = archivePriceProvider;
             _chargeFunction = chargeFunction;
             _transactions = new List<Transaction>();
             _items = new List<InvestmentPortfolioItem>();
@@ -27,10 +28,18 @@ namespace StockTools.Domain.Concrete
 
         private ICurrentPriceProvider _currentPriceProvider;
 
-        public ICurrentPriceProvider PriceService
+        public ICurrentPriceProvider CurrentPriceProvider
         {
             get { return _currentPriceProvider; }
             set { _currentPriceProvider = value; }
+        }
+
+        IArchivePriceProvider _archivePriceProvider;
+
+        public IArchivePriceProvider ArchivePriceProvider
+        {
+            get { return _archivePriceProvider; }
+            set { _archivePriceProvider = value; }
         }
 
         private List<InvestmentPortfolioItem> _items;
@@ -122,9 +131,78 @@ namespace StockTools.Domain.Concrete
             }
         }
 
+        public double GetGrossProfitByDate(DateTime? date)
+        {
+            #region Prerequisite check
+
+            if (Transactions == null)
+            {
+                throw new Exception("Transactions has not been set");
+            }
+
+            if (ChargeFunction == null)
+            {
+                throw new Exception("Charge function has not been set");
+            }
+
+            #endregion
+
+            if (!date.HasValue)
+            {
+                date = DateTime.Now;
+            }
+
+            var realisedProfitByDate = GetRealisedGrossProfitByDate(date);
+            var unrealisedProfitByDate = 0.0;
+
+            //Backup of transactions and items lists
+            var backupTransactions = _transactions.Select(x => x.Clone() as Transaction).ToList();
+            var backupItems = _items.Select(x => x.Clone() as InvestmentPortfolioItem).ToList();
+
+            //Simulating portfolio state at given date
+            var transactionsUntilDate = backupTransactions.Where(x => x.Time < date).ToList();
+            foreach (var transaction in transactionsUntilDate)
+            {
+                this.AddTransaction(transaction);
+            }
+
+            var unsoldStocks =
+                (from item in _items
+                 where item.NumberOfShares > 0
+                 select item.CompanyName).ToList();
+
+            foreach (var stock in unsoldStocks)
+            {
+                var averageBuyPrice = _transactions.Where(x => x.CompanyName == stock)
+                        .Where(x => x.TransactionType == Transaction.TransactionTypes.Buy)
+                        .Sum(x => x.Value) / _items.Where(x => x.CompanyName == stock).Single().NumberOfShares;
+                var amount = _items.Where(x => x.CompanyName == stock).Single().NumberOfShares;
+                
+                //Reading price
+                var currentPrice = 0.0;
+                currentPrice = _archivePriceProvider.GetPriceByFullNameAndDateTime(stock, date.Value);
+                if (currentPrice == 0.0)
+                {
+                    _currentPriceProvider.GetPriceByFullName(stock);
+                }
+
+                //Incrementing profit
+                unrealisedProfitByDate += currentPrice * amount - averageBuyPrice * amount;
+                //Clearing
+                _items.Where(x => x.CompanyName == stock).Single().NumberOfShares = 0;
+            }
+
+            //Restoring state
+            _transactions = backupTransactions;
+            _items = backupItems;
+
+            //TODO Add test method for this method
+            return realisedProfitByDate + unrealisedProfitByDate;
+        }
+
         public double GetGrossProfit()
         {
-            throw new NotImplementedException();
+            return GetGrossProfitByDate((DateTime.Now));
         }
 
         public double GetNetProfit()
@@ -316,6 +394,19 @@ namespace StockTools.Domain.Concrete
             for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddMinutes(15))
             {
                 result[date] = GetRealisedGrossProfitByDate(date);
+            }
+
+            return result;
+        }
+
+        public Dictionary<DateTime, double> GetGrossProfitTable()
+        {
+            var firstTransactionDate = Transactions.OrderBy(x => x.Time).ToList()[0].Time;
+            var result = new Dictionary<DateTime, double>();
+
+            for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddMinutes(15))
+            {
+                result[date] = GetGrossProfitByDate(date);
             }
 
             return result;

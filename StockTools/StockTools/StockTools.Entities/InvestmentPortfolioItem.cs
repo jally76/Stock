@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StockTools.Entities
 {
-    public class InvestmentPortfolioItem
+    public class InvestmentPortfolioItem : ICloneable
     {
         public string CompanyName { get; set; }
         public int NumberOfShares { get; set; }
@@ -14,5 +14,10 @@ namespace StockTools.Entities
         //public double? SellPrice { get; set; }
         //public DateTime BuyDate { get; set; }
         //public DateTime? SellDate { get; set; }
+
+        public object Clone()
+        {
+            return this.MemberwiseClone();
+        }
     }
 }
