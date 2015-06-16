@@ -9,6 +9,6 @@ namespace StockTools.Domain.Abstract
     public interface IArchivePriceProvider
     {
         //double GetPriceByShortNameAndDateTime(string shortName, DateTime dateTime);
-        double GetPriceByFullNameAndDateTime(string shortName, DateTime dateTime);
+        double? GetPriceByFullNameAndDateTime(string shortName, DateTime dateTime);
     }
 }

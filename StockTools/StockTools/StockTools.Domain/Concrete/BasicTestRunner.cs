@@ -23,7 +23,7 @@ namespace StockTools.Domain.Concrete
                         var currentPrice = priceProvider.GetPriceByFullNameAndDateTime(order.CompanyName, now);
                         if (CheckConditions(portfolio, currentPrice, now, order))
                         {
-                            portfolio.AddTransaction(PrepareTransaction(order, currentPrice, now));
+                            portfolio.AddTransaction(PrepareTransaction(order, currentPrice.Value, now));
                         }
                     }
                 }
@@ -44,10 +44,15 @@ namespace StockTools.Domain.Concrete
             };
         }
 
-        private static bool CheckConditions(IPortfolio portfolio, double currentPrice, DateTime now, Order order)
+        private static bool CheckConditions(IPortfolio portfolio, double? currentPrice, DateTime now, Order order)
         {
+            if (!currentPrice.HasValue)
+            {
+                return false;
+            }
+
             //Check more conditions
-            var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice * order.Amount);
+            var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice.Value * order.Amount);
 
             var isPriceBelowLimit = currentPrice < order.PriceLimit;
             var isPriceAboveLimit = currentPrice > order.PriceLimit;

@@ -159,8 +159,11 @@ namespace StockTools.Domain.Concrete
             var backupTransactions = _transactions.Select(x => x.Clone() as Transaction).ToList();
             var backupItems = _items.Select(x => x.Clone() as InvestmentPortfolioItem).ToList();
 
+            _transactions = new List<Transaction>();
+            _items = new List<InvestmentPortfolioItem>();
+
             //Simulating portfolio state at given date
-            var transactionsUntilDate = backupTransactions.Where(x => x.Time < date).ToList();
+            var transactionsUntilDate = backupTransactions.Where(x => x.Time < date).OrderBy(x => x.Time).ToList();
             foreach (var transaction in transactionsUntilDate)
             {
                 this.AddTransaction(transaction);
@@ -177,19 +180,21 @@ namespace StockTools.Domain.Concrete
                         .Where(x => x.TransactionType == Transaction.TransactionTypes.Buy)
                         .Sum(x => x.Value) / _items.Where(x => x.CompanyName == stock).Single().NumberOfShares;
                 var amount = _items.Where(x => x.CompanyName == stock).Single().NumberOfShares;
-                
-                //Reading price
-                var currentPrice = 0.0;
-                currentPrice = _archivePriceProvider.GetPriceByFullNameAndDateTime(stock, date.Value);
-                if (currentPrice == 0.0)
-                {
-                    _currentPriceProvider.GetPriceByFullName(stock);
-                }
 
-                //Incrementing profit
-                unrealisedProfitByDate += currentPrice * amount - averageBuyPrice * amount;
-                //Clearing
-                _items.Where(x => x.CompanyName == stock).Single().NumberOfShares = 0;
+                //Reading price
+                double? currentPrice = null;
+                currentPrice = _archivePriceProvider.GetPriceByFullNameAndDateTime(stock, date.Value);
+                if (!currentPrice.HasValue)
+                {
+                    currentPrice = _currentPriceProvider.GetPriceByFullName(stock);
+                }
+                if (currentPrice.HasValue)
+                {
+                    //Incrementing profit
+                    unrealisedProfitByDate += currentPrice.Value * amount - averageBuyPrice * amount;
+                    //Clearing
+                    _items.Where(x => x.CompanyName == stock).Single().NumberOfShares = 0;
+                }
             }
 
             //Restoring state
@@ -405,6 +410,7 @@ namespace StockTools.Domain.Concrete
             var result = new Dictionary<DateTime, double>();
 
             for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddMinutes(15))
+            //for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddSeconds(10))
             {
                 result[date] = GetGrossProfitByDate(date);
             }

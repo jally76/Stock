@@ -24,6 +24,7 @@
 
                     <!--<oxy:PlotView Name="test" Model="{Binding ProfitPlot}" Grid.Column="1" Grid.Row="1"/>-->
                     <oxy:PlotView Name="TransactionProfitPlot" Model ="{Binding Plot}" Grid.Column="1" Grid.Row="1"/>
+                    <Button Content="Localize intraday data" HorizontalAlignment="Left" Margin="368,11,0,0" VerticalAlignment="Top" Width="133" Click="Button_Click_3"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Download">

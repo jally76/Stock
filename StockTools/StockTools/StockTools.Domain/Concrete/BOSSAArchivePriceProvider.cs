@@ -41,7 +41,13 @@ namespace StockTools.Domain.Concrete
 
         private void LoadDay(DateTime date)
         {
-            var lines = File.ReadAllLines(string.Format("{0}{1}-{2}-{3}-tick\\a_cgl.prn", _path, date.ToString("yyyy"), date.ToString("MM"), date.ToString("dd")), Encoding.UTF8);
+            var fileName = string.Format("{0}{1}-{2}-{3}-tick\\a_cgl.prn", _path, date.ToString("yyyy"), date.ToString("MM"), date.ToString("dd"));
+            if (!File.Exists(fileName))
+            {
+                return;
+            }
+            
+            var lines = File.ReadAllLines(fileName, Encoding.UTF8);
 
             foreach (var line in lines)
             {
@@ -68,7 +74,7 @@ namespace StockTools.Domain.Concrete
             }
         }
 
-        public double GetPriceByFullNameAndDateTime(string shortName, DateTime dateTime)
+        public double? GetPriceByFullNameAndDateTime(string shortName, DateTime dateTime)
         {
             if (_data.ContainsKey(shortName))
             {
@@ -79,7 +85,7 @@ namespace StockTools.Domain.Concrete
             }
 
             LoadDay(dateTime);
-            
+
             if (_data.ContainsKey(shortName))
             {
                 if (_data[shortName].ContainsKey(dateTime))
@@ -92,11 +98,12 @@ namespace StockTools.Domain.Concrete
                     //Return next tick
                     var keys = new List<DateTime>(_data[shortName].Keys.OrderBy(x => x));
                     var index = 0 - keys.BinarySearch(dateTime);
-                    var closestDate = keys[index-1];
+                    var closestDate = keys[index - 1];
                     return _data[shortName][closestDate].PriceClose;
                 }
             }
-            throw new ArgumentException();
+
+            return null;
         }
     }
 }

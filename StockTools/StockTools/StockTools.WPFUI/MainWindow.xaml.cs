@@ -30,7 +30,7 @@ namespace StockTools.WPFUI
     {
         IIntradayDataDownloader _intradayDataDownloader = new BOSSAIntradayDataDownloader();
         IIntradayDataParser _intradayDataParser = new BOSSAIntradayDataParser();
-
+        string intradayDataPath;
 
         public double ChargeFunc(double price)
         {
@@ -59,7 +59,7 @@ namespace StockTools.WPFUI
             _intradayDataDownloader.DownloadToFileParallel(dialog.SelectedPath);
         }
 
-        private PlotModel PrepareModel(Dictionary<DateTime, double> data)
+        private PlotModel PrepareModel(Dictionary<DateTime, double> realisedGrossProfitData, Dictionary<DateTime, double> grossProfitData)
         {
             var Plot = new PlotModel { Title = "Profit" };
             //this.MyModel.Series.Add(new FunctionSeries(Math.Cos, 0, 10, 0.1, "cos(x)"));
@@ -79,14 +79,24 @@ namespace StockTools.WPFUI
 
             #region Series
 
-            var series = new LineSeries { Title = "Realised gross profit", MarkerType = MarkerType.Triangle };
+            var realisedGrossProfit = new LineSeries { Title = "Realised gross profit", MarkerType = MarkerType.Triangle };
 
-            foreach (var point in data)
+            foreach (var point in realisedGrossProfitData)
             {
-                series.Points.Add(new DataPoint(DateTimeAxis.ToDouble(point.Key), point.Value));
+                realisedGrossProfit.Points.Add(new DataPoint(DateTimeAxis.ToDouble(point.Key), point.Value));
             }
 
-            Plot.Series.Add(series);
+            Plot.Series.Add(realisedGrossProfit);
+
+            var grossProfit = new LineSeries { Title = "Gross profit", MarkerType = MarkerType.Triangle };
+
+            foreach (var point in realisedGrossProfitData)
+            {
+                grossProfit.Points.Add(new DataPoint(DateTimeAxis.ToDouble(point.Key), point.Value));
+            }
+
+            Plot.Series.Add(grossProfit);
+
             #endregion
 
             return Plot;
@@ -101,10 +111,11 @@ namespace StockTools.WPFUI
                 currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
                 currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
 
-                Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
-                archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+                //Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
+                //archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
+                var archivePriceProvider = new BOSSAArchivePriceProvider(intradayDataPath);
 
-                IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
+                IPortfolio portfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProvider, ChargeFunc);
                 IBookkeepingService bookkeepingService = new MbankBookkeepingService();
                 var file = File.ReadAllBytes(openFileDialog.FileName);
                 MemoryStream stream = new MemoryStream(file);
@@ -116,10 +127,19 @@ namespace StockTools.WPFUI
                 }
                 profit.Content = portfolio.GetRealisedGrossProfit().ToString();
 
-                var profitByTime = portfolio.GetRealisedGrossProfitTable();
+                var realisedGrossProfitByTime = portfolio.GetRealisedGrossProfitTable();
+                //var grossProfitByTime = portfolio.GetGrossProfitTable();
+                var grossProfitByTime = new Dictionary<DateTime, double>();
 
-                this.TransactionProfitPlot.Model = PrepareModel(profitByTime);
+                this.TransactionProfitPlot.Model = PrepareModel(realisedGrossProfitByTime, grossProfitByTime);
             }
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            var dialog = new System.Windows.Forms.FolderBrowserDialog();
+            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
+            intradayDataPath = dialog.SelectedPath;
         }
     }
 }

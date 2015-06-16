@@ -54,7 +54,6 @@
     <Compile Include="Concrete\BOSSAArchivePriceProvider.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
-    <Compile Include="Concrete\BOSSAIntradayFilePriceProvider.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />
     <Compile Include="Concrete\BasicPortfolio.cs" />
     <Compile Include="Concrete\Strategies\StubbornKGHMStrategy.cs" />
