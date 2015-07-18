@@ -86,5 +86,61 @@ namespace StockTools.Converters
                 }
             }
         }
+
+        public Dictionary<string, int> Companies { get; set; }
+
+        public void InsertIntradayFileDataToDatabaseQuick(string path)
+        {
+            Path = path;
+
+            var fileName = Path;
+            if (!File.Exists(fileName))
+            {
+                return;
+            }
+
+            var lines = File.ReadAllLines(fileName, Encoding.UTF8);
+            if (Companies == null)
+            {
+                Companies = new Dictionary<string, int>();
+            }
+
+            foreach (var line in lines)
+            {
+                var splittedLine = line.Split(',');
+
+                var price = new Price
+                {
+                    //CompanyName = splittedLine[0],
+                    Close = Convert.ToDouble(splittedLine[7].Replace('.', ',')),
+                    Volume = Convert.ToInt32(splittedLine[8]),
+                };
+                price.DateTime = DateTime.ParseExact(splittedLine[2] + splittedLine[3], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
+                var companyName = splittedLine[0];
+                if (!Companies.ContainsKey(companyName))
+                {
+                    var company = HistoricalDataProvider.GetCompany(companyName);
+
+                    if (company == null)
+                    {
+                        HistoricalDataProvider.AddCompany(new Company()
+                        {
+                            Name = companyName
+                        });
+                        HistoricalDataProvider.Save();
+                        company = HistoricalDataProvider.GetCompany(companyName);
+                        Companies[company.Name] = company.Id;
+                    }
+                    else
+                    {
+                        Companies[company.Name] = company.Id;
+                    }
+                }
+                price.CompanyId = Companies[companyName];
+
+                HistoricalDataProvider.AddPrice(price);
+            }
+            HistoricalDataProvider.Save();
+        }
     }
 }

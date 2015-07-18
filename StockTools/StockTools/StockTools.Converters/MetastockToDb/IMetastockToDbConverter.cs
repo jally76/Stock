@@ -11,5 +11,7 @@ namespace StockTools.Converters.MetastockToDb
     {
         IHistoricalDataProvider HistoricalDataProvider { get; set; }
         void InsertIntradayFileDataToDatabase(string path);
+
+        void InsertIntradayFileDataToDatabaseQuick(string path);
     }
 }

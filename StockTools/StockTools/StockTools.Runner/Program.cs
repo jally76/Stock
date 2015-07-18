@@ -22,7 +22,8 @@ namespace StockTools.Runner
             var key = Console.ReadLine();
             if (key == "a")
             {
-                var path = Environment.CurrentDirectory + "\\..\\..\\..\\IntradayData";
+                //var path = Environment.CurrentDirectory + "\\..\\..\\..\\IntradayData";
+                var path = "C:\\IntradayData";
                 var files = Directory.GetFiles(path, "*.prn", SearchOption.AllDirectories);
                 int counter = 0;
                 int count = files.Count();
@@ -37,8 +38,16 @@ namespace StockTools.Runner
                     {
                         Console.WriteLine("{0}%", ((double)counter / count) * 100);
                     }
-                    converter.InsertIntradayFileDataToDatabase(file);
+                    converter.InsertIntradayFileDataToDatabaseQuick(file);
                 }
+
+                //Queue<string> queue;
+                //queue = new Queue<string>();
+                //foreach (var file in files)
+                //{
+                //    queue.Enqueue(file);
+                //}
+                //Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 10 }, converter.InsertIntradayFileDataToDatabaseQuick);
             }
             else
             {
