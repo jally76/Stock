@@ -39,15 +39,16 @@ namespace StockTools.Runner
                         Console.WriteLine("{0}%", ((double)counter / count) * 100);
                     }
                     converter.InsertIntradayFileDataToDatabaseQuick(file);
+                    try
+                    {
+                        //File.Delete(file);
+                        Directory.Delete(Path.GetDirectoryName(file), true);
+                    }
+                    catch
+                    {
+                        //Just fuck it.
+                    }
                 }
-
-                //Queue<string> queue;
-                //queue = new Queue<string>();
-                //foreach (var file in files)
-                //{
-                //    queue.Enqueue(file);
-                //}
-                //Parallel.ForEach(files, new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount * 10 }, converter.InsertIntradayFileDataToDatabaseQuick);
             }
             else
             {

@@ -87,7 +87,7 @@ namespace StockTools.Converters
             }
         }
 
-        public Dictionary<string, int> Companies { get; set; }
+        public Dictionary<string, int> ExistingCompanies { get; set; }
 
         public void InsertIntradayFileDataToDatabaseQuick(string path)
         {
@@ -100,10 +100,15 @@ namespace StockTools.Converters
             }
 
             var lines = File.ReadAllLines(fileName, Encoding.UTF8);
-            if (Companies == null)
+            if (ExistingCompanies == null)
             {
-                Companies = new Dictionary<string, int>();
+                ExistingCompanies = new Dictionary<string, int>();
+                //Massive loading prices to reduce multiple db query overhead if companies are already in db
+                var companiesTemporary = HistoricalDataProvider.GetCompanies();
+                companiesTemporary.Each(x => ExistingCompanies[x.Name] = x.Id);
             }
+
+            var pricesToAdd = new List<Price>();
 
             foreach (var line in lines)
             {
@@ -111,13 +116,12 @@ namespace StockTools.Converters
 
                 var price = new Price
                 {
-                    //CompanyName = splittedLine[0],
                     Close = Convert.ToDouble(splittedLine[7].Replace('.', ',')),
                     Volume = Convert.ToInt32(splittedLine[8]),
                 };
                 price.DateTime = DateTime.ParseExact(splittedLine[2] + splittedLine[3], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
                 var companyName = splittedLine[0];
-                if (!Companies.ContainsKey(companyName))
+                if (!ExistingCompanies.ContainsKey(companyName))
                 {
                     var company = HistoricalDataProvider.GetCompany(companyName);
 
@@ -129,17 +133,20 @@ namespace StockTools.Converters
                         });
                         HistoricalDataProvider.Save();
                         company = HistoricalDataProvider.GetCompany(companyName);
-                        Companies[company.Name] = company.Id;
+                        ExistingCompanies[company.Name] = company.Id;
                     }
                     else
                     {
-                        Companies[company.Name] = company.Id;
+                        ExistingCompanies[company.Name] = company.Id;
                     }
                 }
-                price.CompanyId = Companies[companyName];
+                price.CompanyId = ExistingCompanies[companyName];
 
-                HistoricalDataProvider.AddPrice(price);
+                //HistoricalDataProvider.AddPrice(price);
+                pricesToAdd.Add(price);
             }
+            //pricesToAdd.Each(x => HistoricalDataProvider.AddPrice(x));
+            HistoricalDataProvider.AddRangePrice(pricesToAdd);
             HistoricalDataProvider.Save();
         }
     }

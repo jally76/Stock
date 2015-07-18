@@ -28,6 +28,11 @@ namespace StockTools.Data.HistoricalData
             DbContext.Prices.Add(price);
         }
 
+        public void AddRangePrice(List<Price> prices)
+        {
+            DbContext.Prices.AddRange(prices);
+        }
+
         public List<Price> GetPriceListByDay(string name, DateTime dateTime)
         {
             var query = from price in DbContext.Prices
@@ -50,9 +55,16 @@ namespace StockTools.Data.HistoricalData
             return DbContext.Companies.Where(x => x.Name == name).SingleOrDefault();
         }
 
+        public List<Company> GetCompanies()
+        {
+            return DbContext.Companies.ToList();
+        }
+
         public void Save()
         {
             DbContext.SaveChanges();
         }
+
+
     }
 }
