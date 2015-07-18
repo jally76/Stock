@@ -20,14 +20,9 @@ namespace StockTools.Converters
         public class IntradayInfo
         {
             public string CompanyName { get; set; }
-            //public int SomeField { get; set; } //Not sure
             public DateTime DateAndTime { get; set; }
-            //public double PriceOpen { get; set; }
-            //public double PriceHigh { get; set; }
-            //public double PriceLow { get; set; }
             public double PriceClose { get; set; }
             public int Volume { get; set; }
-            //public int OpenInterests { get; set; } //Not sure
         }
 
         private void LoadDay()
@@ -48,13 +43,8 @@ namespace StockTools.Converters
                 var price = new IntradayInfo
                 {
                     CompanyName = splittedLine[0],
-                    //SomeField = Convert.ToInt32(splittedLine[1]),
-                    //PriceOpen = Convert.ToDouble(splittedLine[4].Replace('.', ',')),
-                    //PriceHigh = Convert.ToDouble(splittedLine[5].Replace('.', ',')),
-                    //PriceLow = Convert.ToDouble(splittedLine[6].Replace('.', ',')),
                     PriceClose = Convert.ToDouble(splittedLine[7].Replace('.', ',')),
                     Volume = Convert.ToInt32(splittedLine[8]),
-                    //OpenInterests = Convert.ToInt32(splittedLine[9]),
                 };
                 price.DateAndTime = DateTime.ParseExact(splittedLine[2] + splittedLine[3], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
                 if (!Data.ContainsKey(price.CompanyName))
