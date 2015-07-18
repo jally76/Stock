@@ -1,5 +1,4 @@
-﻿using StockTools.Entities.HistoricalData;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,8 +8,14 @@ namespace StockTools.Data.HistoricalData
 {
     public interface IHistoricalDataProvider
     {
-        Price GetSingle(string name, DateTime dateTime);
-        void AddSingle(Price price);
-        List<Price> GetListByDay(string name, DateTime dateTime);
+        void AddPrice(Price price);
+        Price GetPrice(string companyName, DateTime dateTime);
+
+        void AddCompany(Company company);
+        Company GetCompany(string name);
+        
+        List<Price> GetPriceListByDay(string name, DateTime dateTime);
+
+        void Save();
     }
 }

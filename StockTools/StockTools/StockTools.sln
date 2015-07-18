@@ -13,6 +13,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.WPFUI", "StockTo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Data", "StockTools.Data\StockTools.Data.csproj", "{835B81C0-94D8-4605-B81F-A5C3FA3D4432}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Converters", "StockTools.Converters\StockTools.Converters.csproj", "{AC0A4FB4-5F18-4F45-8F19-64C4072766EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Runner", "StockTools.Runner\StockTools.Runner.csproj", "{C8A716F5-C8A7-4624-897C-68B38AEFD48C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -43,6 +47,14 @@ Global
 		{835B81C0-94D8-4605-B81F-A5C3FA3D4432}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{835B81C0-94D8-4605-B81F-A5C3FA3D4432}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{835B81C0-94D8-4605-B81F-A5C3FA3D4432}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC0A4FB4-5F18-4F45-8F19-64C4072766EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC0A4FB4-5F18-4F45-8F19-64C4072766EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC0A4FB4-5F18-4F45-8F19-64C4072766EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC0A4FB4-5F18-4F45-8F19-64C4072766EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8A716F5-C8A7-4624-897C-68B38AEFD48C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8A716F5-C8A7-4624-897C-68B38AEFD48C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8A716F5-C8A7-4624-897C-68B38AEFD48C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8A716F5-C8A7-4624-897C-68B38AEFD48C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

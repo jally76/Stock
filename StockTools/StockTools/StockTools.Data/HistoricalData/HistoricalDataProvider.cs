@@ -6,36 +6,53 @@ namespace StockTools.Data.HistoricalData
 {
     public class HistoricalDataProvider : IHistoricalDataProvider
     {
-        public HistoricalDataContainer DbContext { get; set; }
+        public StockEntities DbContext { get; set; }
 
-        public HistoricalDataProvider(HistoricalDataContainer dbContext)
+        public HistoricalDataProvider(StockEntities dbContext)
         {
             DbContext = dbContext;
         }
 
-        Price IHistoricalDataProvider.GetSingle(string name, DateTime dateTime)
+        public Price GetPrice(string name, DateTime dateTime)
         {
             var query = from price in DbContext.Prices
-                        where price.Name == name
+                        join company in DbContext.Companies on price.CompanyId equals company.Id
+                        where company.Name == name
                         && price.DateTime == dateTime
                         select price;
             return query.SingleOrDefault();
         }
 
-        public void AddSingle(Price price)
+        public void AddPrice(Price price)
         {
             DbContext.Prices.Add(price);
         }
 
-        List<Price> IHistoricalDataProvider.GetListByDay(string name, DateTime dateTime)
+        public List<Price> GetPriceListByDay(string name, DateTime dateTime)
         {
             var query = from price in DbContext.Prices
-                        where price.Name == name
+                        join company in DbContext.Companies on price.CompanyId equals company.Id
+                        where company.Name == name
                         && price.DateTime.Year == dateTime.Year
                         && price.DateTime.Month == dateTime.Month
                         && price.DateTime.Day == dateTime.Day
                         select price;
             return query.ToList();
+        }
+
+        public void AddCompany(Company company)
+        {
+            DbContext.Companies.Add(company);
+        }
+
+        public Company GetCompany(string name)
+        {
+            return DbContext.Companies.Where(x => x.Name == name).SingleOrDefault();
+        }
+
+        public void Save()
+        {
+            DbContext.SaveChanges();
         }
     }
 }

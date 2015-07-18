@@ -13,10 +13,10 @@ namespace StockTools.Data.HistoricalData
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class HistoricalDataContainer : DbContext
+    public partial class StockEntities : DbContext
     {
-        public HistoricalDataContainer()
-            : base("name=HistoricalDataContainer")
+        public StockEntities()
+            : base("name=StockEntities")
         {
         }
     
@@ -25,6 +25,7 @@ namespace StockTools.Data.HistoricalData
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<Company> Companies { get; set; }
         public DbSet<Price> Prices { get; set; }
     }
 }

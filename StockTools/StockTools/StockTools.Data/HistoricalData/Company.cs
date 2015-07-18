@@ -12,14 +12,16 @@ namespace StockTools.Data.HistoricalData
     using System;
     using System.Collections.Generic;
     
-    public partial class Price
+    public partial class Company
     {
-        public int Id { get; set; }
-        public int CompanyId { get; set; }
-        public System.DateTime DateTime { get; set; }
-        public double Close { get; set; }
-        public long Volume { get; set; }
+        public Company()
+        {
+            this.Prices = new HashSet<Price>();
+        }
     
-        public virtual Company Company { get; set; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<Price> Prices { get; set; }
     }
 }

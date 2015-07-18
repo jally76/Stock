@@ -4,8 +4,10 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="410b2806685541fc9c5837cb5f07e2a5" Name="Diagram1" >
-        <EntityTypeShape EntityType="HistoricalData.Price" Width="1.5" PointX="3.5" PointY="1.625" />
+      <Diagram DiagramId="d34578eb4110469abb5eb06eaacad80c" Name="Diagram1">
+        <EntityTypeShape EntityType="StockModel.Company" Width="1.5" PointX="0.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="StockModel.Price" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="StockModel.FK_PriceCompany" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
