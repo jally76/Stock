@@ -13,10 +13,9 @@ namespace StockTools.Domain.Concrete
     {
         #region Initialization
 
-        public BasicPortfolio(ICurrentPriceProvider currentPriceProvider, IArchivePriceProvider archivePriceProvider, Func<double, double> chargeFunction)
+        public BasicPortfolio(IPriceProvider priceProvider, Func<double, double> chargeFunction)
         {
-            _currentPriceProvider = currentPriceProvider;
-            _archivePriceProvider = archivePriceProvider;
+            _archivePriceProvider = priceProvider;
             _chargeFunction = chargeFunction;
             _transactions = new List<Transaction>();
             _items = new List<InvestmentPortfolioItem>();
@@ -26,17 +25,9 @@ namespace StockTools.Domain.Concrete
 
         #region Properties
 
-        private ICurrentPriceProvider _currentPriceProvider;
+        IPriceProvider _archivePriceProvider;
 
-        public ICurrentPriceProvider CurrentPriceProvider
-        {
-            get { return _currentPriceProvider; }
-            set { _currentPriceProvider = value; }
-        }
-
-        IArchivePriceProvider _archivePriceProvider;
-
-        public IArchivePriceProvider ArchivePriceProvider
+        public IPriceProvider ArchivePriceProvider
         {
             get { return _archivePriceProvider; }
             set { _archivePriceProvider = value; }
@@ -183,11 +174,11 @@ namespace StockTools.Domain.Concrete
 
                 //Reading price
                 double? currentPrice = null;
-                currentPrice = _archivePriceProvider.GetPriceByFullNameAndDateTime(stock, date.Value);
-                if (!currentPrice.HasValue)
-                {
-                    currentPrice = _currentPriceProvider.GetPriceByFullName(stock);
-                }
+                currentPrice = _archivePriceProvider.GetPrice(stock, date.Value);
+                //if (!currentPrice.HasValue)
+                //{
+                //    currentPrice = _currentPriceProvider.GetPriceByFullName(stock);
+                //}
                 if (currentPrice.HasValue)
                 {
                     //Incrementing profit

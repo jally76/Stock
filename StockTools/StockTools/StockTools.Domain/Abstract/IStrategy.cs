@@ -9,6 +9,6 @@ namespace StockTools.Domain.Abstract
 {
     public interface IStrategy
     {
-        List<Order> GenerateOrders(IArchivePriceProvider priceProvider, IPortfolio portfolio, DateTime dateTime);
+        List<Order> GenerateOrders(IPriceProvider priceProvider, IPortfolio portfolio, DateTime dateTime);
     }
 }

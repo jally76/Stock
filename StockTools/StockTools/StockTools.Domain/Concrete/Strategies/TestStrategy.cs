@@ -10,7 +10,7 @@ namespace StockTools.Domain.Concrete.Strategies
 {
     public class TestStrategy : IStrategy
     {
-        public List<Order> GenerateOrders(IArchivePriceProvider priceProvider, IPortfolio portfolio, DateTime dateTime)
+        public List<Order> GenerateOrders(IPriceProvider priceProvider, IPortfolio portfolio, DateTime dateTime)
         {
             throw new NotImplementedException();
         }

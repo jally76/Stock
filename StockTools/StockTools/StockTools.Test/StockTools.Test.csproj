@@ -56,12 +56,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BasicTestRunnerTest.cs" />
-    <Compile Include="BOSSAArchivePriceProviderTest.cs" />
     <Compile Include="BOSSAIntradayDataDownloaderTest.cs" />
-    <Compile Include="Converters\MetastockToDbConverterTest.cs" />
-    <Compile Include="InvestmentPortfolioTest.cs" />
-    <Compile Include="Portfolio\BasicPortfolioTest.cs" />
     <Compile Include="MbankBookkeepingServiceTest.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

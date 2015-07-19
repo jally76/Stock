@@ -10,7 +10,7 @@ namespace StockTools.Domain.Concrete
 {
     public class BasicTestRunner : ITestRunner
     {
-        public double RunStrategy(IStrategy strategy, IPortfolio portfolio, IArchivePriceProvider priceProvider, DateTime startDate, DateTime endDate)
+        public double RunStrategy(IStrategy strategy, IPortfolio portfolio, IPriceProvider priceProvider, DateTime startDate, DateTime endDate)
         {
             var now = startDate;
             do
@@ -20,10 +20,10 @@ namespace StockTools.Domain.Concrete
                 {
                     foreach (var order in orders)
                     {
-                        var currentPrice = priceProvider.GetPriceByFullNameAndDateTime(order.CompanyName, now);
+                        var currentPrice = priceProvider.GetPrice(order.CompanyName, now);
                         if (CheckConditions(portfolio, currentPrice, now, order))
                         {
-                            portfolio.AddTransaction(PrepareTransaction(order, currentPrice.Value, now));
+                            portfolio.AddTransaction(PrepareTransaction(order, currentPrice, now));
                         }
                     }
                 }
@@ -76,7 +76,7 @@ namespace StockTools.Domain.Concrete
             return false;
         }
 
-        public IStrategy FindBestStrategy(List<IStrategy> strategies, IPortfolio portfolio, IArchivePriceProvider priceProvider, DateTime startDate, DateTime endDate)
+        public IStrategy FindBestStrategy(List<IStrategy> strategies, IPortfolio portfolio, IPriceProvider priceProvider, DateTime startDate, DateTime endDate)
         {
             throw new NotImplementedException();
         }

@@ -36,14 +36,10 @@ namespace StockTools.Test
             var file = File.ReadAllBytes(path);
             MemoryStream stream = new MemoryStream(file);
 
-            Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
-            currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-            currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
+            Mock<IPriceProvider> archivePriceProviderMock = new Mock<IPriceProvider>();
+            archivePriceProviderMock.Setup(x => x.GetPrice(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
-            archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-
-            IPortfolio _investmentPortfolio = new BasicPortfolio(currentPriceProviderMock.Object, archivePriceProviderMock.Object, ChargeFunc);
+            IPortfolio _investmentPortfolio = new BasicPortfolio(archivePriceProviderMock.Object, ChargeFunc);
 
             #endregion
 

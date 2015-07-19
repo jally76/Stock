@@ -9,7 +9,7 @@ namespace StockTools.BusinessLogic.Concrete.Strategies
 {
     public class StubbornKGHMStrategy : IStrategy
     {
-        public List<Entities.Order> GenerateOrders(IArchivePriceProvider priceProvider, IPortfolio portfolio, DateTime dateTime)
+        public List<Entities.Order> GenerateOrders(IPriceProvider priceProvider, IPortfolio portfolio, DateTime dateTime)
         {
             ////If price is lower over 2% than buy price then sell and wait 3 days, if price is higher over 5% than buy price then sell and wait 3 days.
 

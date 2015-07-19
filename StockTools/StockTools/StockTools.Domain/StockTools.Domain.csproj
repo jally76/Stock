@@ -42,16 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IArchivePriceProvider.cs" />
+    <Compile Include="Abstract\IPriceProvider.cs" />
     <Compile Include="Abstract\IIntradayDataDownloader.cs" />
     <Compile Include="Abstract\IBookkeepingService.cs" />
     <Compile Include="Abstract\IIntradayDataParser.cs" />
     <Compile Include="Abstract\IPortfolio.cs" />
-    <Compile Include="Abstract\ICurrentPriceProvider.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\ITestRunner.cs" />
     <Compile Include="Concrete\BasicTestRunner.cs" />
-    <Compile Include="Concrete\BOSSAArchivePriceProvider.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />
