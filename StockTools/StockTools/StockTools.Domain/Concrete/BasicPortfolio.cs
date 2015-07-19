@@ -15,7 +15,7 @@ namespace StockTools.Domain.Concrete
 
         public BasicPortfolio(IPriceProvider priceProvider, Func<double, double> chargeFunction)
         {
-            _archivePriceProvider = priceProvider;
+            _priceProvider = priceProvider;
             _chargeFunction = chargeFunction;
             _transactions = new List<Transaction>();
             _items = new List<InvestmentPortfolioItem>();
@@ -25,12 +25,12 @@ namespace StockTools.Domain.Concrete
 
         #region Properties
 
-        IPriceProvider _archivePriceProvider;
+        IPriceProvider _priceProvider;
 
-        public IPriceProvider ArchivePriceProvider
+        public IPriceProvider PriceProvider
         {
-            get { return _archivePriceProvider; }
-            set { _archivePriceProvider = value; }
+            get { return _priceProvider; }
+            set { _priceProvider = value; }
         }
 
         private List<InvestmentPortfolioItem> _items;
@@ -174,7 +174,7 @@ namespace StockTools.Domain.Concrete
 
                 //Reading price
                 double? currentPrice = null;
-                currentPrice = _archivePriceProvider.GetPrice(stock, date.Value);
+                currentPrice = _priceProvider.GetPrice(stock, date.Value);
                 //if (!currentPrice.HasValue)
                 //{
                 //    currentPrice = _currentPriceProvider.GetPriceByFullName(stock);

@@ -48,7 +48,14 @@ namespace StockTools.Domain.Concrete
         {
             using (WebClient webClient = new WebClient())
             {
-                webClient.DownloadFile(addresses[key], string.Format("{0}\\{1}", path, key));
+                try
+                {
+                    webClient.DownloadFile(addresses[key], string.Format("{0}\\{1}", path, key));
+                }
+                catch
+                {
+                    //Even if some file wasn't downloaded we don't want to break the process 
+                }
             }
         }
 

@@ -17,7 +17,7 @@ namespace StockTools.Domain.Abstract
         /// <summary>
         /// Handle to price service
         /// </summary>
-        IPriceProvider ArchivePriceProvider { get; set; }
+        IPriceProvider PriceProvider { get; set; }
 
         /// <summary>
         /// List of items in the portfolio

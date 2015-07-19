@@ -52,6 +52,7 @@
     <Compile Include="Concrete\BasicTestRunner.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
     <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
+    <Compile Include="Concrete\DbPriceProvider.cs" />
     <Compile Include="Concrete\MbankBookkeepingService.cs" />
     <Compile Include="Concrete\BasicPortfolio.cs" />
     <Compile Include="Concrete\Strategies\StubbornKGHMStrategy.cs" />
@@ -62,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\StockTools.Data\StockTools.Data.csproj">
+      <Project>{835b81c0-94d8-4605-b81f-a5c3fa3d4432}</Project>
+      <Name>StockTools.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\StockTools.Entities\StockTools.Entities.csproj">
       <Project>{3421bd74-e99c-409d-b5e7-5292a7c87db6}</Project>
       <Name>StockTools.Entities</Name>
