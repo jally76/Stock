@@ -105,7 +105,7 @@ namespace StockTools.Converters
                 ExistingCompanies = new Dictionary<string, int>();
                 //Massive loading prices to reduce multiple db query overhead if companies are already in db
                 var companiesTemporary = HistoricalDataProvider.GetCompanies();
-                companiesTemporary.Each(x => ExistingCompanies[x.Name] = x.Id);
+                companiesTemporary.Each(x => ExistingCompanies[x.Name.ToUpperInvariant()] = x.Id);
             }
 
             var pricesToAdd = new List<Price>();
@@ -120,7 +120,7 @@ namespace StockTools.Converters
                     Volume = Convert.ToInt32(splittedLine[8]),
                 };
                 price.DateTime = DateTime.ParseExact(splittedLine[2] + splittedLine[3], "yyyyMMddHHmmss", CultureInfo.InvariantCulture);
-                var companyName = splittedLine[0];
+                var companyName = splittedLine[0].ToUpperInvariant();
                 if (!ExistingCompanies.ContainsKey(companyName))
                 {
                     var company = HistoricalDataProvider.GetCompany(companyName);
