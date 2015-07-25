@@ -1,0 +1,5 @@
+﻿1>------ Build started: Project: StockTools.Domain, Configuration: Release Any CPU ------
+1>  StockTools.Domain -> U:\Kod\Github\Stock\StockTools\StockTools\StockTools.Domain\bin\Release\StockTools.BusinessLogic.dll
+2>------ Build started: Project: StockTools.Test, Configuration: Release Any CPU ------
+2>  StockTools.Test -> U:\Kod\Github\Stock\StockTools\StockTools\StockTools.Test\bin\Release\StockTools.Test.dll
+========== Build: 2 succeeded, 0 failed, 3 up-to-date, 0 skipped ==========

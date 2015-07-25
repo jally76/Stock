@@ -1,7 +1,9 @@
 ﻿using StockTools.Data.HistoricalData;
 using StockTools.Domain.Abstract;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StockTools.BusinessLogic.Concrete
 {
@@ -26,6 +28,16 @@ namespace StockTools.BusinessLogic.Concrete
         public double GetPrice(string companyName, DateTime dateTime)
         {
             return HistoricalDataProvider.GetPrice(companyName, dateTime).Close;
+        }
+
+        public double GetClosestPrice(string companyName, DateTime dateTime)
+        {
+            var pricesByDay = this.GetPrices(companyName, dateTime);
+
+            DateTime closestDate = pricesByDay.Keys
+                                              .OrderBy(t => Math.Abs((t - dateTime).Ticks))
+                                              .First();
+            return pricesByDay[closestDate];
         }
 
         public Dictionary<DateTime, double> GetPrices(string companyName, DateTime day)

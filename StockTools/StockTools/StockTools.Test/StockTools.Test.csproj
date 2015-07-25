@@ -61,6 +61,7 @@
     <Compile Include="MbankBookkeepingServiceTest.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="PortfolioTest.cs" />
+    <Compile Include="PriceProviderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionTemporaryCalc.cs" />
   </ItemGroup>

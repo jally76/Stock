@@ -10,7 +10,7 @@ namespace StockTools.Domain.Concrete
 {
     public class BasicTestRunner : ITestRunner
     {
-        public double RunStrategy(IStrategy strategy, IPortfolio portfolio, IPriceProvider priceProvider, DateTime startDate, DateTime endDate)
+        public double RunStrategy(IStrategy strategy, IPortfolio portfolio, IPriceProvider priceProvider, DateTime startDate, DateTime endDate, long interval)
         {
             var now = startDate;
             do
