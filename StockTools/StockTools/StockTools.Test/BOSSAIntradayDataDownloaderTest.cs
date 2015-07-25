@@ -15,7 +15,7 @@ namespace StockTools.Test
         string address = "http://bossa.pl/index.jsp?layout=intraday&page=1&news_cat_id=875&dirpath=/mstock/daily/";
 
         [Fact]
-        public void BOSSA_Intraday_Connection()
+        public void INTEGRATION_TEST_BOSSA_Intraday_Connection()
         {
             var result = new HttpClient().GetAsync(address).Result.Content.ReadAsStringAsync().Result;
             Assert.NotNull(result);
@@ -23,10 +23,9 @@ namespace StockTools.Test
         }
 
         [Fact]
-        public void BOSSA_Intraday_Parse()
+        public void INTEGRATION_TEST_BOSSA_Intraday_Parse()
         {
             #region Arrange
-            //IIntradayDataDownloader _intradayDataDownloader = new BOSSAIntradayDataDownloader();
             IIntradayDataParser _intradayDataParser = new BOSSAIntradayDataParser();
 
             #endregion
