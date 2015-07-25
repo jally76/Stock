@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StockTools.Domain.Concrete
 {
-    public class BasicTestRunner : ITestRunner
+    public class TestRunner : ITestRunner
     {
         public double RunStrategy(IStrategy strategy, IPortfolio portfolio, IPriceProvider priceProvider, DateTime startDate, DateTime endDate, long interval)
         {
@@ -16,18 +16,18 @@ namespace StockTools.Domain.Concrete
             do
             {
                 var orders = strategy.GenerateOrders(priceProvider, portfolio, now);
-                if (orders != null)
+                if (orders != null && orders.Count > 0)
                 {
                     foreach (var order in orders)
                     {
-                        var currentPrice = priceProvider.GetPrice(order.CompanyName, now);
+                        var currentPrice = priceProvider.GetClosestPrice(order.CompanyName, now);
                         if (CheckConditions(portfolio, currentPrice, now, order))
                         {
                             portfolio.AddTransaction(PrepareTransaction(order, currentPrice, now));
                         }
                     }
                 }
-                now = now.AddMinutes(5);
+                now = now.AddSeconds(interval);
             } while (now <= endDate);
             return portfolio.Cash;
         }
@@ -54,9 +54,9 @@ namespace StockTools.Domain.Concrete
             //Check more conditions
             var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice.Value * order.Amount);
 
-            var isPriceBelowLimit = currentPrice < order.PriceLimit;
-            var isPriceAboveLimit = currentPrice > order.PriceLimit;
-            var isEnoughCash = portfolio.Cash > orderValue;
+            var isPriceBelowLimit = order.AnyPrice ? true : currentPrice < order.PriceLimit;
+            var isPriceAboveLimit = order.AnyPrice ? true : currentPrice > order.PriceLimit;
+            var isEnoughCash = order.OrderType == Order.OrderTypes.Sell ? true : portfolio.Cash > orderValue;
 
             if (order.OrderType == Order.OrderTypes.Buy)
             {

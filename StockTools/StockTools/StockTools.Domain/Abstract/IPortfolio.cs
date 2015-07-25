@@ -70,7 +70,6 @@ namespace StockTools.Domain.Abstract
         /// <summary>
         /// Sets value of capital gain tax (during the time because we assume that it can change)
         /// </summary>
-        //void SetTaxation(List<Taxation> taxationList);
         List<Taxation> TaxationList { get; set; }
 
         /// <summary>

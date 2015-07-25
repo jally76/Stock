@@ -56,7 +56,7 @@
     <Compile Include="Concrete\Bookkeeping\MbankBookkeepingService.cs" />
     <Compile Include="Concrete\Portfolio.cs" />
     <Compile Include="Concrete\Strategies\StubbornKGHMStrategy.cs" />
-    <Compile Include="Concrete\Strategies\TestStrategy.cs" />
+    <Compile Include="Concrete\Strategies\BuyComarchAt2003AndSellItAt2008.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -6,8 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace StockTools.Test
@@ -15,7 +13,9 @@ namespace StockTools.Test
     public class PriceProviderTest
     {
         public StockEntities DbContext { get; set; }
+
         public IHistoricalDataProvider HistoricalDataProvider { get; set; }
+
         public IPriceProvider PriceProvider { get; set; }
 
         public PriceProviderTest()
@@ -25,38 +25,38 @@ namespace StockTools.Test
             PriceProvider = new PriceProvider(HistoricalDataProvider);
         }
 
-        void InitDbContext()
+        private void InitDbContext()
         {
             //https://msdn.microsoft.com/en-us/data/dn314429 - mocking dbcontext in ef 6
-            var prices = new List<Price> 
-            { 
-                new Price 
-                { 
+            var prices = new List<Price>
+            {
+                new Price
+                {
                     Id=1,
                     CompanyId = 1,
                     DateTime = new DateTime(2015,1,1,10,0,0),
                     Volume = 1,
                     Close= 15
-                }, 
-                new Price 
-                { 
+                },
+                new Price
+                {
                     Id=2,
                     CompanyId = 1,
                     DateTime = new DateTime(2015,1,1,10,5,1),
                     Volume = 1,
                     Close= 16
-                }, 
-                new Price 
-                { 
-                    Id=2,
+                },
+                new Price
+                {
+                    Id=3,
                     CompanyId = 1,
                     DateTime = new DateTime(2015,1,1,10,7,0),
                     Volume = 1,
                     Close= 17
-                }, 
-                new Price 
-                { 
-                    Id=2,
+                },
+                new Price
+                {
+                    Id=4,
                     CompanyId = 1,
                     DateTime = new DateTime(2015,1,1,10,10,0),
                     Volume = 1,
@@ -64,10 +64,10 @@ namespace StockTools.Test
                 }
             }.AsQueryable();
 
-            var companies = new List<Company> 
-            { 
-                new Company 
-                { 
+            var companies = new List<Company>
+            {
+                new Company
+                {
                     Id = 1,
                     Name = "CIECH"
                 }
@@ -118,6 +118,6 @@ namespace StockTools.Test
         {
             var result = PriceProvider.GetClosestPrice("CIECH", new DateTime(2015, 1, 1, 10, 6, 0));
             Assert.Equal(16, result);
-        } 
+        }
     }
 }

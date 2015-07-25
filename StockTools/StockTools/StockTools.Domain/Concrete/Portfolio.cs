@@ -173,16 +173,16 @@ namespace StockTools.Domain.Concrete
                 var amount = _items.Where(x => x.CompanyName == stock).Single().NumberOfShares;
 
                 //Reading price
-                double? currentPrice = null;
-                currentPrice = _priceProvider.GetPrice(stock, date.Value);
+                double? price = null;
+                price = _priceProvider.GetClosestPrice(stock, date.Value);
                 //if (!currentPrice.HasValue)
                 //{
                 //    currentPrice = _currentPriceProvider.GetPriceByFullName(stock);
                 //}
-                if (currentPrice.HasValue)
+                if (price.HasValue)
                 {
                     //Incrementing profit
-                    unrealisedProfitByDate += currentPrice.Value * amount - averageBuyPrice * amount;
+                    unrealisedProfitByDate += price.Value * amount - averageBuyPrice * amount;
                     //Clearing
                     _items.Where(x => x.CompanyName == stock).Single().NumberOfShares = 0;
                 }

@@ -23,7 +23,7 @@ namespace StockTools.Data.HistoricalData
         public StockEntities()
             : base("name=StockEntities")
         {
-
+            ((IObjectContextAdapter)this).ObjectContext.CommandTimeout = 600;
         }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
