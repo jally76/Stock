@@ -30,35 +30,32 @@ namespace StockTools.WPFUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        IIntradayDataDownloader _intradayDataDownloader = new BOSSAIntradayDataDownloader();
-        IIntradayDataParser _intradayDataParser = new BOSSAIntradayDataParser();
-        string intradayDataPath;
+        #region DI
 
-        public double ChargeFunc(double price)
-        {
-            if (price <= 769)
-            {
-                return 3.0;
-            }
-            else
-            {
-                return price * (0.39 / 100.0);
-            }
-        }
+        IIntradayDataDownloader IntradayDataDownloader { get; set; }
+        IIntradayDataParser IntradayDataParser { get; set; }
+        IPortfolio Portfolio { get; set; }
+        IBookkeepingService BookkeepingService { get; set; }
+        string IntradayDataPath { get; set; }
 
-        public MainWindow()
+        public MainWindow(IIntradayDataDownloader intradayDataDownloader, IIntradayDataParser intradayDataParser, IPortfolio portfolio, IBookkeepingService bookkeepingService)
         {
+            IntradayDataDownloader = intradayDataDownloader;
+            IntradayDataParser = intradayDataParser;
+            Portfolio = portfolio;
+            BookkeepingService = bookkeepingService;
+
             InitializeComponent();
-        }
+        } 
+
+        #endregion       
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            //var outputStream = new MemoryStream();
-            _intradayDataDownloader.Address = @"http://bossa.pl/index.jsp?layout=intraday&page=1&news_cat_id=875&dirpath=/mstock/daily/";
-            _intradayDataDownloader.Parser = _intradayDataParser;
-            _intradayDataDownloader.DownloadToFileParallel(dialog.SelectedPath);
+            IntradayDataDownloader.Address = @"http://bossa.pl/index.jsp?layout=intraday&page=1&news_cat_id=875&dirpath=/mstock/daily/";
+            IntradayDataDownloader.DownloadToFileParallel(dialog.SelectedPath);
         }
 
         private PlotModel PrepareModel(Dictionary<DateTime, double> realisedGrossProfitData, Dictionary<DateTime, double> grossProfitData)
@@ -109,31 +106,17 @@ namespace StockTools.WPFUI
             OpenFileDialog openFileDialog = new OpenFileDialog();
             if (openFileDialog.ShowDialog() == true)
             {
-                //Mock<ICurrentPriceProvider> currentPriceProviderMock = new Mock<ICurrentPriceProvider>();
-                //currentPriceProviderMock.Setup(x => x.GetPriceByFullName(It.IsAny<string>())).Returns(1.0);
-                //currentPriceProviderMock.Setup(x => x.GetPriceByShortName(It.IsAny<string>())).Returns(1.0);
-
-                ////Mock<IArchivePriceProvider> archivePriceProviderMock = new Mock<IArchivePriceProvider>();
-                ////archivePriceProviderMock.Setup(x => x.GetPriceByFullNameAndDateTime(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
-                //var archivePriceProvider = new BOSSAArchivePriceProvider(intradayDataPath);
-                StockEntities dbContext = new StockEntities();
-                var historicalDataProvider = new HistoricalDataProvider(dbContext);
-                var priceProvider = new PriceProvider(historicalDataProvider);
-                IPortfolio portfolio = new Portfolio(priceProvider, ChargeFunc);
-                IBookkeepingService bookkeepingService = new MbankBookkeepingService();
                 var file = File.ReadAllBytes(openFileDialog.FileName);
                 MemoryStream stream = new MemoryStream(file);
-                var transactions = bookkeepingService.ReadTransactionHistory(stream);
-                //portfolio.Transactions = transactions;
+                var transactions = BookkeepingService.ReadTransactionHistory(stream);
                 foreach (var transaction in transactions)
                 {
-                    portfolio.AddTransaction(transaction);
+                    Portfolio.AddTransaction(transaction);
                 }
-                profit.Content = portfolio.GetRealisedGrossProfit().ToString();
+                profit.Content = Portfolio.GetRealisedGrossProfit().ToString();
 
-                var realisedGrossProfitByTime = portfolio.GetRealisedGrossProfitTable();
-                var grossProfitByTime = portfolio.GetGrossProfitTable();
-                //var grossProfitByTime = new Dictionary<DateTime, double>();
+                var realisedGrossProfitByTime = Portfolio.GetRealisedGrossProfitTable();
+                var grossProfitByTime = Portfolio.GetGrossProfitTable();
 
                 this.TransactionProfitPlot.Model = PrepareModel(realisedGrossProfitByTime, grossProfitByTime);
             }
@@ -143,7 +126,7 @@ namespace StockTools.WPFUI
         {
             var dialog = new System.Windows.Forms.FolderBrowserDialog();
             System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            intradayDataPath = dialog.SelectedPath;
+            IntradayDataPath = dialog.SelectedPath;
         }
     }
 }

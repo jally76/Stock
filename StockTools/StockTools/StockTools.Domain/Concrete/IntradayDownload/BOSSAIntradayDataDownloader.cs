@@ -11,6 +11,11 @@ namespace StockTools.Domain.Concrete
 {
     public class BOSSAIntradayDataDownloader : IIntradayDataDownloader
     {
+        public BOSSAIntradayDataDownloader(IIntradayDataParser parser)
+        {
+            Parser = parser;
+        }
+
         public string Address { get; set; }
         public IIntradayDataParser Parser { get; set; }
 
