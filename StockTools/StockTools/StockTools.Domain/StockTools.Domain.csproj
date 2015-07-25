@@ -43,18 +43,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IPriceProvider.cs" />
-    <Compile Include="Abstract\IIntradayDataDownloader.cs" />
-    <Compile Include="Abstract\IBookkeepingService.cs" />
-    <Compile Include="Abstract\IIntradayDataParser.cs" />
+    <Compile Include="Abstract\IntradayDownload\IIntradayDataDownloader.cs" />
+    <Compile Include="Abstract\Bookkeeping\IBookkeepingService.cs" />
+    <Compile Include="Abstract\IntradayDownload\IIntradayDataParser.cs" />
     <Compile Include="Abstract\IPortfolio.cs" />
     <Compile Include="Abstract\IStrategy.cs" />
     <Compile Include="Abstract\ITestRunner.cs" />
-    <Compile Include="Concrete\BasicTestRunner.cs" />
-    <Compile Include="Concrete\BOSSAIntradayDataDownloader.cs" />
-    <Compile Include="Concrete\BOSSAIntradayDataParser.cs" />
-    <Compile Include="Concrete\DbPriceProvider.cs" />
-    <Compile Include="Concrete\MbankBookkeepingService.cs" />
-    <Compile Include="Concrete\BasicPortfolio.cs" />
+    <Compile Include="Concrete\TestRunner.cs" />
+    <Compile Include="Concrete\IntradayDownload\BOSSAIntradayDataDownloader.cs" />
+    <Compile Include="Concrete\IntradayDownload\BOSSAIntradayDataParser.cs" />
+    <Compile Include="Concrete\PriceProvider.cs" />
+    <Compile Include="Concrete\Bookkeeping\MbankBookkeepingService.cs" />
+    <Compile Include="Concrete\Portfolio.cs" />
     <Compile Include="Concrete\Strategies\StubbornKGHMStrategy.cs" />
     <Compile Include="Concrete\Strategies\TestStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BOSSAIntradayDataDownloaderTest.cs" />
+    <Compile Include="Data\HistoricalDataProviderTest.cs" />
     <Compile Include="MbankBookkeepingServiceTest.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

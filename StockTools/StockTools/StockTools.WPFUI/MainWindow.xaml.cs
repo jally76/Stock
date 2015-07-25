@@ -118,7 +118,7 @@ namespace StockTools.WPFUI
                 //var archivePriceProvider = new BOSSAArchivePriceProvider(intradayDataPath);
                 StockEntities dbContext = new StockEntities();
                 var historicalDataProvider = new HistoricalDataProvider(dbContext);
-                var priceProvider = new DbPriceProvider(historicalDataProvider);
+                var priceProvider = new PriceProvider(historicalDataProvider);
                 IPortfolio portfolio = new BasicPortfolio(priceProvider, ChargeFunc);
                 IBookkeepingService bookkeepingService = new MbankBookkeepingService();
                 var file = File.ReadAllBytes(openFileDialog.FileName);

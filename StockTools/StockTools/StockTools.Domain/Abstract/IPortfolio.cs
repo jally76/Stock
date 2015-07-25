@@ -1,14 +1,13 @@
 ﻿using StockTools.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace StockTools.Domain.Abstract
 {
     public interface IPortfolio
     {
+        #region Data fields
+
         /// <summary>
         /// Cash which is not invested
         /// </summary>
@@ -33,6 +32,10 @@ namespace StockTools.Domain.Abstract
         /// Sets charge function which is necessary for profit calculation
         /// </summary>
         Func<double, double> ChargeFunction { get; set; }
+
+        #endregion Data fields
+
+        #region Methods
 
         /// <summary>
         /// Sum of current prices of all shares in the portfolio
@@ -95,6 +98,12 @@ namespace StockTools.Domain.Abstract
         /// <returns></returns>
         Dictionary<DateTime, double> GetGrossProfitTable();
 
+        /// <summary>
+        /// Adds tranaction to portfolio
+        /// </summary>
+        /// <param name="transaction"></param>
         void AddTransaction(Transaction transaction);
+
+        #endregion Methods
     }
 }
