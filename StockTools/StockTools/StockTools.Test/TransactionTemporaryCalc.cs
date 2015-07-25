@@ -39,7 +39,7 @@ namespace StockTools.Test
             Mock<IPriceProvider> archivePriceProviderMock = new Mock<IPriceProvider>();
             archivePriceProviderMock.Setup(x => x.GetPrice(It.IsAny<string>(), It.IsAny<DateTime>())).Returns(1.0);
 
-            IPortfolio _investmentPortfolio = new BasicPortfolio(archivePriceProviderMock.Object, ChargeFunc);
+            IPortfolio _investmentPortfolio = new Portfolio(archivePriceProviderMock.Object, ChargeFunc);
 
             #endregion
 

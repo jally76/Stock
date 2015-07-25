@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace StockTools.Domain.Concrete
 {
-    public class BasicPortfolio : IPortfolio
+    public class Portfolio : IPortfolio
     {
         #region Initialization
 
-        public BasicPortfolio(IPriceProvider priceProvider, Func<double, double> chargeFunction)
+        public Portfolio(IPriceProvider priceProvider, Func<double, double> chargeFunction)
         {
             _priceProvider = priceProvider;
             _chargeFunction = chargeFunction;
@@ -400,11 +400,12 @@ namespace StockTools.Domain.Concrete
             var firstTransactionDate = Transactions.OrderBy(x => x.Time).ToList()[0].Time;
             var result = new Dictionary<DateTime, double>();
 
-            for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddMinutes(15))
-            //for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddSeconds(10))
-            {
-                result[date] = GetGrossProfitByDate(date);
-            }
+            //TODO Rethink and implement smarter
+            //for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddMinutes(15))
+            ////for (DateTime date = firstTransactionDate; date < DateTime.Now; date = date.AddSeconds(10))
+            //{
+            //    result[date] = GetGrossProfitByDate(date);
+            //}
 
             return result;
         }

@@ -119,7 +119,7 @@ namespace StockTools.WPFUI
                 StockEntities dbContext = new StockEntities();
                 var historicalDataProvider = new HistoricalDataProvider(dbContext);
                 var priceProvider = new PriceProvider(historicalDataProvider);
-                IPortfolio portfolio = new BasicPortfolio(priceProvider, ChargeFunc);
+                IPortfolio portfolio = new Portfolio(priceProvider, ChargeFunc);
                 IBookkeepingService bookkeepingService = new MbankBookkeepingService();
                 var file = File.ReadAllBytes(openFileDialog.FileName);
                 MemoryStream stream = new MemoryStream(file);

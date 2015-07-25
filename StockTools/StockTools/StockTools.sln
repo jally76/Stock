@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Test", "StockToo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Entities", "StockTools.Entities\StockTools.Entities.csproj", "{3421BD74-E99C-409D-B5E7-5292A7C87DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.WebUI", "StockTools.WebUI\StockTools.WebUI.csproj", "{AB26DE46-14B5-47E4-90B9-03332D5F851C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.WPFUI", "StockTools.WPFUI\StockTools.WPFUI.csproj", "{7E147781-20B9-4099-9A06-28F500901ABD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StockTools.Data", "StockTools.Data\StockTools.Data.csproj", "{835B81C0-94D8-4605-B81F-A5C3FA3D4432}"
@@ -35,10 +33,6 @@ Global
 		{3421BD74-E99C-409D-B5E7-5292A7C87DB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3421BD74-E99C-409D-B5E7-5292A7C87DB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3421BD74-E99C-409D-B5E7-5292A7C87DB6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AB26DE46-14B5-47E4-90B9-03332D5F851C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7E147781-20B9-4099-9A06-28F500901ABD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7E147781-20B9-4099-9A06-28F500901ABD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E147781-20B9-4099-9A06-28F500901ABD}.Release|Any CPU.ActiveCfg = Release|Any CPU
