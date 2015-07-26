@@ -36,23 +36,19 @@ namespace StockTools.Test
 
             IPortfolio portfolio = new Portfolio(priceProvider.Object, ChargeFunc);
 
+            portfolio.Cash = 10000;
+
             var transactions = new List<Transaction>(4);
+
             transactions.Add(new Transaction()
             {
-                Time = new DateTime(2014, 7, 9, 9, 29, 10),
+                Time = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
-                TransactionType = Transaction.TransactionTypes.Sell,
-                Amount = 1,
-                Price = 485.05,
-            });
-            transactions.Add(new Transaction()
-            {
-                Time = new DateTime(2014, 7, 7, 14, 5, 0),
-                CompanyName = "MILLENNIUM",
                 TransactionType = Transaction.TransactionTypes.Buy,
-                Amount = 100,
-                Price = 8.05,
+                Amount = 1,
+                Price = 500.0,
             });
+
             transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 9, 20, 0),
@@ -61,13 +57,23 @@ namespace StockTools.Test
                 Amount = 100,
                 Price = 5.47,
             });
+
             transactions.Add(new Transaction()
             {
-                Time = new DateTime(2014, 7, 4, 9, 18, 00),
-                CompanyName = "MBANK",
+                Time = new DateTime(2014, 7, 7, 14, 5, 0),
+                CompanyName = "MILLENNIUM",
                 TransactionType = Transaction.TransactionTypes.Buy,
+                Amount = 100,
+                Price = 8.05,
+            });
+
+            transactions.Add(new Transaction()
+            {
+                Time = new DateTime(2014, 7, 9, 9, 29, 10),
+                CompanyName = "MBANK",
+                TransactionType = Transaction.TransactionTypes.Sell,
                 Amount = 1,
-                Price = 500.0,
+                Price = 485.05,
             });
 
             foreach (var transaction in transactions)
@@ -235,7 +241,7 @@ namespace StockTools.Test
             });
 
             //_investmentPortfolio.Transactions = transactions;
-            foreach (var transaction in transactions)
+            foreach (var transaction in transactions.OrderBy(x => x.Time))
             {
                 _investmentPortfolio.AddTransaction(transaction);
             }
@@ -273,7 +279,7 @@ namespace StockTools.Test
             MemoryStream stream = new MemoryStream(file);
 
             var transactions = _bookkeepingService.ReadTransactionHistory(stream);
-            foreach (var transaction in transactions)
+            foreach (var transaction in transactions.OrderBy(x => x.Time))
             {
                 portfolio.AddTransaction(transaction);
             }
@@ -317,7 +323,7 @@ namespace StockTools.Test
 
             #region Act
 
-            foreach (var transaction in transactions)
+            foreach (var transaction in transactions.OrderBy(x => x.Time))
             {
                 portfolio.AddTransaction(transaction);
             }
@@ -412,23 +418,19 @@ namespace StockTools.Test
 
             IPortfolio portfolio = new Portfolio(priceProviderMock.Object, ChargeFunc);
 
+            portfolio.Cash = 10000;
+
             var transactions = new List<Transaction>(4);
+
             transactions.Add(new Transaction()
             {
-                Time = new DateTime(2014, 7, 9, 9, 29, 10),
+                Time = new DateTime(2014, 7, 4, 9, 18, 00),
                 CompanyName = "MBANK",
-                TransactionType = Transaction.TransactionTypes.Sell,
-                Amount = 1,
-                Price = 485.05,
-            });
-            transactions.Add(new Transaction()
-            {
-                Time = new DateTime(2014, 7, 7, 14, 5, 0),
-                CompanyName = "MILLENNIUM",
                 TransactionType = Transaction.TransactionTypes.Buy,
-                Amount = 100,
-                Price = 8.05,
+                Amount = 1,
+                Price = 500.0,
             });
+
             transactions.Add(new Transaction()
             {
                 Time = new DateTime(2014, 7, 7, 9, 20, 0),
@@ -437,13 +439,23 @@ namespace StockTools.Test
                 Amount = 100,
                 Price = 5.47,
             });
+
             transactions.Add(new Transaction()
             {
-                Time = new DateTime(2014, 7, 4, 9, 18, 00),
-                CompanyName = "MBANK",
+                Time = new DateTime(2014, 7, 7, 14, 5, 0),
+                CompanyName = "MILLENNIUM",
                 TransactionType = Transaction.TransactionTypes.Buy,
+                Amount = 100,
+                Price = 8.05,
+            });
+
+            transactions.Add(new Transaction()
+            {
+                Time = new DateTime(2014, 7, 9, 9, 29, 10),
+                CompanyName = "MBANK",
+                TransactionType = Transaction.TransactionTypes.Sell,
                 Amount = 1,
-                Price = 500.0,
+                Price = 485.05,
             });
 
             foreach (var transaction in transactions)

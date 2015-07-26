@@ -86,7 +86,7 @@ namespace StockTools.Domain.Concrete
         {
             var companyExistsInPortfolio = _items.Any(x => x.CompanyName == transaction.CompanyName);
             var canBeSold = _items.Where(x => x.CompanyName == transaction.CompanyName).Where(x => x.NumberOfShares >= transaction.Amount).ToList().Count != 0;
-            var canBeAdded = transaction.TransactionType == Transaction.TransactionTypes.Sell ? canBeSold : true;
+            //var canBeAdded = transaction.TransactionType == Transaction.TransactionTypes.Sell ? canBeSold : true;
 
             if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
             {
@@ -96,6 +96,18 @@ namespace StockTools.Domain.Concrete
                 }
 
                 _cash -= transaction.Value;
+                _cash -= ChargeFunction(transaction.Value);
+
+                if (!companyExistsInPortfolio)
+                {
+                    _items.Add(new InvestmentPortfolioItem()
+                    {
+                        CompanyName = transaction.CompanyName,
+                        NumberOfShares = transaction.Amount
+                    });
+                }
+
+                _transactions.Add(transaction);
             }
             else
             {
@@ -107,18 +119,9 @@ namespace StockTools.Domain.Concrete
                     }
 
                     _cash += transaction.Value;
+                    _cash -= ChargeFunction(transaction.Value);
+                    _transactions.Add(transaction);
                 }
-            }
-
-            _transactions.Add(transaction);
-
-            if (!companyExistsInPortfolio)
-            {
-                _items.Add(new InvestmentPortfolioItem()
-                {
-                    CompanyName = transaction.CompanyName,
-                    NumberOfShares = transaction.Amount
-                });
             }
         }
 
@@ -374,7 +377,7 @@ namespace StockTools.Domain.Concrete
             for (int i = index - 1; i >= 0; i--)
             {
                 var item = Transactions[i];
-                if (item.CompanyName == transaction.CompanyName && item.TransactionType == Transaction.TransactionTypes.Sell)
+                if (item.CompanyName == transaction.CompanyName && item.TransactionType == (transaction.TransactionType == Transaction.TransactionTypes.Sell ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell))
                 {
                     return item;
                 }

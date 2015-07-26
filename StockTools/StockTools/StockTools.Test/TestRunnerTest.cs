@@ -34,7 +34,6 @@ namespace StockTools.Test
             var portfolio = new Portfolio(PriceProvider, ChargeFunc);
             portfolio.Cash = 10000;
             var result = TestRunner.RunStrategy(strategy, portfolio, PriceProvider, new DateTime(2002, 1, 1), new DateTime(2009, 1, 1), 1);
-            var tmp = 1;
         }
 
         private double ChargeFunc(double price)

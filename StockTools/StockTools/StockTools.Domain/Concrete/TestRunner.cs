@@ -44,19 +44,14 @@ namespace StockTools.Domain.Concrete
             };
         }
 
-        private static bool CheckConditions(IPortfolio portfolio, double? currentPrice, DateTime now, Order order)
+        private static bool CheckConditions(IPortfolio portfolio, double currentPrice, DateTime now, Order order)
         {
-            if (!currentPrice.HasValue)
-            {
-                return false;
-            }
-
             //Check more conditions
-            var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice.Value * order.Amount);
+            var orderValue = currentPrice * order.Amount + portfolio.ChargeFunction(currentPrice * order.Amount);
 
             var isPriceBelowLimit = order.AnyPrice ? true : currentPrice < order.PriceLimit;
             var isPriceAboveLimit = order.AnyPrice ? true : currentPrice > order.PriceLimit;
-            var isEnoughCash = order.OrderType == Order.OrderTypes.Sell ? true : portfolio.Cash > orderValue;
+            var isEnoughCash = order.OrderType == Order.OrderTypes.Sell ? true : portfolio.Cash > orderValue + portfolio.ChargeFunction(orderValue);
 
             if (order.OrderType == Order.OrderTypes.Buy)
             {
