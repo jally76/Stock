@@ -109,6 +109,7 @@ namespace StockTools.WPFUI
                 var file = File.ReadAllBytes(openFileDialog.FileName);
                 MemoryStream stream = new MemoryStream(file);
                 var transactions = BookkeepingService.ReadTransactionHistory(stream);
+                transactions.Reverse();
                 foreach (var transaction in transactions)
                 {
                     Portfolio.AddTransaction(transaction);

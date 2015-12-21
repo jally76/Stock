@@ -28,7 +28,7 @@ namespace StockTools.Domain.Concrete.Strategies
 
             if (dateTime.Year == 2008 && dateTime.Month == 2 && dateTime.Day == 1
                 //&& dateTime.Hour == 9 && dateTime.Minute == 30 && dateTime.Second == 10
-                && portfolio.Items.Where(x => x.CompanyName == "COMARCH").Count() > 0)
+                && portfolio.Items.Where(x => x.CompanyName == "COMARCH" && x.NumberOfShares > 0).Count() > 0)
             {
                 result.Add(new Order()
                 {
