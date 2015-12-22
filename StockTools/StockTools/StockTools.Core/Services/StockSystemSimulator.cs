@@ -12,22 +12,24 @@ namespace StockTools.Core.Services
         public IHistoricalPriceRepository HistoricalPriceRepository
         {
             get { return _historicalPriceRepository; }
-            set { _historicalPriceRepository = value; }
         }
 
         public StockSystemSimulator(DateTime beginDate, IHistoricalPriceRepository historicalPriceRepository)
         {
             _historicalPriceRepository = historicalPriceRepository;
+            _currentDate = beginDate;
         }
+
+        private DateTime _currentDate;
 
         public DateTime CurrentDate
         {
-            get { throw new NotImplementedException(); }
+            get { return _currentDate; }
         }
 
         public bool IsStockMarketAvailable
         {
-            get { throw new NotImplementedException(); }
+            get { return _historicalPriceRepository.AnyTradingInDay(_currentDate); }
         }
 
         public async Task<Transaction> SubmitOrder(Models.Order order)
@@ -37,7 +39,8 @@ namespace StockTools.Core.Services
 
         public void Tick(TimeSpan timeSpan)
         {
-            throw new NotImplementedException();
+            _currentDate = _currentDate.Add(timeSpan);
+            //TODO
         }
     }
 }

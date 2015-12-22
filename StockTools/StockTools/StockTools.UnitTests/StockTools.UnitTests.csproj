@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -53,6 +56,10 @@
     <ProjectReference Include="..\StockTools.Core\StockTools.Core.csproj">
       <Project>{13b48b16-2966-46eb-b283-6a9e551df3fa}</Project>
       <Name>StockTools.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockTools.Data\StockTools.Data.csproj">
+      <Project>{835b81c0-94d8-4605-b81f-a5c3fa3d4432}</Project>
+      <Name>StockTools.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\StockTools.Infrastructure\StockTools.Infrastructure.csproj">
       <Project>{94431764-0c91-4345-9412-8ab083b0434b}</Project>

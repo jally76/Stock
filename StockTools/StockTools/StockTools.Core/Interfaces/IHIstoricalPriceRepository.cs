@@ -30,5 +30,12 @@ namespace StockTools.Core.Interfaces
         /// <param name="day">Year month and day</param>
         /// <returns></returns>
         Dictionary<DateTime, double> GetAll(string companyName, DateTime day);
+
+        /// <summary>
+        /// True if at least one trading appeared on given day
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns>True if at least one trading appeared on given day</returns>
+        bool AnyTradingInDay(DateTime dateTime);
     }
 }

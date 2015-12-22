@@ -52,27 +52,27 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HistoricalData\Company.cs">
+    <Compile Include="SQL\Company.cs">
       <DependentUpon>HistoricalData.tt</DependentUpon>
     </Compile>
-    <Compile Include="HistoricalData\HistoricalData.Context.cs">
+    <Compile Include="SQL\HistoricalData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HistoricalData.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="HistoricalData\HistoricalData.cs">
+    <Compile Include="SQL\HistoricalData.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HistoricalData.tt</DependentUpon>
     </Compile>
-    <Compile Include="HistoricalData\HistoricalData.Designer.cs">
+    <Compile Include="SQL\HistoricalData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>HistoricalData.edmx</DependentUpon>
     </Compile>
-    <Compile Include="HistoricalData\HistoricalDataProvider.cs" />
-    <Compile Include="HistoricalData\IHistoricalDataProvider.cs" />
-    <Compile Include="HistoricalData\Price.cs">
+    <Compile Include="SQL\SQLHistoricalDataProvider.cs" />
+    <Compile Include="SQL\IDbHistoricalDataProvider.cs" />
+    <Compile Include="SQL\Price.cs">
       <DependentUpon>HistoricalData.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,19 +87,19 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="HistoricalData\HistoricalData.edmx">
+    <EntityDeploy Include="SQL\HistoricalData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>HistoricalData.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="HistoricalData\HistoricalData.Context.tt">
+    <None Include="SQL\HistoricalData.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HistoricalData.edmx</DependentUpon>
       <LastGenOutput>HistoricalData.Context.cs</LastGenOutput>
     </None>
-    <None Include="HistoricalData\HistoricalData.edmx.diagram">
+    <None Include="SQL\HistoricalData.edmx.diagram">
       <DependentUpon>HistoricalData.edmx</DependentUpon>
     </None>
-    <None Include="HistoricalData\HistoricalData.tt">
+    <None Include="SQL\HistoricalData.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>HistoricalData.edmx</DependentUpon>
       <LastGenOutput>HistoricalData.cs</LastGenOutput>
@@ -110,7 +110,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="HistoricalData\IncrementalScripts\201507181635.sql" />
+    <Content Include="SQL\IncrementalScripts\201507181635.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
