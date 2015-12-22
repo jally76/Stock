@@ -65,13 +65,15 @@ namespace StockTools.UnitTests
         [Fact]
         public void StockSystemSimulator_SubmitOrder_Buy_AnyPrice_Positive()
         {
+            #region Arrange
+
             var order = new Order
-            {
-                OrderType = Order.OrderTypes.Buy,
-                CompanyName = "Test",
-                Amount = 1,
-                AnyPrice = true
-            };
+                {
+                    OrderType = Order.OrderTypes.Buy,
+                    CompanyName = "Test",
+                    Amount = 1,
+                    AnyPrice = true
+                };
 
             Mock<IDbHistoricalDataProvider> dbHistoricalDataProvider = new Mock<IDbHistoricalDataProvider>();
             dbHistoricalDataProvider.Setup(x => x.IsThereCompany("Test", new DateTime(2014, 10, 15)))
@@ -89,10 +91,30 @@ namespace StockTools.UnitTests
             dbHistoricalDataProvider.Setup(x => x.GetPriceListByDay("Test", new DateTime(2014, 10, 15)))
                                     .Returns(prices);
             Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
+            orderProcessor.Setup(x => x.ProcessOrder(It.IsAny<Order>()))
+                          .Returns(new Transaction { Amount = order.Amount,
+                                                     CompanyName = order.CompanyName,
+                                                     Price = 1.0,
+                                                     TransactionType = Transaction.TransactionTypes.Buy });
             IHistoricalPriceRepository historicalPriceRepository = new DbHistoricalPriceRepository(dbHistoricalDataProvider.Object);
             IPortfolio portfolio = new Portfolio(ChargeFunc, 200);
             IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 10, 15), historicalPriceRepository, orderProcessor.Object, portfolio);
+
+            #endregion Arrange
+
+            #region Act
+
             var result = stockSystemSimulator.SubmitOrder(order);
+
+            #endregion Act
+
+            #region Assert
+
+            Assert.Equal(order.CompanyName, result.CompanyName);
+            Assert.Equal(1.0, result.Price);
+            Assert.Equal(Transaction.TransactionTypes.Buy, result.TransactionType);
+
+            #endregion Assert
         }
     }
 }

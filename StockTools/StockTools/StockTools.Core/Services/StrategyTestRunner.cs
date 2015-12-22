@@ -6,20 +6,54 @@ namespace StockTools.Core.Services
 {
     public class StrategyTestRunner : IStrategyTestRunner
     {
-        public IHistoricalPriceRepository HistoricalPriceRepository { get; set; }
+        #region DI
 
-        public StrategyTestRunner(IHistoricalPriceRepository historicalPriceRepository)
+        private IHistoricalPriceRepository _historicalPriceRepository;
+
+        public IHistoricalPriceRepository HistoricalPriceRepository
         {
-            HistoricalPriceRepository = historicalPriceRepository;
+            get { return _historicalPriceRepository; }
+            set { _historicalPriceRepository = value; }
         }
 
-        public Dictionary<DateTime, double> Run(IStrategy strategy, IPortfolio portfolio, DateTime from, DateTime to, TimeSpan interval)
+        private IPortfolio _portfolio;
+
+        public IPortfolio Portfolio
+        {
+            get { return _portfolio; }
+            set { _portfolio = value; }
+        }
+
+        private IStockSystemSimulator _stockSystemSimulator;
+
+        public IStockSystemSimulator StockSystemSimulator
+        {
+            get { return _stockSystemSimulator; }
+            set { _stockSystemSimulator = value; }
+        }
+
+        public StrategyTestRunner(IHistoricalPriceRepository historicalPriceRepository, IPortfolio portfolio, IStockSystemSimulator stockSystemSimulator)
+        {
+            _historicalPriceRepository = historicalPriceRepository;
+            _portfolio = portfolio;
+            _stockSystemSimulator = stockSystemSimulator;
+        }
+
+        #endregion DI
+
+        public Dictionary<DateTime, double> Run(IStrategy strategy, DateTime from, DateTime to, TimeSpan interval)
         {
             var result = new Dictionary<DateTime, double>();
             var date = from;
             while (date < to)
             {
-                //TODO
+                var orders = strategy.GenerateOrders();
+                foreach (var order in orders)
+                {
+                    var transaction = _stockSystemSimulator.SubmitOrder(order);
+                    _portfolio.AddTransaction(transaction);
+                }
+
                 date.Add(interval);
             }
             return result;
