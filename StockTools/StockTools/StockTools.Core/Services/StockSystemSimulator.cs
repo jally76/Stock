@@ -27,11 +27,20 @@ namespace StockTools.Core.Services
             set { _orderProcessor = value; }
         }
 
-        public StockSystemSimulator(DateTime beginDate, IHistoricalPriceRepository historicalPriceRepository, IOrderProcessor orderProcessor)
+        private IPortfolio _portfolio;
+
+        public IPortfolio Portfolio
+        {
+            get { return _portfolio; }
+            set { _portfolio = value; }
+        }
+
+        public StockSystemSimulator(DateTime beginDate, IHistoricalPriceRepository historicalPriceRepository, IOrderProcessor orderProcessor, IPortfolio portfolio)
         {
             _historicalPriceRepository = historicalPriceRepository;
             _orderProcessor = orderProcessor;
             _currentDate = beginDate;
+            _portfolio = portfolio;
         }
 
         #endregion DI
@@ -48,7 +57,7 @@ namespace StockTools.Core.Services
             get { return _historicalPriceRepository.AnyTradingInDay(_currentDate); }
         }
 
-        private Queue<Order> _orderQueue;
+        //private Queue<Order> _orderQueue;
 
         public void Tick(TimeSpan timeSpan)
         {
@@ -56,7 +65,7 @@ namespace StockTools.Core.Services
             //TODO
         }
 
-        public Transaction SubmitOrder(Order order, IPortfolio portfolio)
+        public Transaction SubmitOrder(Order order)
         {
             //1. Is there stock like this?
             //2. What's the price of stock?
@@ -68,12 +77,12 @@ namespace StockTools.Core.Services
             }
             var stockPrice = _historicalPriceRepository.GetClosest(order.CompanyName, CurrentDate);
             var orderValue = order.Amount * stockPrice;
-            if (portfolio.Cash < orderValue)
+            if (Portfolio.Cash < orderValue)
             {
-                throw new NotEnoughMoneyException(portfolio);
+                throw new NotEnoughMoneyException(Portfolio);
             }
 
-            return _orderProcessor.ProcessOrder(order, portfolio);
+            return _orderProcessor.ProcessOrder(order);
         }
     }
 }

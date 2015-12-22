@@ -4,6 +4,6 @@ namespace StockTools.Core.Interfaces
 {
     public interface IOrderProcessor
     {
-        Transaction ProcessOrder(Order order, IPortfolio portfolio);
+        Transaction ProcessOrder(Order order);
     }
 }
