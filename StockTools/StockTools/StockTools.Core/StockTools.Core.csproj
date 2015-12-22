@@ -43,13 +43,18 @@
     <Compile Include="Interfaces\ICurrentPriceProvider.cs" />
     <Compile Include="Interfaces\IHIstoricalPriceRepository.cs" />
     <Compile Include="Interfaces\IProfitCalculator.cs" />
+    <Compile Include="Interfaces\IStockSystemSimulator.cs" />
+    <Compile Include="Interfaces\IStrategy.cs" />
+    <Compile Include="Interfaces\IStrategyTestRunner.cs" />
     <Compile Include="Models\Dividend.cs" />
     <Compile Include="Models\Exceptions\NotEnoughMoneyException.cs" />
     <Compile Include="Models\InvestmentPortfolioItem.cs" />
+    <Compile Include="Models\Order.cs" />
     <Compile Include="Models\Taxation.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Portfolio.cs" />
+    <Compile Include="Services\StrategyTestRunner.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

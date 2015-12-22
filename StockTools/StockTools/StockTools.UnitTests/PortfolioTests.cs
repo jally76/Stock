@@ -8,7 +8,7 @@ using Xunit;
 
 namespace StockTools.UnitTests
 {
-    public class Portfolio
+    public class PortfolioTests
     {
         private double ChargeFunc(double price)
         {
