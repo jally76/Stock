@@ -2,6 +2,7 @@
 using StockTools.Data.HistoricalData;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StockTools.Infrastructure.Data
 {
@@ -26,17 +27,30 @@ namespace StockTools.Infrastructure.Data
 
         public double Get(string companyName, DateTime dateTime)
         {
-            throw new NotImplementedException();
+            return _dbHistoricalDataProvider.GetPrice(companyName, dateTime).Close;
         }
 
         public double GetClosest(string companyName, DateTime dateTime)
         {
-            throw new NotImplementedException();
+            var pricesByDay = this.GetAll(companyName, dateTime);
+
+            DateTime closestDate = pricesByDay.Keys
+                                              .OrderBy(t => Math.Abs((t - dateTime).Ticks))
+                                              .First();
+            return pricesByDay[closestDate];
         }
 
         public Dictionary<DateTime, double> GetAll(string companyName, DateTime day)
         {
-            throw new NotImplementedException();
+            var result = new Dictionary<DateTime, double>();
+            var prices = _dbHistoricalDataProvider.GetPriceListByDay(companyName, day);
+
+            foreach (var price in prices)
+            {
+                result[price.DateTime] = price.Close;
+            }
+
+            return result;
         }
 
         public bool AnyTradingInDay(DateTime dateTime)

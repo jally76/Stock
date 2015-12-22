@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Interfaces\IStrategyTestRunner.cs" />
     <Compile Include="Models\Dividend.cs" />
+    <Compile Include="Models\Exceptions\CompanyDoesNotExistException.cs" />
     <Compile Include="Models\Exceptions\NotEnoughMoneyException.cs" />
     <Compile Include="Models\InvestmentPortfolioItem.cs" />
     <Compile Include="Models\Order.cs" />

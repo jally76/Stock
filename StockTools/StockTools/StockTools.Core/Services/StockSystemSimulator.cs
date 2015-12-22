@@ -64,9 +64,7 @@ namespace StockTools.Core.Services
             //4. Transform order to transaction
             if (_historicalPriceRepository.IsThereCompany(order.CompanyName, CurrentDate) == false)
             {
-                var ex = new Exception("There's no company with given name on the market");
-                ex.Data["CompanyName"] = order.CompanyName;
-                throw ex;
+                throw new CompanyDoesNotExistException(order.CompanyName);
             }
             var stockPrice = _historicalPriceRepository.GetClosest(order.CompanyName, CurrentDate);
             var orderValue = order.Amount * stockPrice;

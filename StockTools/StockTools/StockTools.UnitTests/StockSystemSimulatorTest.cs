@@ -3,8 +3,10 @@ using StockTools.Core.Interfaces;
 using StockTools.Core.Models;
 using StockTools.Core.Services;
 using StockTools.Data.HistoricalData;
+using StockTools.Data.SQL;
 using StockTools.Infrastructure.Data;
 using System;
+using System.Collections.Generic;
 using Xunit;
 
 namespace StockTools.UnitTests
@@ -71,6 +73,20 @@ namespace StockTools.UnitTests
             };
 
             Mock<IDbHistoricalDataProvider> dbHistoricalDataProvider = new Mock<IDbHistoricalDataProvider>();
+            dbHistoricalDataProvider.Setup(x => x.IsThereCompany("Test", new DateTime(2014, 10, 15)))
+                                    .Returns(true);
+            var prices = new List<Price>();
+            prices.Add(new Price
+            {
+                Company = new Company
+                {
+                    Name = "Test"
+                },
+                DateTime = new DateTime(2014, 10, 15),
+                Close = 1.0
+            });
+            dbHistoricalDataProvider.Setup(x => x.GetPriceListByDay("Test", new DateTime(2014, 10, 15)))
+                                    .Returns(prices);
             Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
             IHistoricalPriceRepository historicalPriceRepository = new DbHistoricalPriceRepository(dbHistoricalDataProvider.Object);
             IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 10, 15), historicalPriceRepository, orderProcessor.Object);
