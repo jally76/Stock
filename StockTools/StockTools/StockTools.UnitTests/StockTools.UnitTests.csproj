@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="PortfolioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StockSystemSimulatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\StockTools.Core\StockTools.Core.csproj">
       <Project>{13b48b16-2966-46eb-b283-6a9e551df3fa}</Project>
       <Name>StockTools.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\StockTools.Infrastructure\StockTools.Infrastructure.csproj">
+      <Project>{94431764-0c91-4345-9412-8ab083b0434b}</Project>
+      <Name>StockTools.Infrastructure</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

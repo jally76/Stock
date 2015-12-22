@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace StockTools.Core.Interfaces
 {
-    public interface IHIstoricalPriceRepository
+    public interface IHistoricalPriceRepository
     {
         /// <summary>
         /// Gets historical price

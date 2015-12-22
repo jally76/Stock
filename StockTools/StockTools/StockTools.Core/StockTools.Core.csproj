@@ -41,7 +41,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\IPortfolio.cs" />
     <Compile Include="Interfaces\ICurrentPriceProvider.cs" />
-    <Compile Include="Interfaces\IHIstoricalPriceRepository.cs" />
+    <Compile Include="Interfaces\IHistoricalPriceRepository.cs" />
     <Compile Include="Interfaces\IProfitCalculator.cs" />
     <Compile Include="Interfaces\IStockSystemSimulator.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
@@ -54,6 +54,7 @@
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Portfolio.cs" />
+    <Compile Include="Services\StockSystemSimulator.cs" />
     <Compile Include="Services\StrategyTestRunner.cs" />
   </ItemGroup>
   <ItemGroup />

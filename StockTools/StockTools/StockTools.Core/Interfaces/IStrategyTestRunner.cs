@@ -5,7 +5,7 @@ namespace StockTools.Core.Interfaces
 {
     public interface IStrategyTestRunner
     {
-        public IHIstoricalPriceRepository HistoricalPriceRepository { get; set; }
+        IHistoricalPriceRepository HistoricalPriceRepository { get; set; }
 
         /// <summary>
         /// Runs strategy within a time over a portfolio

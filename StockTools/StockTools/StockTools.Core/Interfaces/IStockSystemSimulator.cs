@@ -1,15 +1,16 @@
 ﻿using StockTools.Core.Models;
 using System;
+using System.Threading.Tasks;
 
 namespace StockTools.Core.Interfaces
 {
     public interface IStockSystemSimulator
     {
-        public DateTime CurrentDate { get; }
+        DateTime CurrentDate { get; }
 
-        public bool IsStockMarketAvailable { get; }
+        bool IsStockMarketAvailable { get; }
 
-        async Transaction SubmitOrder(Order order);
+        Task<Transaction> SubmitOrder(Order order);
 
         void Tick(TimeSpan timeSpan);
     }

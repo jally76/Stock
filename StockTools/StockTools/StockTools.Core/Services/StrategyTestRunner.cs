@@ -6,9 +6,9 @@ namespace StockTools.Core.Services
 {
     public class StrategyTestRunner : IStrategyTestRunner
     {
-        public IHIstoricalPriceRepository HistoricalPriceRepository { get; set; }
+        public IHistoricalPriceRepository HistoricalPriceRepository { get; set; }
 
-        public StrategyTestRunner(IHIstoricalPriceRepository historicalPriceRepository)
+        public StrategyTestRunner(IHistoricalPriceRepository historicalPriceRepository)
         {
             HistoricalPriceRepository = historicalPriceRepository;
         }

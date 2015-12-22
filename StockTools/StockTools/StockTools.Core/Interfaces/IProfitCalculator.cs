@@ -16,7 +16,7 @@ namespace StockTools.Core.Interfaces
         /// <summary>
         /// Price service
         /// </summary>
-        IHIstoricalPriceRepository HistoricalPriceRepository { get; set; }
+        IHistoricalPriceRepository HistoricalPriceRepository { get; set; }
 
         #endregion
 
