@@ -8,29 +8,10 @@ namespace StockTools.Core.Interfaces
     {
         #region Fields
 
-        #region Dependencies
-
-        /// <summary>
-        /// Price service
-        /// </summary>
-        ICurrentPriceProvider CurrentPriceProvider { get; set; }
-
-        /// <summary>
-        /// Price service
-        /// </summary>
-        IHIstoricalPriceRepository HistoricalPriceRepository { get; set; } 
-
-        #endregion
-
         /// <summary>
         /// Cash which is not invested
         /// </summary>
         double Cash { get; }
-
-        /// <summary>
-        /// Sum of current prices of all shares in the portfolio
-        /// </summary>
-        double Value { get; }
 
         /// <summary>
         /// List of items in the portfolio

@@ -2,6 +2,7 @@
 using StockTools.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace StockTools.Core.Services
 {
@@ -10,22 +11,17 @@ namespace StockTools.Core.Services
     /// </summary>
     public class Portfolio : IPortfolio
     {
-        public Portfolio(ICurrentPriceProvider currentPriceProvider,
-                         IHIstoricalPriceRepository historicalPriceRepository,
-                         Func<double, double> chargeFunction,
+        public Portfolio(Func<double, double> chargeFunction,
                          double cash)
         {
-            CurrentPriceProvider = currentPriceProvider;
-            HistoricalPriceRepository = historicalPriceRepository;
             ChargeFunction = chargeFunction;
             _cash = cash;
+            _items = new List<InvestmentPortfolioItem>();
+            _transactions = new List<Transaction>();
+            _taxationList = new List<Taxation>();
         }
 
         #region Fields
-
-        public ICurrentPriceProvider CurrentPriceProvider { get; set; }
-
-        public IHIstoricalPriceRepository HistoricalPriceRepository { get; set; }
 
         private double _cash;
 
@@ -34,17 +30,11 @@ namespace StockTools.Core.Services
             get { return _cash; }
         }
 
-        public double Value
-        {
-            get { throw new NotImplementedException(); }
-        }
-
         private List<InvestmentPortfolioItem> _items;
 
         public List<InvestmentPortfolioItem> Items
         {
             get { return _items; }
-            set { _items = value; }
         }
 
         private List<Transaction> _transactions;
@@ -52,7 +42,11 @@ namespace StockTools.Core.Services
         public List<Transaction> Transactions
         {
             get { return _transactions; }
-            set { _transactions = value; }
+        }
+
+        public List<Taxation> TaxationList
+        {
+            set { _taxationList = value; }
         }
 
         public List<Dividend> Dividends { get; set; }
@@ -61,16 +55,49 @@ namespace StockTools.Core.Services
 
         private List<Taxation> _taxationList;
 
-        public List<Taxation> TaxationList
-        {
-            set { _taxationList = value; }
-        }
-
         #endregion
 
         public void AddTransaction(Transaction transaction)
         {
-            throw new NotImplementedException();
+            var companyExistsInPortfolio = _items.Any(x => x.CompanyName == transaction.CompanyName);
+            var canBeSold = _items.Where(x => x.CompanyName == transaction.CompanyName)
+                                  .Where(x => x.NumberOfShares >= transaction.Amount).ToList().Count != 0;
+
+            if (transaction.TransactionType == Transaction.TransactionTypes.Buy)
+            {
+                if (companyExistsInPortfolio)
+                {
+                    _items.Where(x => x.CompanyName == transaction.CompanyName).Single().NumberOfShares += transaction.Amount;
+                }
+
+                _cash -= transaction.Value;
+                _cash -= ChargeFunction(transaction.Value);
+
+                if (!companyExistsInPortfolio)
+                {
+                    _items.Add(new InvestmentPortfolioItem()
+                    {
+                        CompanyName = transaction.CompanyName,
+                        NumberOfShares = transaction.Amount
+                    });
+                }
+
+                _transactions.Add(transaction);
+            }
+            else
+            {
+                if (canBeSold)
+                {
+                    if (companyExistsInPortfolio)
+                    {
+                        _items.Where(x => x.CompanyName == transaction.CompanyName).Single().NumberOfShares -= transaction.Amount;
+                    }
+
+                    _cash += transaction.Value;
+                    _cash -= ChargeFunction(transaction.Value);
+                    _transactions.Add(transaction);
+                }
+            }
         }
     }
 }

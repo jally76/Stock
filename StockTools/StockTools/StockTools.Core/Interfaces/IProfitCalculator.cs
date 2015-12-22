@@ -6,6 +6,20 @@ namespace StockTools.Core.Interfaces
 {
     public interface IProfitCalculator
     {
+        #region Dependencies
+
+        /// <summary>
+        /// Price service
+        /// </summary>
+        ICurrentPriceProvider CurrentPriceProvider { get; set; }
+
+        /// <summary>
+        /// Price service
+        /// </summary>
+        IHIstoricalPriceRepository HistoricalPriceRepository { get; set; }
+
+        #endregion
+
         /// <summary>
         /// Gross profit of the portfolio
         /// </summary>

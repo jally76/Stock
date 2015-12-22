@@ -42,10 +42,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Portfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\StockTools.Core\StockTools.Core.csproj">
+      <Project>{13b48b16-2966-46eb-b283-6a9e551df3fa}</Project>
+      <Name>StockTools.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
