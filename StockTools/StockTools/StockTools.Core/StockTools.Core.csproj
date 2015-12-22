@@ -44,6 +44,7 @@
     <Compile Include="Interfaces\IHIstoricalPriceRepository.cs" />
     <Compile Include="Interfaces\IProfitCalculator.cs" />
     <Compile Include="Models\Dividend.cs" />
+    <Compile Include="Models\Exceptions\NotEnoughMoneyException.cs" />
     <Compile Include="Models\InvestmentPortfolioItem.cs" />
     <Compile Include="Models\Taxation.cs" />
     <Compile Include="Models\Transaction.cs" />

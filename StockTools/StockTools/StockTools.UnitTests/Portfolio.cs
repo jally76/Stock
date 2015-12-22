@@ -1,5 +1,6 @@
 ﻿using StockTools.Core.Interfaces;
 using StockTools.Core.Models;
+using StockTools.Core.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,16 +22,17 @@ namespace StockTools.UnitTests
             }
         }
 
+        /// <summary>
+        /// This simple transaction should be added without any problems
+        /// </summary>
         [Fact]
         private void Portfolio_AddTransaction_Simple_Succ()
         {
             #region Arrange
 
-            IPortfolio _investmentPortfolio = new StockTools.Core.Services.Portfolio(ChargeFunc, 0.0);
+            IPortfolio _investmentPortfolio = new StockTools.Core.Services.Portfolio(ChargeFunc, 200.0);
 
-            var transactions = new List<Transaction>();
-
-            transactions.Add(new Transaction()
+            var transaction = new Transaction()
             {
                 Time = new DateTime(2014, 3, 4, 9, 29, 0),
                 CompanyId = new Guid(),
@@ -38,17 +40,13 @@ namespace StockTools.UnitTests
                 TransactionType = Transaction.TransactionTypes.Buy,
                 Amount = 128,
                 Price = 1.0,
-            });
-
+            };
 
             #endregion
 
             #region Act
 
-            foreach (var transaction in transactions.OrderBy(x => x.Time))
-            {
-                _investmentPortfolio.AddTransaction(transaction);
-            }
+            _investmentPortfolio.AddTransaction(transaction);
 
             #endregion
 
@@ -57,17 +55,45 @@ namespace StockTools.UnitTests
             Assert.True(_investmentPortfolio.Transactions.Count > 0);
             Assert.True(_investmentPortfolio.Transactions.Count == 1);
 
-            Assert.Equal(transactions.First().Time, _investmentPortfolio.Transactions.First().Time);
-            Assert.Equal(transactions.First().CompanyId, _investmentPortfolio.Transactions.First().CompanyId);
-            Assert.Equal(transactions.First().CompanyName, _investmentPortfolio.Transactions.First().CompanyName);
-            Assert.Equal(transactions.First().TransactionType, _investmentPortfolio.Transactions.First().TransactionType);
-            Assert.Equal(transactions.First().Amount, _investmentPortfolio.Transactions.First().Amount);
-            Assert.Equal(transactions.First().Price, _investmentPortfolio.Transactions.First().Price);
+            Assert.Equal(transaction.Time, _investmentPortfolio.Transactions.First().Time);
+            Assert.Equal(transaction.CompanyId, _investmentPortfolio.Transactions.First().CompanyId);
+            Assert.Equal(transaction.CompanyName, _investmentPortfolio.Transactions.First().CompanyName);
+            Assert.Equal(transaction.TransactionType, _investmentPortfolio.Transactions.First().TransactionType);
+            Assert.Equal(transaction.Amount, _investmentPortfolio.Transactions.First().Amount);
+            Assert.Equal(transaction.Price, _investmentPortfolio.Transactions.First().Price);
 
             #endregion
         }
 
+        /// <summary>
+        /// Add transaction method should throw exception when there's not enough money
+        /// </summary>
+        [Fact]
+        private void Portfolio_AddTransaction_Simple_Fail()
+        {
+            #region Arrange
 
+            IPortfolio _investmentPortfolio = new StockTools.Core.Services.Portfolio(ChargeFunc, 0.0);
+
+            var transaction = new Transaction()
+            {
+                Time = new DateTime(2014, 3, 4, 9, 29, 0),
+                CompanyId = new Guid(),
+                CompanyName = "C",
+                TransactionType = Transaction.TransactionTypes.Buy,
+                Amount = 128,
+                Price = 1.0,
+            };
+
+
+            #endregion
+
+            #region Act+Assert
+
+            Assert.Throws<NotEnoughMoneyException>(() => _investmentPortfolio.AddTransaction(transaction));
+
+            #endregion
+        }
 
         [Fact]
         private void Portfolio_AddTransaction()
