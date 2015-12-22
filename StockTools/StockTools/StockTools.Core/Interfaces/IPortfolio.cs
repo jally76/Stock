@@ -1,6 +1,7 @@
 ﻿using StockTools.Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace StockTools.Core.Interfaces
 {

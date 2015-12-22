@@ -1,14 +1,17 @@
 ﻿using StockTools.Core.Interfaces;
 using StockTools.Core.Models;
+using StockTools.Core.Models.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace StockTools.Core.Services
 {
     /// <summary>
     /// In the future this class should implement IPortfolio, but depend on abstractions
     /// </summary>
+    [Serializable]
     public class Portfolio : IPortfolio
     {
         public Portfolio(Func<double, double> chargeFunction,
@@ -70,6 +73,10 @@ namespace StockTools.Core.Services
                     _items.Where(x => x.CompanyName == transaction.CompanyName).Single().NumberOfShares += transaction.Amount;
                 }
 
+                if (_cash - transaction.Value - ChargeFunction(transaction.Value) < 0)
+                {
+                    throw new NotEnoughMoneyException(this);
+                }
                 _cash -= transaction.Value;
                 _cash -= ChargeFunction(transaction.Value);
 

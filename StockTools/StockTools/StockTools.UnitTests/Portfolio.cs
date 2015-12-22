@@ -85,7 +85,6 @@ namespace StockTools.UnitTests
                 Price = 1.0,
             };
 
-
             #endregion
 
             #region Act+Assert
