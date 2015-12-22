@@ -7,6 +7,8 @@ namespace StockTools.Infrastructure.Data
 {
     public class DbHistoricalPriceRepository : IHistoricalPriceRepository
     {
+        #region DI
+
         private IDbHistoricalDataProvider _dbHistoricalDataProvider;
 
         public IDbHistoricalDataProvider DbHistoricalDataProvider
@@ -15,6 +17,7 @@ namespace StockTools.Infrastructure.Data
             set { _dbHistoricalDataProvider = value; }
         }
 
+        #endregion DI
 
         public DbHistoricalPriceRepository(IDbHistoricalDataProvider dbHistoricalDataProvider)
         {
@@ -39,6 +42,11 @@ namespace StockTools.Infrastructure.Data
         public bool AnyTradingInDay(DateTime dateTime)
         {
             return _dbHistoricalDataProvider.AnyTradingInDay(dateTime);
+        }
+
+        public bool IsThereCompany(string companyName, DateTime dateTime)
+        {
+            return _dbHistoricalDataProvider.IsThereCompany(companyName, dateTime);
         }
     }
 }

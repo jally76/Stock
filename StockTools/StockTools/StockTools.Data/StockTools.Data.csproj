@@ -78,12 +78,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StockTools.Entities\StockTools.Entities.csproj">
-      <Project>{3421bd74-e99c-409d-b5e7-5292a7c87db6}</Project>
-      <Name>StockTools.Entities</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>

@@ -10,7 +10,7 @@ namespace StockTools.Core.Interfaces
 
         bool IsStockMarketAvailable { get; }
 
-        Task<Transaction> SubmitOrder(Order order);
+        Transaction SubmitOrder(Order order, IPortfolio portfolio);
 
         void Tick(TimeSpan timeSpan);
     }

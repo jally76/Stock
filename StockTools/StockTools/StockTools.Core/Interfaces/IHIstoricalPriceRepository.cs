@@ -37,5 +37,13 @@ namespace StockTools.Core.Interfaces
         /// <param name="dateTime"></param>
         /// <returns>True if at least one trading appeared on given day</returns>
         bool AnyTradingInDay(DateTime dateTime);
+
+        /// <summary>
+        /// True if company with given name exists on given day
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="companyName"></param>
+        /// <returns></returns>
+        bool IsThereCompany(string companyName, DateTime dateTime);
     }
 }

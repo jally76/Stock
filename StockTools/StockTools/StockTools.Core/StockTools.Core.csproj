@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IOrderProcessor.cs" />
     <Compile Include="Interfaces\IPortfolio.cs" />
     <Compile Include="Interfaces\ICurrentPriceProvider.cs" />
     <Compile Include="Interfaces\IHistoricalPriceRepository.cs" />
