@@ -29,8 +29,8 @@ namespace StockTools.UnitTests
         public void StockSystemSimulator_DoesTickWork()
         {
             Mock<IDbHistoricalDataProvider> dbHistoricalDataProvider = new Mock<IDbHistoricalDataProvider>();
-            Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
             IHistoricalPriceRepository historicalPriceRepository = new DbHistoricalPriceRepository(dbHistoricalDataProvider.Object);
+            Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
             IPortfolio portfolio = new Portfolio(ChargeFunc, 200);
             IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2015, 10, 15), historicalPriceRepository, orderProcessor.Object, portfolio);
 

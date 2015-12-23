@@ -48,6 +48,8 @@
     <Compile Include="PortfolioTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StockSystemSimulatorTest.cs" />
+    <Compile Include="StrategyTestRunnerTest.cs" />
+    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
