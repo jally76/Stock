@@ -11,11 +11,11 @@ namespace StockTools.BusinessLogic.Concrete
     {
         #region DI
 
-        public IHistoricalDataProvider HistoricalDataProvider { get; set; }
+        public IDbHistoricalDataProvider DbHistoricalDataProvider { get; set; }
 
-        public PriceProvider(IHistoricalDataProvider historicalDataProvider)
+        public PriceProvider(IDbHistoricalDataProvider dbHistoricalDataProvider)
         {
-            HistoricalDataProvider = historicalDataProvider;
+            DbHistoricalDataProvider = dbHistoricalDataProvider;
         }
 
         #endregion DI
@@ -27,7 +27,7 @@ namespace StockTools.BusinessLogic.Concrete
 
         public double GetPrice(string companyName, DateTime dateTime)
         {
-            return HistoricalDataProvider.GetPrice(companyName, dateTime).Close;
+            return DbHistoricalDataProvider.GetPrice(companyName, dateTime).Close;
         }
 
         public double GetClosestPrice(string companyName, DateTime dateTime)
@@ -42,7 +42,7 @@ namespace StockTools.BusinessLogic.Concrete
 
         public Dictionary<DateTime, double> GetPrices(string companyName, DateTime day)
         {
-            var prices = HistoricalDataProvider.GetPriceListByDay(companyName, day);
+            var prices = DbHistoricalDataProvider.GetPriceListByDay(companyName, day);
             var result = new Dictionary<DateTime, double>();
             prices.ForEach(x => result[x.DateTime] = x.Close);
             return result;

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using StockTools.Converters.MetastockToDb;
 using StockTools.Data.HistoricalData;
+using StockTools.Data.SQL;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -15,7 +16,7 @@ namespace StockTools.Converters
     {
         public string Path { get; set; }
         Dictionary<string, Dictionary<DateTime, IntradayInfo>> Data;
-        public IHistoricalDataProvider HistoricalDataProvider { get; set; }
+        public IDbHistoricalDataProvider DbHistoricalDataProvider { get; set; }
 
         public class IntradayInfo
         {
@@ -65,15 +66,15 @@ namespace StockTools.Converters
                 foreach (var date in Data[name].Keys)
                 {
                     IntradayInfo info = Data[name][date];
-                    var company = HistoricalDataProvider.GetCompany(info.CompanyName);
+                    var company = DbHistoricalDataProvider.GetCompany(info.CompanyName);
                     if (company == null)
                     {
-                        HistoricalDataProvider.AddCompany(new Company()
+                        DbHistoricalDataProvider.AddCompany(new Company()
                         {
                             Name = info.CompanyName
                         });
-                        HistoricalDataProvider.Save();
-                        company = HistoricalDataProvider.GetCompany(info.CompanyName);
+                        DbHistoricalDataProvider.Save();
+                        company = DbHistoricalDataProvider.GetCompany(info.CompanyName);
                     }
 
                     var dbInfo = new Price();
@@ -81,8 +82,8 @@ namespace StockTools.Converters
                     dbInfo.DateTime = info.DateAndTime;
                     dbInfo.Volume = info.Volume;
                     dbInfo.CompanyId = company.Id;
-                    HistoricalDataProvider.AddPrice(dbInfo);
-                    HistoricalDataProvider.Save();
+                    DbHistoricalDataProvider.AddPrice(dbInfo);
+                    DbHistoricalDataProvider.Save();
                 }
             }
         }
@@ -104,7 +105,7 @@ namespace StockTools.Converters
             {
                 ExistingCompanies = new Dictionary<string, int>();
                 //Massive loading prices to reduce multiple db query overhead if companies are already in db
-                var companiesTemporary = HistoricalDataProvider.GetCompanies();
+                var companiesTemporary = DbHistoricalDataProvider.GetCompanies();
                 companiesTemporary.Each(x => ExistingCompanies[x.Name.ToUpperInvariant()] = x.Id);
             }
 
@@ -123,16 +124,16 @@ namespace StockTools.Converters
                 var companyName = splittedLine[0].ToUpperInvariant();
                 if (!ExistingCompanies.ContainsKey(companyName))
                 {
-                    var company = HistoricalDataProvider.GetCompany(companyName);
+                    var company = DbHistoricalDataProvider.GetCompany(companyName);
 
                     if (company == null)
                     {
-                        HistoricalDataProvider.AddCompany(new Company()
+                        DbHistoricalDataProvider.AddCompany(new Company()
                         {
                             Name = companyName
                         });
-                        HistoricalDataProvider.Save();
-                        company = HistoricalDataProvider.GetCompany(companyName);
+                        DbHistoricalDataProvider.Save();
+                        company = DbHistoricalDataProvider.GetCompany(companyName);
                         ExistingCompanies[company.Name] = company.Id;
                     }
                     else
@@ -146,8 +147,8 @@ namespace StockTools.Converters
                 pricesToAdd.Add(price);
             }
             //pricesToAdd.Each(x => HistoricalDataProvider.AddPrice(x));
-            HistoricalDataProvider.AddRangePrice(pricesToAdd);
-            HistoricalDataProvider.Save();
+            DbHistoricalDataProvider.AddRangePrice(pricesToAdd);
+            DbHistoricalDataProvider.Save();
         }
     }
 }

@@ -33,7 +33,7 @@ namespace StockTools.WPFUI
             this.container = new StandardKernel();
             container.Bind<IIntradayDataDownloader>().To<BOSSAIntradayDataDownloader>().InTransientScope();
             container.Bind<IIntradayDataParser>().To<BOSSAIntradayDataParser>().InTransientScope();
-            container.Bind<IHistoricalDataProvider>().To<HistoricalDataProvider>().InTransientScope();
+            container.Bind<IDbHistoricalDataProvider>().To<IDbHistoricalDataProvider>().InTransientScope();
             container.Bind<IPriceProvider>().To<PriceProvider>().InTransientScope();
             container.Bind<IBookkeepingService>().To<MbankBookkeepingService>().InTransientScope();
             container.Bind<IPortfolio>().To<Portfolio>().InTransientScope()

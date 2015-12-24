@@ -1,6 +1,7 @@
 ﻿using StockTools.Converters;
 using StockTools.Converters.MetastockToDb;
 using StockTools.Data.HistoricalData;
+using StockTools.Data.SQL;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -28,9 +29,9 @@ namespace StockTools.Runner
                 int counter = 0;
                 int count = files.Count();
                 StockEntities dbContext = new StockEntities();
-                IHistoricalDataProvider hdp = new HistoricalDataProvider(dbContext);
+                IDbHistoricalDataProvider hdp = new SQLHistoricalDataProvider(dbContext);
                 IMetastockToDbConverter converter = new MetastockToDbConverter();
-                converter.HistoricalDataProvider = hdp;
+                converter.DbHistoricalDataProvider = hdp;
                 foreach (var file in files)
                 {
                     counter++;

@@ -9,7 +9,7 @@ namespace StockTools.Converters.MetastockToDb
 {
     public interface IMetastockToDbConverter
     {
-        IHistoricalDataProvider HistoricalDataProvider { get; set; }
+        IDbHistoricalDataProvider DbHistoricalDataProvider { get; set; }
         void InsertIntradayFileDataToDatabase(string path);
 
         void InsertIntradayFileDataToDatabaseQuick(string path);

@@ -1,5 +1,6 @@
 ﻿using Moq;
 using StockTools.Data.HistoricalData;
+using StockTools.Data.SQL;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -13,11 +14,11 @@ namespace StockTools.Test.Data
     public class PriceProviderTest
     {
         public StockEntities DbContext { get; set; }
-        public IHistoricalDataProvider HistoricalDataProvider { get; set; }
+        public IDbHistoricalDataProvider DbHistoricalDataProvider { get; set; }
         public PriceProviderTest()
         {
             InitDbContext();
-            HistoricalDataProvider = new HistoricalDataProvider(DbContext);
+            DbHistoricalDataProvider = new SQLHistoricalDataProvider(DbContext);
         }
 
         [Fact]
