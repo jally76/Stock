@@ -32,11 +32,20 @@ namespace StockTools.Core.Services
             set { _stockSystemSimulator = value; }
         }
 
-        public StrategyTestRunner(IHistoricalPriceRepository historicalPriceRepository, IPortfolio portfolio, IStockSystemSimulator stockSystemSimulator)
+        private IProfitCalculator _profitCalculator;
+
+        public IProfitCalculator ProfitCalculator
+        {
+            get { return _profitCalculator; }
+            set { _profitCalculator = value; }
+        }
+
+        public StrategyTestRunner(IHistoricalPriceRepository historicalPriceRepository, IPortfolio portfolio, IStockSystemSimulator stockSystemSimulator, IProfitCalculator profitCalculator)
         {
             _historicalPriceRepository = historicalPriceRepository;
             _portfolio = portfolio;
             _stockSystemSimulator = stockSystemSimulator;
+            _profitCalculator = profitCalculator;
         }
 
         #endregion DI
@@ -45,7 +54,7 @@ namespace StockTools.Core.Services
         {
             var result = new Dictionary<DateTime, double>();
             var date = from;
-            while (date < to)
+            while (date <= to)
             {
                 var orders = strategy.GenerateOrders();
                 foreach (var order in orders)
@@ -54,7 +63,10 @@ namespace StockTools.Core.Services
                     _portfolio.AddTransaction(transaction);
                 }
 
-                date.Add(interval);
+                result[date] = _profitCalculator.GetGrossProfit(_portfolio.Transactions, _portfolio.Dividends, _portfolio.Items, date);
+
+                date = date.Add(interval);
+                _stockSystemSimulator.Tick(interval);
             }
             return result;
         }

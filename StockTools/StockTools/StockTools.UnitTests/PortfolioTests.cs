@@ -97,7 +97,7 @@ namespace StockTools.UnitTests
         [Fact]
         private void Portfolio_AddTransaction()
         {
-            IPortfolio _investmentPortfolio = new StockTools.Core.Services.Portfolio(ChargeFunc, 0.0);
+            IPortfolio _investmentPortfolio = new StockTools.Core.Services.Portfolio(ChargeFunc, 20000);
 
             var transactions = new List<Transaction>(9);
 
@@ -238,6 +238,8 @@ namespace StockTools.UnitTests
             }
 
             var t = _investmentPortfolio.Transactions;
+
+            //TODO
         }
     }
 }

@@ -25,7 +25,8 @@ namespace StockTools.Core.Interfaces
         /// </summary>
         double GetGrossProfit(List<Transaction> transactions,
                               List<Dividend> dividends,
-                              List<InvestmentPortfolioItem> items);
+                              List<InvestmentPortfolioItem> items,
+                              DateTime? date);
 
         /// <summary>
         /// Net profit of the portfolio
@@ -34,17 +35,11 @@ namespace StockTools.Core.Interfaces
                             List<Dividend> dividends,
                             List<InvestmentPortfolioItem> items,
                             Func<double, double> chargeFunction,
-                            List<Taxation> taxationList);
+                            List<Taxation> taxationList,
+                            DateTime? date);
 
         /// <summary>
         /// Gross realised profit of the portfolio (only sold shares)
-        /// </summary>
-        double GetRealisedGrossProfit(List<Transaction> transactions,
-                                      List<Dividend> dividends,
-                                      List<InvestmentPortfolioItem> items);
-
-        /// <summary>
-        /// Gross realised profit of the portfolio (only sold shares) until specified date
         /// </summary>
         double GetRealisedGrossProfit(List<Transaction> transactions,
                                       List<Dividend> dividends,
@@ -56,6 +51,7 @@ namespace StockTools.Core.Interfaces
         /// </summary>
         double GetRealisedNetProfit(List<Transaction> transactions,
                                     List<Dividend> dividends,
-                                    List<InvestmentPortfolioItem> items);
+                                    List<InvestmentPortfolioItem> items,
+                                    DateTime? date);
     }
 }

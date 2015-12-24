@@ -77,7 +77,7 @@ namespace StockTools.Core.Services
             }
             var stockPrice = _historicalPriceRepository.GetClosest(order.CompanyName, CurrentDate);
             var orderValue = order.Amount * stockPrice;
-            if (Portfolio.Cash < orderValue)
+            if (order.OrderType == Order.OrderTypes.Buy &&  Portfolio.Cash < orderValue)
             {
                 throw new NotEnoughMoneyException(Portfolio);
             }

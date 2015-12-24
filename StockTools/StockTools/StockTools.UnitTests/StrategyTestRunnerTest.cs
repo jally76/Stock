@@ -54,12 +54,26 @@ namespace StockTools.UnitTests
             }
         }
 
+        private class TestOrderProcessor : IOrderProcessor
+        {
+            public Transaction ProcessOrder(Order order)
+            {
+                return new Transaction
+                {
+                    Amount = order.Amount,
+                    CompanyName = order.CompanyName,
+                    Price = 150,
+                    TransactionType = order.OrderType == Order.OrderTypes.Buy ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
+                };
+            }
+        }
+
+
         [Fact]
         public void StrategyTestRunner_Run()
         {
             #region Arrange
 
-            IPortfolio portfolio = new Portfolio(Utils.Instance.ChargeFunc, 200.0);
             Mock<IHistoricalPriceRepository> historicalPriceRepositoryMock = new Mock<IHistoricalPriceRepository>();
             historicalPriceRepositoryMock.Setup(x => x.IsThereCompany("Test", It.IsAny<DateTime>()))
                                          .Returns(true);
@@ -73,10 +87,24 @@ namespace StockTools.UnitTests
                                         .Returns(153);
             historicalPriceRepositoryMock.Setup(x => x.GetClosest("Test", new DateTime(2014, 4, 7)))
                                         .Returns(154);
-            //3-7\
-            Mock<IOrderProcessor> orderProcessorMock = new Mock<IOrderProcessor>();
-            IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 4, 3), historicalPriceRepositoryMock.Object, orderProcessorMock.Object, portfolio);
-            IStrategyTestRunner strategyTestRunner = new StrategyTestRunner(historicalPriceRepositoryMock.Object, portfolio, stockSystemSimulator);
+
+            IPortfolio portfolio = new Portfolio(Utils.Instance.ChargeFunc, 200.0);
+            IOrderProcessor orderProcessor = new TestOrderProcessor();
+            IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 4, 3), historicalPriceRepositoryMock.Object, orderProcessor, portfolio);
+
+            Mock<IProfitCalculator> profitCalculatorMock = new Mock<IProfitCalculator>();
+            profitCalculatorMock.Setup(x => x.GetGrossProfit(It.IsAny<List<Transaction>>(), It.IsAny<List<Dividend>>(), It.IsAny<List<InvestmentPortfolioItem>>(), new DateTime(2014, 4, 3)))
+                                .Returns(150);
+            profitCalculatorMock.Setup(x => x.GetGrossProfit(It.IsAny<List<Transaction>>(), It.IsAny<List<Dividend>>(), It.IsAny<List<InvestmentPortfolioItem>>(), new DateTime(2014, 4, 4)))
+                                .Returns(151);
+            profitCalculatorMock.Setup(x => x.GetGrossProfit(It.IsAny<List<Transaction>>(), It.IsAny<List<Dividend>>(), It.IsAny<List<InvestmentPortfolioItem>>(), new DateTime(2014, 4, 5)))
+                                .Returns(152);
+            profitCalculatorMock.Setup(x => x.GetGrossProfit(It.IsAny<List<Transaction>>(), It.IsAny<List<Dividend>>(), It.IsAny<List<InvestmentPortfolioItem>>(), new DateTime(2014, 4, 6)))
+                                .Returns(153);
+            profitCalculatorMock.Setup(x => x.GetGrossProfit(It.IsAny<List<Transaction>>(), It.IsAny<List<Dividend>>(), It.IsAny<List<InvestmentPortfolioItem>>(), new DateTime(2014, 4, 7)))
+                                .Returns(154);
+
+            IStrategyTestRunner strategyTestRunner = new StrategyTestRunner(historicalPriceRepositoryMock.Object, portfolio, stockSystemSimulator, profitCalculatorMock.Object);
             IStrategy strategy = new TestStrategy(stockSystemSimulator);
 
             #endregion Arrange
