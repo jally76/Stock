@@ -62,59 +62,59 @@ namespace StockTools.UnitTests
             Assert.False(stockSystemSimulator.IsStockMarketAvailable);
         }
 
-        [Fact]
-        public void StockSystemSimulator_SubmitOrder_Buy_AnyPrice_Positive()
-        {
-            #region Arrange
+        //[Fact]
+        //public void StockSystemSimulator_SubmitOrder_Buy_AnyPrice_Positive()
+        //{
+        //    #region Arrange
 
-            var order = new Order
-                {
-                    OrderType = Order.OrderTypes.Buy,
-                    CompanyName = "Test",
-                    Amount = 1,
-                    AnyPrice = true
-                };
+        //    var order = new Order
+        //        {
+        //            OrderType = Order.OrderTypes.Buy,
+        //            CompanyName = "Test",
+        //            Amount = 1,
+        //            AnyPrice = true
+        //        };
 
-            Mock<IDbHistoricalDataProvider> dbHistoricalDataProvider = new Mock<IDbHistoricalDataProvider>();
-            dbHistoricalDataProvider.Setup(x => x.IsThereCompany("Test", new DateTime(2014, 10, 15)))
-                                    .Returns(true);
-            var prices = new List<Price>();
-            prices.Add(new Price
-            {
-                Company = new Company
-                {
-                    Name = "Test"
-                },
-                DateTime = new DateTime(2014, 10, 15),
-                Close = 1.0
-            });
-            dbHistoricalDataProvider.Setup(x => x.GetPriceListByDay("Test", new DateTime(2014, 10, 15)))
-                                    .Returns(prices);
-            Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
-            orderProcessor.Setup(x => x.ProcessOrder(It.IsAny<Order>()))
-                          .Returns(new Transaction { Amount = order.Amount,
-                                                     CompanyName = order.CompanyName,
-                                                     Price = 1.0,
-                                                     TransactionType = Transaction.TransactionTypes.Buy });
-            IHistoricalPriceRepository historicalPriceRepository = new DbHistoricalPriceRepository(dbHistoricalDataProvider.Object);
-            IPortfolio portfolio = new Portfolio(ChargeFunc, 200);
-            IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 10, 15), historicalPriceRepository, orderProcessor.Object, portfolio);
+        //    Mock<IDbHistoricalDataProvider> dbHistoricalDataProvider = new Mock<IDbHistoricalDataProvider>();
+        //    dbHistoricalDataProvider.Setup(x => x.IsThereCompany("Test", new DateTime(2014, 10, 15)))
+        //                            .Returns(true);
+        //    var prices = new List<Price>();
+        //    prices.Add(new Price
+        //    {
+        //        Company = new Company
+        //        {
+        //            Name = "Test"
+        //        },
+        //        DateTime = new DateTime(2014, 10, 15),
+        //        Close = 1.0
+        //    });
+        //    dbHistoricalDataProvider.Setup(x => x.GetPriceListByDay("Test", new DateTime(2014, 10, 15)))
+        //                            .Returns(prices);
+        //    Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
+        //    orderProcessor.Setup(x => x.ProcessOrder(It.IsAny<Order>()))
+        //                  .Returns(new Transaction { Amount = order.Amount,
+        //                                             CompanyName = order.CompanyName,
+        //                                             Price = 1.0,
+        //                                             TransactionType = Transaction.TransactionTypes.Buy });
+        //    IHistoricalPriceRepository historicalPriceRepository = new DbHistoricalPriceRepository(dbHistoricalDataProvider.Object);
+        //    IPortfolio portfolio = new Portfolio(ChargeFunc, 200);
+        //    IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 10, 15), historicalPriceRepository, orderProcessor.Object, portfolio);
 
-            #endregion Arrange
+        //    #endregion Arrange
 
-            #region Act
+        //    #region Act
 
-            var result = stockSystemSimulator.SubmitOrder(order);
+        //    var result = stockSystemSimulator.SubmitOrder(order);
 
-            #endregion Act
+        //    #endregion Act
 
-            #region Assert
+        //    #region Assert
 
-            Assert.Equal(order.CompanyName, result.CompanyName);
-            Assert.Equal(1.0, result.Price);
-            Assert.Equal(Transaction.TransactionTypes.Buy, result.TransactionType);
+        //    Assert.Equal(order.CompanyName, result.CompanyName);
+        //    Assert.Equal(1.0, result.Price);
+        //    Assert.Equal(Transaction.TransactionTypes.Buy, result.TransactionType);
 
-            #endregion Assert
-        }
+        //    #endregion Assert
+        //}
     }
 }

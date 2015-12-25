@@ -47,7 +47,9 @@
     <Compile Include="Interfaces\IStockSystemSimulator.cs" />
     <Compile Include="Interfaces\IStrategy.cs" />
     <Compile Include="Interfaces\IStrategyTestRunner.cs" />
+    <Compile Include="Models\Delegates\OrderProcessedDelegate.cs" />
     <Compile Include="Models\Dividend.cs" />
+    <Compile Include="Models\EventArgs\OrderEventArgs.cs" />
     <Compile Include="Models\Exceptions\CompanyDoesNotExistException.cs" />
     <Compile Include="Models\Exceptions\InvalidOrderException.cs" />
     <Compile Include="Models\Exceptions\NotEnoughMoneyException.cs" />

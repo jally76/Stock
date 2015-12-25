@@ -1,10 +1,9 @@
 ﻿using StockTools.Core.Interfaces;
 using StockTools.Core.Models;
+using StockTools.Core.Models.Delegates;
+using StockTools.Core.Models.EventArgs;
 using StockTools.Core.Models.Exceptions;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace StockTools.Core.Services
 {
@@ -57,15 +56,36 @@ namespace StockTools.Core.Services
             get { return _historicalPriceRepository.AnyTradingInDay(_currentDate); }
         }
 
-        //private Queue<Order> _orderQueue;
-
         public void Tick(TimeSpan timeSpan)
         {
             _currentDate = _currentDate.Add(timeSpan);
             //TODO
         }
 
-        public Transaction SubmitOrder(Order order)
+        //public Transaction SubmitOrder(Order order)
+        //{
+        //    //TODO Submitting an order shouldn't return transaction immediately
+        //    //because most of orders won't be executed immediately!
+
+        //    //1. Is there stock like this?
+        //    //2. What's the price of stock?
+        //    //3. Is there enough money?
+        //    //4. Transform order to transaction
+        //    if (_historicalPriceRepository.IsThereCompany(order.CompanyName, CurrentDate) == false)
+        //    {
+        //        throw new CompanyDoesNotExistException(order.CompanyName);
+        //    }
+        //    var stockPrice = _historicalPriceRepository.GetClosest(order.CompanyName, CurrentDate);
+        //    var orderValue = order.Amount * stockPrice;
+        //    if (order.OrderType == Order.OrderTypes.Buy &&  Portfolio.Cash < orderValue)
+        //    {
+        //        throw new NotEnoughMoneyException(Portfolio);
+        //    }
+
+        //    return _orderProcessor.ProcessOrder(order);
+        //}
+
+        void IStockSystemSimulator.SubmitOrder(Order order)
         {
             //1. Is there stock like this?
             //2. What's the price of stock?
@@ -77,12 +97,14 @@ namespace StockTools.Core.Services
             }
             var stockPrice = _historicalPriceRepository.GetClosest(order.CompanyName, CurrentDate);
             var orderValue = order.Amount * stockPrice;
-            if (order.OrderType == Order.OrderTypes.Buy &&  Portfolio.Cash < orderValue)
+            if (order.OrderType == Order.OrderTypes.Buy && Portfolio.Cash < orderValue)
             {
                 throw new NotEnoughMoneyException(Portfolio);
             }
 
-            return _orderProcessor.ProcessOrder(order);
+            OrderProcessed(this, new OrderEventArgs(_orderProcessor.ProcessOrder(order)));
         }
+
+        public event OrderProcessedDelegate OrderProcessed;
     }
 }

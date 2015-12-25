@@ -1,4 +1,5 @@
 ﻿using StockTools.Core.Interfaces;
+using StockTools.Core.Models.EventArgs;
 using System;
 using System.Collections.Generic;
 
@@ -54,13 +55,13 @@ namespace StockTools.Core.Services
         {
             var result = new Dictionary<DateTime, double>();
             var date = from;
+            _stockSystemSimulator.OrderProcessed += this.OrderProcessed;
             while (date <= to)
             {
                 var orders = strategy.GenerateOrders();
                 foreach (var order in orders)
                 {
-                    var transaction = _stockSystemSimulator.SubmitOrder(order);
-                    _portfolio.AddTransaction(transaction);
+                    _stockSystemSimulator.SubmitOrder(order);
                 }
 
                 result[date] = _profitCalculator.GetGrossProfit(_portfolio.Transactions, _portfolio.Dividends, _portfolio.Items, date);
@@ -69,6 +70,11 @@ namespace StockTools.Core.Services
                 _stockSystemSimulator.Tick(interval);
             }
             return result;
+        }
+
+        private void OrderProcessed(object sender, OrderEventArgs e)
+        {
+            _portfolio.AddTransaction(e.Transaction);
         }
     }
 }

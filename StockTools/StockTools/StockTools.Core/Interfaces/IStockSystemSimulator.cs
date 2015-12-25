@@ -1,6 +1,6 @@
 ﻿using StockTools.Core.Models;
+using StockTools.Core.Models.Delegates;
 using System;
-using System.Threading.Tasks;
 
 namespace StockTools.Core.Interfaces
 {
@@ -10,7 +10,9 @@ namespace StockTools.Core.Interfaces
 
         bool IsStockMarketAvailable { get; }
 
-        Transaction SubmitOrder(Order order);
+        void SubmitOrder(Order order);
+
+        event OrderProcessedDelegate OrderProcessed;
 
         void Tick(TimeSpan timeSpan);
     }

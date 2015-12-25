@@ -8,9 +8,6 @@ using System.Runtime.Serialization;
 
 namespace StockTools.Core.Services
 {
-    /// <summary>
-    /// In the future this class should implement IPortfolio, but depend on abstractions
-    /// </summary>
     [Serializable]
     public class Portfolio : IPortfolio
     {
