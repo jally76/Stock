@@ -8,6 +8,8 @@ namespace StockTools.Core.Interfaces
     {
         DateTime CurrentDate { get; }
 
+        event EventHandler CurrentDateChanged;
+
         bool IsStockMarketAvailable { get; }
 
         void SubmitOrder(Order order);

@@ -1,6 +1,10 @@
 ﻿using StockTools.Core.Interfaces;
 using StockTools.Core.Models;
+using StockTools.Core.Models.Delegates;
+using StockTools.Core.Models.EventArgs;
 using StockTools.Core.Models.Exceptions;
+using System;
+using System.Collections.Generic;
 
 namespace StockTools.Core.Services
 {
@@ -37,6 +41,7 @@ namespace StockTools.Core.Services
             _stockSystemSimulator = stockSystemSimulator;
             _portfolio = portfolio;
             _historicalPriceRepository = historicalPriceRepository;
+            _ordersToBeProcessed = new List<Order>();
         }
 
         #endregion DI
@@ -47,6 +52,49 @@ namespace StockTools.Core.Services
             return true;
         }
 
+        private List<Order> _ordersToBeProcessed;
+
+        public void OnCurrentDateChanged(object sender, EventArgs e)
+        {
+            var ordersToBeRemoved = new List<Order>();
+
+            foreach (var order in _ordersToBeProcessed)
+            {
+                //TODO Here should be some logic for processing order
+                //and some GREAT VALIDATOR ;-)
+                OrderProcessed(this, new OrderEventArgs(new Transaction
+                {
+                    Amount = order.Amount,
+                    //TODO CompanyId = 
+                    //TODO Implement also current date feature in the future
+                    Price = _historicalPriceRepository.GetClosest(order.CompanyName, _stockSystemSimulator.CurrentDate),
+                    CompanyName = order.CompanyName,
+                    //TODO Price = 
+                    Time = _stockSystemSimulator.CurrentDate,
+                    TransactionType = order.OrderType == Order.OrderTypes.Buy ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
+                }));
+                ordersToBeRemoved.Add(order);
+            }
+
+            foreach (var order in ordersToBeRemoved)
+            {
+                _ordersToBeProcessed.Remove(order);
+            }
+        }
+
+        public void Enqueue(Order order)
+        {
+            if (IsOrderValid(order))
+            {
+                _ordersToBeProcessed.Add(order);
+            }
+            else
+            {
+                throw new InvalidOrderException();
+            }
+        }
+
+        [Obsolete]
         public Transaction ProcessOrder(Order order)
         {
             if (IsOrderValid(order))
@@ -56,7 +104,7 @@ namespace StockTools.Core.Services
                     Amount = order.Amount,
                     //TODO CompanyId = 
                     //TODO Implement also current date feature in the future
-                    Price = _historicalPriceRepository.GetClosest(order.CompanyName,_stockSystemSimulator.CurrentDate),
+                    Price = _historicalPriceRepository.GetClosest(order.CompanyName, _stockSystemSimulator.CurrentDate),
                     CompanyName = order.CompanyName,
                     //TODO Price = 
                     Time = _stockSystemSimulator.CurrentDate,
@@ -68,5 +116,7 @@ namespace StockTools.Core.Services
                 throw new InvalidOrderException();
             }
         }
+
+        public event OrderProcessedDelegate OrderProcessed;
     }
 }

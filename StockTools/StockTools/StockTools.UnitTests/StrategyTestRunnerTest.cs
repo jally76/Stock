@@ -1,6 +1,8 @@
 ﻿using Moq;
 using StockTools.Core.Interfaces;
 using StockTools.Core.Models;
+using StockTools.Core.Models.Delegates;
+using StockTools.Core.Models.EventArgs;
 using StockTools.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -66,8 +68,41 @@ namespace StockTools.UnitTests
                     TransactionType = order.OrderType == Order.OrderTypes.Buy ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
                 };
             }
-        }
 
+            public event OrderProcessedDelegate OrderProcessed;
+
+            private List<Order> _ordersToBeProcessed;
+
+            public void OnCurrentDateChanged(object sender, EventArgs e)
+            {
+                var ordersToBeRemoved = new List<Order>();
+                foreach (var order in _ordersToBeProcessed)
+                {
+                    //TODO Here should be some logic for processing order
+                    OrderProcessed(this, new OrderEventArgs(new Transaction
+                    {
+                        Amount = order.Amount,
+                        CompanyName = order.CompanyName,
+                        Price = 150,
+                        TransactionType = order.OrderType == Order.OrderTypes.Buy ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
+                    }));
+                    ordersToBeRemoved.Add(order);
+                }
+                foreach (var order in ordersToBeRemoved)
+                {
+                    _ordersToBeProcessed.Remove(order);
+                }
+            }
+
+            public void Enqueue(Order order)
+            {
+                if (_ordersToBeProcessed == null)
+                {
+                    _ordersToBeProcessed = new List<Order>();
+                }
+                _ordersToBeProcessed.Add(order);
+            }
+        }
 
         [Fact]
         public void StrategyTestRunner_Run()

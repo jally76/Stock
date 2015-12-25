@@ -40,6 +40,12 @@ namespace StockTools.Core.Services
             _orderProcessor = orderProcessor;
             _currentDate = beginDate;
             _portfolio = portfolio;
+
+            //When date is changed this class emits signal that it has changed
+            this.CurrentDateChanged += _orderProcessor.OnCurrentDateChanged;
+            //When order process processes an order it will be handled
+            //by OnOrderProcessed method and propagated further
+            _orderProcessor.OrderProcessed += this.OnOrderProcessed;
         }
 
         #endregion DI
@@ -59,33 +65,13 @@ namespace StockTools.Core.Services
         public void Tick(TimeSpan timeSpan)
         {
             _currentDate = _currentDate.Add(timeSpan);
-            //TODO
+            if (CurrentDateChanged != null)
+            {
+                CurrentDateChanged(this, EventArgs.Empty);
+            }
         }
 
-        //public Transaction SubmitOrder(Order order)
-        //{
-        //    //TODO Submitting an order shouldn't return transaction immediately
-        //    //because most of orders won't be executed immediately!
-
-        //    //1. Is there stock like this?
-        //    //2. What's the price of stock?
-        //    //3. Is there enough money?
-        //    //4. Transform order to transaction
-        //    if (_historicalPriceRepository.IsThereCompany(order.CompanyName, CurrentDate) == false)
-        //    {
-        //        throw new CompanyDoesNotExistException(order.CompanyName);
-        //    }
-        //    var stockPrice = _historicalPriceRepository.GetClosest(order.CompanyName, CurrentDate);
-        //    var orderValue = order.Amount * stockPrice;
-        //    if (order.OrderType == Order.OrderTypes.Buy &&  Portfolio.Cash < orderValue)
-        //    {
-        //        throw new NotEnoughMoneyException(Portfolio);
-        //    }
-
-        //    return _orderProcessor.ProcessOrder(order);
-        //}
-
-        void IStockSystemSimulator.SubmitOrder(Order order)
+        public void SubmitOrder(Order order)
         {
             //1. Is there stock like this?
             //2. What's the price of stock?
@@ -102,9 +88,18 @@ namespace StockTools.Core.Services
                 throw new NotEnoughMoneyException(Portfolio);
             }
 
-            OrderProcessed(this, new OrderEventArgs(_orderProcessor.ProcessOrder(order)));
+            _orderProcessor.Enqueue(order);
+            //When order will be processed it will fire OnOrderProcessed method
+            //by raising OrderProcessed event of OrderProcessor class
+        }
+
+        private void OnOrderProcessed(object sender, OrderEventArgs eventArgs)
+        {
+            OrderProcessed(sender, eventArgs);
         }
 
         public event OrderProcessedDelegate OrderProcessed;
+
+        public event EventHandler CurrentDateChanged;
     }
 }
