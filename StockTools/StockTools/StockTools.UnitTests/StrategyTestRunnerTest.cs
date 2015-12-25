@@ -58,17 +58,6 @@ namespace StockTools.UnitTests
 
         private class TestOrderProcessor : IOrderProcessor
         {
-            public Transaction ProcessOrder(Order order)
-            {
-                return new Transaction
-                {
-                    Amount = order.Amount,
-                    CompanyName = order.CompanyName,
-                    Price = 150,
-                    TransactionType = order.OrderType == Order.OrderTypes.Buy ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
-                };
-            }
-
             public event OrderProcessedDelegate OrderProcessed;
 
             private List<Order> _ordersToBeProcessed;

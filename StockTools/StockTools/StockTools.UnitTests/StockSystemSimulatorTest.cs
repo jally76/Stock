@@ -62,6 +62,8 @@ namespace StockTools.UnitTests
             Assert.False(stockSystemSimulator.IsStockMarketAvailable);
         }
 
+        //TODO Rewrite to test event based order to transaction logic
+
         //[Fact]
         //public void StockSystemSimulator_SubmitOrder_Buy_AnyPrice_Positive()
         //{
@@ -92,10 +94,13 @@ namespace StockTools.UnitTests
         //                            .Returns(prices);
         //    Mock<IOrderProcessor> orderProcessor = new Mock<IOrderProcessor>();
         //    orderProcessor.Setup(x => x.ProcessOrder(It.IsAny<Order>()))
-        //                  .Returns(new Transaction { Amount = order.Amount,
-        //                                             CompanyName = order.CompanyName,
-        //                                             Price = 1.0,
-        //                                             TransactionType = Transaction.TransactionTypes.Buy });
+        //                  .Returns(new Transaction
+        //                  {
+        //                      Amount = order.Amount,
+        //                      CompanyName = order.CompanyName,
+        //                      Price = 1.0,
+        //                      TransactionType = Transaction.TransactionTypes.Buy
+        //                  });
         //    IHistoricalPriceRepository historicalPriceRepository = new DbHistoricalPriceRepository(dbHistoricalDataProvider.Object);
         //    IPortfolio portfolio = new Portfolio(ChargeFunc, 200);
         //    IStockSystemSimulator stockSystemSimulator = new StockSystemSimulator(new DateTime(2014, 10, 15), historicalPriceRepository, orderProcessor.Object, portfolio);

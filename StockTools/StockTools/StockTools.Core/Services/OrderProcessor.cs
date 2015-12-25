@@ -94,29 +94,6 @@ namespace StockTools.Core.Services
             }
         }
 
-        [Obsolete]
-        public Transaction ProcessOrder(Order order)
-        {
-            if (IsOrderValid(order))
-            {
-                return new Transaction
-                {
-                    Amount = order.Amount,
-                    //TODO CompanyId = 
-                    //TODO Implement also current date feature in the future
-                    Price = _historicalPriceRepository.GetClosest(order.CompanyName, _stockSystemSimulator.CurrentDate),
-                    CompanyName = order.CompanyName,
-                    //TODO Price = 
-                    Time = _stockSystemSimulator.CurrentDate,
-                    TransactionType = order.OrderType == Order.OrderTypes.Buy ? Transaction.TransactionTypes.Buy : Transaction.TransactionTypes.Sell
-                };
-            }
-            else
-            {
-                throw new InvalidOrderException();
-            }
-        }
-
         public event OrderProcessedDelegate OrderProcessed;
     }
 }
